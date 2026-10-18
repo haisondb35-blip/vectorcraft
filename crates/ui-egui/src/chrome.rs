@@ -69,6 +69,10 @@ pub fn app_bar(app: &mut VectorcraftApp, ui: &mut Ui) {
             let search = room >= 64.0 + 8.0 + gap + icon;
             let ws_w = ws_w.min(room - 8.0 - gap - if search { icon } else { 0.0 }).max(64.0);
             let discord = search && room >= ws_w + 8.0 + gap + icon + 10.0 + gap + crate::community::discord_width(ui, false);
+            // The Claude button sits next to Discord and goes first when space runs out.
+            let claude = discord
+                && room
+                    >= ws_w + 8.0 + gap + icon + 10.0 + gap + crate::community::discord_width(ui, false) + 6.0 + gap + crate::assistant::bar_button_width(ui);
             let mut rui = ui.new_child(egui::UiBuilder::new().max_rect(right).layout(egui::Layout::right_to_left(egui::Align::Center)));
             let ui = &mut rui;
             // Workspace switcher: shows the current workspace, opens Window → Workspace.
@@ -93,6 +97,10 @@ pub fn app_bar(app: &mut VectorcraftApp, ui: &mut Ui) {
             if discord {
                 ui.add_space(10.0);
                 crate::community::discord_button(app, ui, false);
+            }
+            if claude {
+                ui.add_space(6.0);
+                crate::assistant::bar_button(app, ui);
             }
             if app.services.native_menu.is_some() {
                 let title = ui.painter().layout_no_wrap("VectorCraft".into(), egui::FontId::proportional(13.5), t.text);

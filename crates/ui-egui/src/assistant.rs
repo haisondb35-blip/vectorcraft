@@ -1060,6 +1060,39 @@ fn read_events(
 }
 
 /// The pane's contents (inside the task pane frame).
+/// The Claude button in the app bar: its label and size, as the Discord button's.
+fn bar_layout(ui: &egui::Ui) -> (std::sync::Arc<egui::Galley>, f32, f32) {
+    let h = 24.0;
+    let galley = ui.painter().layout_no_wrap("Claude".to_string(), egui::FontId::proportional(12.0), egui::Color32::PLACEHOLDER);
+    let w = galley.size().x + h * 0.55 + h * 0.9;
+    (galley, h, w)
+}
+
+/// The Claude button's width (the app bar drops it, before Discord, when space runs out).
+pub fn bar_button_width(ui: &egui::Ui) -> f32 {
+    bar_layout(ui).2
+}
+
+/// The Claude button in the app bar, next to Discord: opens and closes the assistant pane.
+pub fn bar_button(app: &mut crate::VectorcraftApp, ui: &mut egui::Ui) -> egui::Response {
+    let t = crate::theme::Tokens::get(ui.ctx());
+    let (galley, h, w) = bar_layout(ui);
+    let (r, resp) = ui.allocate_exact_size(egui::vec2(w, h), egui::Sense::click());
+    let on = app.assistant_open;
+    let fill = if on { t.accent } else if resp.hovered() { t.hover } else { t.button };
+    ui.painter().rect_filled(r, egui::CornerRadius::same(6), fill);
+    let icon = h * 0.55;
+    let ir = egui::Rect::from_center_size(r.left_center() + egui::vec2(h * 0.35 + icon / 2.0, 0.0), egui::vec2(icon, icon));
+    let ink = if on { egui::Color32::WHITE } else if resp.hovered() { t.text_strong } else { t.text };
+    crate::icons::paint(ui, "wand-sparkles", ir, if on { egui::Color32::WHITE } else { t.accent });
+    ui.painter().galley(egui::pos2(ir.right() + h * 0.2, r.center().y - galley.size().y / 2.0), galley, ink);
+    let resp = resp.on_hover_text("Claude or ChatGPT on the open artwork (Window > Claude)");
+    if resp.clicked() {
+        app.assistant_open = !app.assistant_open;
+    }
+    resp
+}
+
 /// Window > Claude: the pane at the right of the window, beside the dock.
 pub fn side_pane(app: &mut crate::VectorcraftApp, ui: &mut egui::Ui) {
     let t = crate::theme::Tokens::get(ui.ctx());
@@ -1072,7 +1105,7 @@ pub fn side_pane(app: &mut crate::VectorcraftApp, ui: &mut egui::Ui) {
             ui.horizontal(|ui| {
                 ui.label(egui::RichText::new("Claude").font(crate::theme::semibold(15.0)).color(t.text));
                 ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
-                    if ui.button("✕").on_hover_text("Close").clicked() {
+                    if ui.button("×").on_hover_text("Close").clicked() {
                         app.assistant_open = false;
                     }
                 });
