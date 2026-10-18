@@ -13,6 +13,7 @@ macro_rules! tl {
     };
 }
 
+pub mod assistant;
 pub mod background;
 mod brand;
 pub mod canvas;
@@ -399,6 +400,10 @@ pub struct VectorcraftApp {
     /// moves ([`native_menu::sync`]).
     run_count: u64,
     control_rx: Option<Receiver<ControlRequest>>,
+    /// Window > Claude: the assistant pane is shown.
+    pub assistant_open: bool,
+    /// The assistant pane: the conversation, the assistant it runs and its control channel.
+    pub assistant: assistant::Assistant,
     /// Window captures asked for and not answered yet.
     pending_screenshots: Vec<PendingScreenshot>,
     queued_screenshots: Vec<(u64, f64, u32)>,
@@ -540,6 +545,8 @@ impl VectorcraftApp {
             clipboard_publishing: Default::default(),
             pending_url: None,
             control_rx: None,
+            assistant_open: false,
+            assistant: assistant::Assistant::default(),
             pending_screenshots: vec![],
             queued_screenshots: vec![],
             screenshot_token: 0,
@@ -860,7 +867,18 @@ impl VectorcraftApp {
     }
 
     fn drain_control(&mut self, ctx: &egui::Context) {
-        let Some(rx) = self.control_rx.take() else { return };
+        if let Some(rx) = self.control_rx.take() {
+            self.drain_from(ctx, &rx);
+            self.control_rx = Some(rx);
+        }
+        // The assistant pane's own channel: requests from the assistant it started.
+        if let Some(rx) = self.assistant.control_rx.take() {
+            self.drain_from(ctx, &rx);
+            self.assistant.control_rx = Some(rx);
+        }
+    }
+
+    fn drain_from(&mut self, ctx: &egui::Context, rx: &Receiver<ControlRequest>) {
         let mut handled = 0;
         while handled < control::MAX_CONTROL_REQUESTS_PER_FRAME {
             let Ok(req) = rx.try_recv() else { break };
@@ -900,7 +918,6 @@ impl VectorcraftApp {
             // Leave later requests on the channel and schedule another frame to serve them.
             ctx.request_repaint();
         }
-        self.control_rx = Some(rx);
     }
 
     fn issue_screenshots(&mut self, ctx: &egui::Context) {
@@ -1431,6 +1448,9 @@ impl VectorcraftApp {
         panels::library_panel::tidy(self);
         if self.ui.dock && self.ui.screen_mode < 3 {
             dock::show(self, ui);
+        }
+        if self.assistant_open {
+            assistant::side_pane(self, ui);
         }
         egui::CentralPanel::default().frame(egui::Frame::NONE.fill(t.pasteboard)).show(ui, |ui| {
             if self.ui.screen_mode < 3 {

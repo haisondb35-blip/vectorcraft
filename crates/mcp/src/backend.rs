@@ -22,6 +22,9 @@ pub struct Remote {
     addr: String,
     conn: Option<(BufReader<TcpStream>, TcpStream)>,
     next_id: u64,
+    /// The channel's token, sent with every request (`VECTORCRAFT_CONTROL_TOKEN`; the Claude
+    /// pane's channel refuses requests without it, the `--control` channel takes none).
+    token: Option<String>,
 }
 
 /// Longest accepted control-channel reply line (bytes, without the newline). The app answers
@@ -33,7 +36,8 @@ const MAX_REPLY_BYTES: usize = 256 * 1024 * 1024;
 impl Remote {
     /// Connect to `addr` (e.g. `127.0.0.1:7979`), failing fast when nothing is listening.
     pub fn connect(addr: &str) -> std::io::Result<Self> {
-        let mut r = Self { addr: addr.to_string(), conn: None, next_id: 1 };
+        let token = std::env::var("VECTORCRAFT_CONTROL_TOKEN").ok().filter(|t| !t.is_empty());
+        let mut r = Self { addr: addr.to_string(), conn: None, next_id: 1, token };
         r.reconnect()?;
         Ok(r)
     }
@@ -150,7 +154,11 @@ impl Backend for Remote {
         })?;
         let id = self.next_id;
         self.next_id += 1;
-        let line = json!({"id": id, "method": method, "params": params}).to_string();
+        let mut msg = json!({"id": id, "method": method, "params": params});
+        if let (Some(t), Some(o)) = (&self.token, msg.as_object_mut()) {
+            o.insert("token".into(), Value::String(t.clone()));
+        }
+        let line = msg.to_string();
         let v: Value = self
             .roundtrip(&line)
             .and_then(|reply| {

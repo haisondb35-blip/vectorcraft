@@ -58,20 +58,41 @@ impl Default for ConnectionTimeouts {
 }
 
 pub fn start(port: u16, ctx: egui::Context) -> Receiver<ControlRequest> {
+    match start_with(port, ctx, None) {
+        Some((_, rx)) => rx,
+        None => channel::<ControlRequest>().1,
+    }
+}
+
+/// Listen on 127.0.0.1:`port` (0: a free port the system picks). With a `token`, a request that
+/// doesn't carry it (`"token": "…"`) is refused: the Claude pane's channel answers only the
+/// assistant it started. Returns the port and the requests.
+pub fn start_with(port: u16, ctx: egui::Context, token: Option<String>) -> Option<(u16, Receiver<ControlRequest>)> {
     let (tx, rx) = channel::<ControlRequest>();
     let listener = match TcpListener::bind(("127.0.0.1", port)) {
         Ok(l) => l,
         Err(e) => {
             eprintln!("vectorcraft: control server failed to bind 127.0.0.1:{port}: {e}");
-            return rx;
+            return None;
         }
     };
+    let port = listener.local_addr().map(|a| a.port()).unwrap_or(port);
     eprintln!("vectorcraft: control server listening on 127.0.0.1:{port}");
-    std::thread::spawn(move || accept_loop(listener, tx, ctx));
-    rx
+    let token: Option<Arc<str>> = token.map(Arc::from);
+    std::thread::spawn(move || accept_loop(listener, tx, ctx, token));
+    Some((port, rx))
 }
 
-fn accept_loop(listener: TcpListener, tx: Sender<ControlRequest>, ctx: egui::Context) {
+/// Does a request that carries `given` pass the channel's token (when it has one)? Compared in
+/// constant time.
+fn authorised(given: Option<&str>, token: Option<&str>) -> bool {
+    match token {
+        None => true,
+        Some(t) => given.is_some_and(|given| given.len() == t.len() && given.bytes().zip(t.bytes()).fold(0u8, |d, (a, b)| d | (a ^ b)) == 0),
+    }
+}
+
+fn accept_loop(listener: TcpListener, tx: Sender<ControlRequest>, ctx: egui::Context, token: Option<Arc<str>>) {
     let open = Arc::new(AtomicUsize::new(0));
     for stream in listener.incoming().flatten() {
         let Some(slot) = acquire_slot(&open) else {
@@ -82,7 +103,7 @@ fn accept_loop(listener: TcpListener, tx: Sender<ControlRequest>, ctx: egui::Con
             }
             continue;
         };
-        if let Err(e) = spawn_connection(stream, tx.clone(), ctx.clone(), slot, ConnectionTimeouts::default()) {
+        if let Err(e) = spawn_connection(stream, tx.clone(), ctx.clone(), slot, ConnectionTimeouts::default(), token.clone()) {
             eprintln!("vectorcraft: control worker failed to start: {e}");
         }
     }
@@ -116,10 +137,11 @@ fn spawn_connection(
     ctx: egui::Context,
     slot: ConnectionSlot,
     timeouts: ConnectionTimeouts,
+    token: Option<Arc<str>>,
 ) -> std::io::Result<std::thread::JoinHandle<()>> {
     std::thread::Builder::new().name("vectorcraft-control".into()).spawn(move || {
         let _slot = slot;
-        serve_socket(stream, timeouts, |method, params| {
+        serve_socket(stream, timeouts, token.as_deref(), |method, params| {
             let (req, rrx) = ControlRequest::new(method, params);
             let ticket = req.ticket();
             tx.send(req).ok()?;
@@ -129,7 +151,7 @@ fn spawn_connection(
     })
 }
 
-fn serve_socket(stream: TcpStream, timeouts: ConnectionTimeouts, handle: impl FnMut(String, Value) -> Option<Value>) {
+fn serve_socket(stream: TcpStream, timeouts: ConnectionTimeouts, token: Option<&str>, handle: impl FnMut(String, Value) -> Option<Value>) {
     let Ok(read) = stream.try_clone() else { return };
     let read = DeadlineReader::new(read, timeouts.idle, timeouts.line);
     // Replies reach the writer in [`REPLY_CHUNK`] pieces ([`write_line`]), so checking the remaining
@@ -138,6 +160,7 @@ fn serve_socket(stream: TcpStream, timeouts: ConnectionTimeouts, handle: impl Fn
     serve_lines_with(
         read,
         out,
+        token,
         handle,
         |reader| {
             let buffered = !reader.buffer().is_empty();
@@ -153,6 +176,8 @@ enum Line {
         id: Value,
         method: String,
         params: Value,
+        /// The channel token the request carries, if any.
+        token: Option<String>,
     },
     Blank,
     /// Not a request: reply with this error and close the connection.
@@ -181,6 +206,7 @@ fn parse_line(bytes: &[u8]) -> Line {
         id: obj.get("id").cloned().unwrap_or(Value::Null),
         method: method.to_string(),
         params: obj.get("params").cloned().unwrap_or(json!({})),
+        token: obj.get("token").and_then(Value::as_str).map(str::to_string),
     }
 }
 
@@ -224,12 +250,13 @@ fn write_line(out: &mut impl Write, v: &Value) -> std::io::Result<()> {
 /// returns the reply object (the request's `id` is added here).
 #[cfg(test)]
 fn serve_lines<R: Read, W: Write>(read: R, out: W, handle: impl FnMut(String, Value) -> Option<Value>) {
-    serve_lines_with(read, out, handle, |_| Ok(()), |_| Ok(()));
+    serve_lines_with(read, out, None, handle, |_| Ok(()), |_| Ok(()));
 }
 
 fn serve_lines_with<R: Read, W: Write>(
     read: R,
     mut out: W,
+    token: Option<&str>,
     mut handle: impl FnMut(String, Value) -> Option<Value>,
     mut begin_line: impl FnMut(&mut BufReader<R>) -> std::io::Result<()>,
     mut begin_reply: impl FnMut(&mut W) -> std::io::Result<()>,
@@ -249,7 +276,14 @@ fn serve_lines_with<R: Read, W: Write>(
             Ok(true) => match parse_line(&buf) {
                 Line::Blank => continue,
                 Line::Reject(e) => e,
-                Line::Request { id, method, params } => {
+                Line::Request { id, token: given, .. } if !authorised(given.as_deref(), token) => {
+                    let r = json!({"id": id, "ok": false, "error": "this control channel needs its token"});
+                    if begin_reply(&mut out).and_then(|()| write_line(&mut out, &r)).is_err() {
+                        return;
+                    }
+                    continue;
+                }
+                Line::Request { id, method, params, .. } => {
                     let Some(mut r) = handle(method, params) else { return };
                     if let Some(o) = r.as_object_mut() {
                         o.insert("id".into(), id);
@@ -271,6 +305,33 @@ fn serve_lines_with<R: Read, W: Write>(
 mod tests {
     use super::*;
 
+    #[test]
+    fn a_tokened_channel_answers_only_requests_with_its_token() {
+        assert!(authorised(None, None), "the --control channel takes no token");
+        assert!(authorised(Some("abc123"), Some("abc123")));
+        for wrong in [None, Some(""), Some("abc12"), Some("abc124"), Some("abc1234")] {
+            assert!(!authorised(wrong, Some("abc123")), "{wrong:?}");
+        }
+        let Line::Request { token, .. } = parse_line(br#"{"id":1,"method":"ui.state","token":"abc123"}"#) else { panic!("not a request") };
+        assert_eq!(token.as_deref(), Some("abc123"));
+    }
+
+    #[test]
+    fn a_request_without_the_token_is_refused_and_never_handled() {
+        let input = "{\"id\":1,\"method\":\"ui.state\"}\n{\"id\":2,\"method\":\"ui.state\",\"token\":\"tk\"}\n";
+        let mut out = Vec::new();
+        let mut handled = Vec::new();
+        serve_lines_with(input.as_bytes(), &mut out, Some("tk"), |m, _| {
+            handled.push(m);
+            Some(json!({"ok": true}))
+        }, |_| Ok(()), |_| Ok(()));
+        let text = String::from_utf8(out).unwrap();
+        let replies: Vec<Value> = text.lines().map(|l| serde_json::from_str(l).unwrap()).collect();
+        assert_eq!(replies[0]["error"], "this control channel needs its token");
+        assert_eq!(replies[1]["ok"], true);
+        assert_eq!(handled, ["ui.state"], "only the request with the token ran");
+    }
+
     fn short_timeouts() -> ConnectionTimeouts {
         ConnectionTimeouts { idle: Duration::from_millis(150), line: Duration::from_millis(120), write: Duration::from_millis(150) }
     }
@@ -285,7 +346,7 @@ mod tests {
         let worker = std::thread::spawn(move || {
             let (stream, _) = listener.accept().unwrap();
             socket2::SockRef::from(&stream).set_send_buffer_size(4096).unwrap();
-            serve_socket(stream, timeouts, handle);
+            serve_socket(stream, timeouts, None, handle);
             finished.send(()).unwrap();
         });
         let client = TcpStream::connect(addr).unwrap();
@@ -416,7 +477,7 @@ mod tests {
         let client = TcpStream::connect(listener.local_addr().unwrap()).unwrap();
         let (stream, _) = listener.accept().unwrap();
         let (tx, _rx) = channel();
-        let worker = spawn_connection(stream, tx, egui::Context::default(), slot, short_timeouts()).unwrap();
+        let worker = spawn_connection(stream, tx, egui::Context::default(), slot, short_timeouts(), None).unwrap();
         let start = std::time::Instant::now();
         while open.load(Ordering::SeqCst) == MAX_CONNECTIONS && start.elapsed() < Duration::from_secs(3) {
             std::thread::sleep(Duration::from_millis(10));
@@ -632,7 +693,7 @@ mod tests {
         let listener = TcpListener::bind(("127.0.0.1", 0)).unwrap();
         let addr = listener.local_addr().unwrap();
         let (tx, _rx) = channel::<ControlRequest>();
-        std::thread::spawn(move || accept_loop(listener, tx, egui::Context::default()));
+        std::thread::spawn(move || accept_loop(listener, tx, egui::Context::default(), None));
         // Idle connections are accepted in order and held open.
         let held: Vec<TcpStream> = (0..16).map(|_| TcpStream::connect(addr).unwrap()).collect();
         let mut extra = TcpStream::connect(addr).unwrap();

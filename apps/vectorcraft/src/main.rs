@@ -950,6 +950,10 @@ fn main() -> std::process::ExitCode {
                     app.graphics_adapter = Some("OpenGL (Windows 7 compatibility)".into());
                 }
                 app.custom_titlebar = custom_titlebar;
+                // Window > Claude: the pane opens a channel of its own when first asked, on a free
+                // port with its token.
+                app.assistant.starter =
+                    Some(Box::new(|ctx, token| control_server::start_with(0, ctx.clone(), Some(token.to_string()))));
                 if let Some(port) = control_port {
                     let rx = control_server::start(port, cc.egui_ctx.clone());
                     app = app.with_control(rx).with_automation_roots(roots.clone());
