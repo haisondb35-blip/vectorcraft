@@ -4784,3 +4784,10 @@ lighting	Light	광원
 @msg	the file's variables and data sets weren't read (variables: {variables}, data sets: {data_sets}): the Variables panel doesn't list them	파일의 변수와 데이터 세트를 읽지 않았습니다(변수: {variables}, 데이터 세트: {data_sets}). 변수 패널에 표시되지 않습니다
 # Window > Claude: the assistant pane (a product name, the same in every language).
 	Claude	Claude
+# The assistant pane (Claude / ChatGPT): errors.
+@msg	couldn't open a control channel for Claude	Claude용 제어 채널을 열 수 없습니다
+@msg	install it from {_1}	{_1}에서 설치하세요
+@msg	no control channel	제어 채널 없음
+@msg	run `{_1} {_2}` in a terminal to sign in	로그인하려면 터미널에서 `{_1} {_2}`을(를) 실행하세요
+@msg	the Claude pane needs the VectorCraft desktop app	Claude 창에는 VectorCraft 데스크톱 앱이 필요합니다
+@msg	vectorcraft-cli wasn't found next to VectorCraft; reinstall VectorCraft	VectorCraft 옆에서 vectorcraft-cli를 찾을 수 없습니다. VectorCraft를 다시 설치하세요

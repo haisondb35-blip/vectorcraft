@@ -5114,3 +5114,10 @@ imageTrace	Outline	კონტური
 @msg	it decompresses to more than {_1} MB	გაშლისას {_1} MB-ს აღემატება
 # Window > Claude: the assistant pane (a product name, the same in every language).
 	Claude	Claude
+# The assistant pane (Claude / ChatGPT): errors.
+@msg	couldn't open a control channel for Claude	Claude-ისთვის მართვის არხის გახსნა ვერ მოხერხდა
+@msg	install it from {_1}	დააინსტალირეთ {_1}-დან
+@msg	no control channel	მართვის არხი არ არის
+@msg	run `{_1} {_2}` in a terminal to sign in	შესასვლელად ტერმინალში გაუშვით `{_1} {_2}`
+@msg	the Claude pane needs the VectorCraft desktop app	Claude-ის პანელს სჭირდება VectorCraft-ის სამუშაო მაგიდის აპი
+@msg	vectorcraft-cli wasn't found next to VectorCraft; reinstall VectorCraft	vectorcraft-cli ვერ მოიძებნა VectorCraft-ის გვერდით; ხელახლა დააინსტალირეთ VectorCraft

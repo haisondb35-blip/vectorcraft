@@ -4861,3 +4861,10 @@ lighting	Light	ライト
 @msg	the file's variables and data sets weren't read (variables: {variables}, data sets: {data_sets}): the Variables panel doesn't list them	ファイルの変数とデータセットは読み込まれませんでした (変数: {variables}、データセット: {data_sets})。変数パネルには表示されません
 # Window > Claude: the assistant pane (a product name, the same in every language).
 	Claude	Claude
+# The assistant pane (Claude / ChatGPT): errors.
+@msg	couldn't open a control channel for Claude	Claude の制御チャネルを開けませんでした
+@msg	install it from {_1}	{_1} からインストールしてください
+@msg	no control channel	制御チャネルがありません
+@msg	run `{_1} {_2}` in a terminal to sign in	サインインするにはターミナルで `{_1} {_2}` を実行してください
+@msg	the Claude pane needs the VectorCraft desktop app	Claude パネルには VectorCraft デスクトップアプリが必要です
+@msg	vectorcraft-cli wasn't found next to VectorCraft; reinstall VectorCraft	VectorCraft と同じ場所に vectorcraft-cli が見つかりません。VectorCraft を再インストールしてください

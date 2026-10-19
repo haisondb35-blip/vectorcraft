@@ -4783,3 +4783,10 @@ effect	Regular	Regelmäßig
 @msg	the file's variables and data sets weren't read (variables: {variables}, data sets: {data_sets}): the Variables panel doesn't list them	die Variablen und Datensätze der Datei wurden nicht gelesen (Variablen: {variables}, Datensätze: {data_sets}): Das Bedienfeld „Variablen“ listet sie nicht auf
 # Window > Claude: the assistant pane (a product name, the same in every language).
 	Claude	Claude
+# The assistant pane (Claude / ChatGPT): errors.
+@msg	couldn't open a control channel for Claude	Steuerkanal für Claude konnte nicht geöffnet werden
+@msg	install it from {_1}	installieren Sie es von {_1}
+@msg	no control channel	kein Steuerkanal
+@msg	run `{_1} {_2}` in a terminal to sign in	führen Sie `{_1} {_2}` in einem Terminal aus, um sich anzumelden
+@msg	the Claude pane needs the VectorCraft desktop app	der Claude-Bereich benötigt die VectorCraft-Desktop-App
+@msg	vectorcraft-cli wasn't found next to VectorCraft; reinstall VectorCraft	vectorcraft-cli wurde neben VectorCraft nicht gefunden; installieren Sie VectorCraft neu

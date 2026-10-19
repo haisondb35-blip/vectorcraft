@@ -5124,3 +5124,10 @@ mark-style	Japanese	Japonesas
 @msg	the file's variables and data sets weren't read (variables: {variables}, data sets: {data_sets}): the Variables panel doesn't list them	as variáveis e os conjuntos de dados do arquivo não foram lidos (variáveis: {variables}, conjuntos de dados: {data_sets}): o painel Variáveis não os lista
 # Window > Claude: the assistant pane (a product name, the same in every language).
 	Claude	Claude
+# The assistant pane (Claude / ChatGPT): errors.
+@msg	couldn't open a control channel for Claude	não foi possível abrir um canal de controle para o Claude
+@msg	install it from {_1}	instale-o a partir de {_1}
+@msg	no control channel	nenhum canal de controle
+@msg	run `{_1} {_2}` in a terminal to sign in	execute `{_1} {_2}` em um terminal para entrar
+@msg	the Claude pane needs the VectorCraft desktop app	o painel do Claude precisa do aplicativo de desktop do VectorCraft
+@msg	vectorcraft-cli wasn't found next to VectorCraft; reinstall VectorCraft	vectorcraft-cli não foi encontrado ao lado do VectorCraft; reinstale o VectorCraft

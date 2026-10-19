@@ -5193,3 +5193,10 @@ imageTrace	Outline	Körvonal
 @msg	the file's variables and data sets weren't read (variables: {variables}, data sets: {data_sets}): the Variables panel doesn't list them	a fájl változói és adatkészletei nem lettek beolvasva (változók: {variables}, adatkészletek: {data_sets}): a Változók panel nem listázza őket
 # Window > Claude: the assistant pane (a product name, the same in every language).
 	Claude	Claude
+# The assistant pane (Claude / ChatGPT): errors.
+@msg	couldn't open a control channel for Claude	nem sikerült vezérlőcsatornát nyitni a Claude számára
+@msg	install it from {_1}	telepítse innen: {_1}
+@msg	no control channel	nincs vezérlőcsatorna
+@msg	run `{_1} {_2}` in a terminal to sign in	a bejelentkezéshez futtassa a(z) `{_1} {_2}` parancsot egy terminálban
+@msg	the Claude pane needs the VectorCraft desktop app	a Claude panelhez a VectorCraft asztali alkalmazás szükséges
+@msg	vectorcraft-cli wasn't found next to VectorCraft; reinstall VectorCraft	a vectorcraft-cli nem található a VectorCraft mellett; telepítse újra a VectorCraftot

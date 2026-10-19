@@ -4801,3 +4801,10 @@ lighting	Light	Світло
 @msg	the file's variables and data sets weren't read (variables: {variables}, data sets: {data_sets}): the Variables panel doesn't list them	змінні та набори даних файлу не прочитано (змінних: {variables}, наборів даних: {data_sets}): панель «Змінні» їх не показує
 # Window > Claude: the assistant pane (a product name, the same in every language).
 	Claude	Claude
+# The assistant pane (Claude / ChatGPT): errors.
+@msg	couldn't open a control channel for Claude	не вдалося відкрити канал керування для Claude
+@msg	install it from {_1}	установіть його з {_1}
+@msg	no control channel	немає каналу керування
+@msg	run `{_1} {_2}` in a terminal to sign in	щоб увійти, виконайте `{_1} {_2}` у терміналі
+@msg	the Claude pane needs the VectorCraft desktop app	панелі Claude потрібна настільна програма VectorCraft
+@msg	vectorcraft-cli wasn't found next to VectorCraft; reinstall VectorCraft	vectorcraft-cli не знайдено поруч із VectorCraft; перевстановіть VectorCraft

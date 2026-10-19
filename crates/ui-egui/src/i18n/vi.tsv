@@ -4801,3 +4801,10 @@ theme	Appearance	Giao diện
 @msg	the file's variables and data sets weren't read (variables: {variables}, data sets: {data_sets}): the Variables panel doesn't list them	các biến và tập dữ liệu của tệp chưa được đọc (biến: {variables}, tập dữ liệu: {data_sets}): bảng Biến không liệt kê chúng
 # Window > Claude: the assistant pane (a product name, the same in every language).
 	Claude	Claude
+# The assistant pane (Claude / ChatGPT): errors.
+@msg	couldn't open a control channel for Claude	không mở được kênh điều khiển cho Claude
+@msg	install it from {_1}	cài đặt từ {_1}
+@msg	no control channel	không có kênh điều khiển
+@msg	run `{_1} {_2}` in a terminal to sign in	chạy `{_1} {_2}` trong cửa sổ dòng lệnh để đăng nhập
+@msg	the Claude pane needs the VectorCraft desktop app	khung Claude cần ứng dụng VectorCraft trên máy tính
+@msg	vectorcraft-cli wasn't found next to VectorCraft; reinstall VectorCraft	không tìm thấy vectorcraft-cli bên cạnh VectorCraft; hãy cài đặt lại VectorCraft

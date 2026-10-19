@@ -5159,3 +5159,10 @@ effect	Points	Σημεία
 @msg	the file's variables and data sets weren't read (variables: {variables}, data sets: {data_sets}): the Variables panel doesn't list them	οι μεταβλητές και τα σύνολα δεδομένων του αρχείου δεν διαβάστηκαν (μεταβλητές: {variables}, σύνολα δεδομένων: {data_sets}): ο πίνακας Μεταβλητές δεν τα εμφανίζει
 # Window > Claude: the assistant pane (a product name, the same in every language).
 	Claude	Claude
+# The assistant pane (Claude / ChatGPT): errors.
+@msg	couldn't open a control channel for Claude	δεν ήταν δυνατό το άνοιγμα καναλιού ελέγχου για το Claude
+@msg	install it from {_1}	εγκαταστήστε το από {_1}
+@msg	no control channel	κανένα κανάλι ελέγχου
+@msg	run `{_1} {_2}` in a terminal to sign in	εκτελέστε `{_1} {_2}` σε ένα τερματικό για να συνδεθείτε
+@msg	the Claude pane needs the VectorCraft desktop app	το πλαίσιο Claude χρειάζεται την εφαρμογή επιφάνειας εργασίας VectorCraft
+@msg	vectorcraft-cli wasn't found next to VectorCraft; reinstall VectorCraft	το vectorcraft-cli δεν βρέθηκε δίπλα στο VectorCraft· εγκαταστήστε ξανά το VectorCraft

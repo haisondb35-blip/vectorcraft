@@ -5043,3 +5043,10 @@ lighting	Light	光源
 @msg	the file's variables and data sets weren't read (variables: {variables}, data sets: {data_sets}): the Variables panel doesn't list them	文件的变量和数据集未被读取（变量：{variables}，数据集：{data_sets}）：“变量”面板不会列出它们
 # Window > Claude: the assistant pane (a product name, the same in every language).
 	Claude	Claude
+# The assistant pane (Claude / ChatGPT): errors.
+@msg	couldn't open a control channel for Claude	无法为 Claude 打开控制通道
+@msg	install it from {_1}	请从 {_1} 安装
+@msg	no control channel	没有控制通道
+@msg	run `{_1} {_2}` in a terminal to sign in	请在终端中运行 `{_1} {_2}` 以登录
+@msg	the Claude pane needs the VectorCraft desktop app	Claude 窗格需要 VectorCraft 桌面应用
+@msg	vectorcraft-cli wasn't found next to VectorCraft; reinstall VectorCraft	在 VectorCraft 旁边找不到 vectorcraft-cli；请重新安装 VectorCraft

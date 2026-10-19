@@ -1060,20 +1060,20 @@ fn read_events(
 }
 
 /// The pane's contents (inside the task pane frame).
-/// The Claude button in the app bar: its label and size, as the Discord button's.
+/// The AI Assistant button in the app bar: its label and size, as the Discord button's.
 fn bar_layout(ui: &egui::Ui) -> (std::sync::Arc<egui::Galley>, f32, f32) {
     let h = 24.0;
-    let galley = ui.painter().layout_no_wrap("Claude".to_string(), egui::FontId::proportional(12.0), egui::Color32::PLACEHOLDER);
+    let galley = ui.painter().layout_no_wrap("AI Assistant".to_string(), egui::FontId::proportional(12.0), egui::Color32::PLACEHOLDER);
     let w = galley.size().x + h * 0.55 + h * 0.9;
     (galley, h, w)
 }
 
-/// The Claude button's width (the app bar drops it, before Discord, when space runs out).
+/// The AI Assistant button's width (the app bar drops it, before Discord, when space runs out).
 pub fn bar_button_width(ui: &egui::Ui) -> f32 {
     bar_layout(ui).2
 }
 
-/// The Claude button in the app bar, next to Discord: opens and closes the assistant pane.
+/// The AI Assistant button in the app bar, next to Discord: opens and closes the assistant pane.
 pub fn bar_button(app: &mut crate::VectorcraftApp, ui: &mut egui::Ui) -> egui::Response {
     let t = crate::theme::Tokens::get(ui.ctx());
     let (galley, h, w) = bar_layout(ui);
@@ -1103,7 +1103,7 @@ pub fn side_pane(app: &mut crate::VectorcraftApp, ui: &mut egui::Ui) {
         .frame(egui::Frame::NONE.fill(t.panel).inner_margin(12).stroke(egui::Stroke::new(1.0, t.divider)))
         .show(ui, |ui| {
             ui.horizontal(|ui| {
-                ui.label(egui::RichText::new("Claude").font(crate::theme::semibold(15.0)).color(t.text));
+                ui.label(egui::RichText::new("AI Assistant").font(crate::theme::semibold(15.0)).color(t.text));
                 ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
                     if ui.button("×").on_hover_text("Close").clicked() {
                         app.assistant_open = false;

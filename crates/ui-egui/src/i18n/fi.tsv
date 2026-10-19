@@ -5171,3 +5171,10 @@ mark-style	Japanese	Japanilainen
 @msg	the file's variables and data sets weren't read (variables: {variables}, data sets: {data_sets}): the Variables panel doesn't list them	tiedoston muuttujia ja tietojoukkoja ei luettu (muuttujia: {variables}, tietojoukkoja: {data_sets}): Muuttujat-paneeli ei näytä niitä
 # Window > Claude: the assistant pane (a product name, the same in every language).
 	Claude	Claude
+# The assistant pane (Claude / ChatGPT): errors.
+@msg	couldn't open a control channel for Claude	Claudelle ei voitu avata ohjauskanavaa
+@msg	install it from {_1}	asenna se osoitteesta {_1}
+@msg	no control channel	ei ohjauskanavaa
+@msg	run `{_1} {_2}` in a terminal to sign in	kirjaudu sisään suorittamalla `{_1} {_2}` päätteessä
+@msg	the Claude pane needs the VectorCraft desktop app	Claude-paneeli tarvitsee VectorCraftin työpöytäsovelluksen
+@msg	vectorcraft-cli wasn't found next to VectorCraft; reinstall VectorCraft	vectorcraft-cli:tä ei löytynyt VectorCraftin vierestä; asenna VectorCraft uudelleen

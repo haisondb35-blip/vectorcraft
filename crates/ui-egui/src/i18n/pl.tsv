@@ -5059,3 +5059,10 @@ mark-style	Japanese	Japońskie
 @msg	the file's variables and data sets weren't read (variables: {variables}, data sets: {data_sets}): the Variables panel doesn't list them	zmienne i zestawy danych pliku nie zostały wczytane (zmienne: {variables}, zestawy danych: {data_sets}): panel Zmienne ich nie wyświetla
 # Window > Claude: the assistant pane (a product name, the same in every language).
 	Claude	Claude
+# The assistant pane (Claude / ChatGPT): errors.
+@msg	couldn't open a control channel for Claude	nie udało się otworzyć kanału sterowania dla Claude
+@msg	install it from {_1}	zainstaluj z {_1}
+@msg	no control channel	brak kanału sterowania
+@msg	run `{_1} {_2}` in a terminal to sign in	aby się zalogować, uruchom `{_1} {_2}` w terminalu
+@msg	the Claude pane needs the VectorCraft desktop app	panel Claude wymaga aplikacji desktopowej VectorCraft
+@msg	vectorcraft-cli wasn't found next to VectorCraft; reinstall VectorCraft	nie znaleziono vectorcraft-cli obok VectorCraft; zainstaluj ponownie VectorCraft

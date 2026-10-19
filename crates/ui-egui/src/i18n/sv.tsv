@@ -5163,3 +5163,10 @@ theme	Appearance	Utseende
 @msg	the file's variables and data sets weren't read (variables: {variables}, data sets: {data_sets}): the Variables panel doesn't list them	filens variabler och datauppsättningar lästes inte (variabler: {variables}, datauppsättningar: {data_sets}): panelen Variabler visar dem inte
 # Window > Claude: the assistant pane (a product name, the same in every language).
 	Claude	Claude
+# The assistant pane (Claude / ChatGPT): errors.
+@msg	couldn't open a control channel for Claude	kunde inte öppna en kontrollkanal för Claude
+@msg	install it from {_1}	installera den från {_1}
+@msg	no control channel	ingen kontrollkanal
+@msg	run `{_1} {_2}` in a terminal to sign in	kör `{_1} {_2}` i en terminal för att logga in
+@msg	the Claude pane needs the VectorCraft desktop app	Claude-panelen behöver skrivbordsappen VectorCraft
+@msg	vectorcraft-cli wasn't found next to VectorCraft; reinstall VectorCraft	vectorcraft-cli hittades inte bredvid VectorCraft; installera om VectorCraft
