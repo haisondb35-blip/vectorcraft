@@ -2,14 +2,14 @@
 //! art retained underneath. Recipes select topology regions; source edits re-evaluate them in
 //! the same undo transaction. Rendering and exporters only see ordinary groups and paths.
 use super::pathops::Beside;
-use super::*;
+use super::{CommandSpec, EngineError, Result, Session, bad, bool_or, checked_ids_param, cmd, f64_or, has_doc, id_param, point_param};
 use serde_json::{Value, json};
 use std::{collections::BTreeMap, sync::Arc};
 use vectorcraft_doc::shaper::{EdgeEdit, FILL_PREFIX, FaceEdit, FaceSelector, SOURCES, STROKE_PREFIX, ShaperSpec};
 use vectorcraft_doc::{Appearance, AppearanceItem, Document, Node, NodeId, NodeKind};
 use vectorcraft_geom::{FillRule, PathData, Point, Rect, Shape as _};
 use vectorcraft_pathops as po;
-use vectorcraft_tools::builder::{self as b, BuilderMap, Hit};
+use vectorcraft_tools::builder::{self as b, BuilderMap};
 
 const MAX_SOURCES: usize = 64;
 const MAX_POINTS: usize = 4096;
@@ -617,8 +617,9 @@ fn scribble(s: &mut Session, p: &Value) -> Result<Value> {
     let edits = face_edits(&map, &src, &spec);
     let filled = |i: usize| edits.get(&i).is_none_or(|e| !e.erase) && map.regions.get(i).and_then(|r| fill_source(&src, &r.0)).is_some();
     let components = visible_components(&map, &src, &edits);
+    // Every face the scribble crosses, however narrow.
     let faces: std::collections::BTreeSet<usize> =
-        points.iter().filter_map(|p| map.region_at(*p)).filter(|i| filled(*i)).filter_map(|i| components.get(i).copied()).collect();
+        map.hits_along(&pts, None).regions.into_iter().filter(|i| filled(*i)).filter_map(|i| components.get(i).copied()).collect();
     let touched: Vec<usize> = components.iter().enumerate().filter(|(_, c)| faces.contains(c)).map(|(i, _)| i).collect();
     let first = points.first().copied().unwrap_or(Point::ZERO);
     let last = points.last().copied().unwrap_or(first);
@@ -642,19 +643,12 @@ fn scribble(s: &mut Session, p: &Value) -> Result<Value> {
     }
     let mut strokes = 0;
     if touched.is_empty() {
-        let mut piece_ids = vec![];
+        // Every stroke the scribble crosses or passes within `tolerance` of, however small that is.
+        let mut hits = map.hits_along(&pts, Some(tolerance));
         for point in &points {
-            let index = match map.hit(*point, Some(tolerance)) {
-                Some(Hit::Line(i)) => Some(map.edges.len() + i),
-                Some(Hit::Edge(i)) => Some(i),
-                _ => None,
-            };
-            if let Some(i) = index
-                && !piece_ids.contains(&i)
-            {
-                piece_ids.push(i);
-            }
+            hits.add(map.hit(*point, Some(tolerance)));
         }
+        let piece_ids = hits.edges.iter().copied().chain(hits.lines.iter().map(|i| map.edges.len() + i));
         for i in piece_ids {
             if let Some(e) = pieces(&map).get(i).and_then(|p| edge_selector(&map, &src, p)) {
                 spec.edges.push(e);

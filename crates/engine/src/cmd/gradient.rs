@@ -10,7 +10,10 @@ use vectorcraft_tools::params::color_json;
 use super::appearance::{ItemTarget, edit_items, edits_stroke, item_target};
 use super::edit::{outermost, selected_roots};
 use super::paint::swatch_solid;
-use super::*;
+use super::{
+    CommandSpec, NodeId, Result, Session, always, bad, bool_or, check_numbers, check_switches, cmd, color_value, f64_or, has_doc, index,
+    leaf_targets, point_param, str_param,
+};
 use crate::EngineError;
 
 pub fn specs() -> Vec<CommandSpec> {
@@ -586,7 +589,9 @@ fn set_gradient_geom(s: &mut Session, p: &Value) -> Result<Value> {
     let stroke = edits_stroke(s, p, item, !s.fill_active, C)?;
     let item = item.of_kind(s, !stroke);
     let targets = match item {
-        ItemTarget::Top => leaf_targets(s, &ids_param(p, "ids").map_or_else(|| selected_roots(s), |ids| Ok(outermost(&s.doc()?.doc, ids)))?)?,
+        ItemTarget::Top => {
+            leaf_targets(s, &super::given_objects(s, p, C)?.map_or_else(|| selected_roots(s), |ids| Ok(outermost(&s.doc()?.doc, ids)))?)?
+        }
         _ => item.targets(s, p)?,
     };
     if targets.is_empty() {

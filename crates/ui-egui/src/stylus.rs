@@ -4,14 +4,25 @@
 //! web build makes the same touch events from the browser's Pointer Events. On Linux under X11
 //! (XWayland included), winit reports a pen as a mouse, so the desktop app reads the pressure
 //! from XInput2 on a connection of its own and writes it into a [`StylusFeed`]
-//! ([`crate::Services::stylus`]). The canvas uses it when a frame's events carry no touch force.
+//! ([`crate::Services::stylus`]). On macOS, where winit reports none either, the app reads each
+//! event's pressure from AppKit before the window handles it, and also keeps it for that event's
+//! pointer move ([`StylusFeed::set_move`]), so the moves of a fast stroke each get their own. On
+//! Windows, where winit drops which end of the pen is down, the app reads the pressure and the end
+//! from each pointer message of a pen before winit handles it. The canvas uses the feed when a
+//! frame's events carry no touch force.
 //!
 //! The feed also says which end of the pen moved. Turning the pen to its eraser end selects the
 //! Eraser tool, and turning it back to the tip selects the tool used before
 //! ([`sync_eraser_tool`]), as the reference app's help describes under "Erase parts of a path
 //! using a stylus pen":
 //! <https://helpx.adobe.com/illustrator/desktop/draw-shapes-and-paths/modify-paths/erase-parts-of-a-path.html>
+//!
+//! The web build writes the pen's end into a feed as well. Pointer Events report the eraser end
+//! only as a press of the pen's eraser button (`button` 5), so in a browser the end changes when
+//! the pen presses: a press of the eraser end selects the Eraser before that press, and a press of
+//! the tip selects the tool used before.
 
+use std::collections::VecDeque;
 use std::sync::{Arc, Condvar, Mutex, MutexGuard};
 use std::time::Duration;
 
@@ -23,6 +34,10 @@ const ERASER: &str = "eraser";
 /// How long a press waits for the touch of a pen that hovers ([`StylusFeed::press`]).
 const PRESS_WAIT: Duration = Duration::from_millis(5);
 
+/// The pressures of pointer moves kept for the UI ([`StylusFeed::set_move`]); a frame replays 64
+/// moves at most.
+const MAX_MOVES: usize = 256;
+
 /// What a pen reports as it moves.
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct PenSample {
@@ -33,7 +48,7 @@ pub struct PenSample {
 }
 
 /// What the feed holds.
-#[derive(Clone, Copy, Debug, Default)]
+#[derive(Clone, Debug, Default)]
 struct Pen {
     /// The pressure of the pen when a pen was the last pointer to move.
     latest: Option<f32>,
@@ -45,6 +60,8 @@ struct Pen {
     /// The last pressure above 0 set since a pen was the last pointer to move, with the same end
     /// (0 when that end has not touched).
     touched: f32,
+    /// The pressure of each pointer move set since the UI last took them, oldest first.
+    moves: VecDeque<f32>,
 }
 
 impl Pen {
@@ -59,6 +76,8 @@ struct Shared {
     pen: Mutex<Pen>,
     /// Signaled on every [`StylusFeed::set_sample`] ([`StylusFeed::set`] included).
     set: Condvar,
+    /// Written on the UI thread itself ([`StylusFeed::on_ui_thread`]): a press never waits.
+    ui_thread: bool,
 }
 
 /// The pen pressure and pen end the host last read, written from any thread and read on the UI
@@ -67,8 +86,14 @@ struct Shared {
 pub struct StylusFeed(Arc<Shared>);
 
 impl StylusFeed {
+    /// A feed the host writes on the UI thread, before the UI handles the event it read (macOS):
+    /// a press has its touch already, and waiting for one would only stall the thread.
+    pub fn on_ui_thread() -> Self {
+        Self(Arc::new(Shared { ui_thread: true, ..Shared::default() }))
+    }
+
     fn lock(&self) -> MutexGuard<'_, Pen> {
-        self.0.pen.lock().unwrap_or_else(|e| e.into_inner())
+        self.0.pen.lock().unwrap_or_else(std::sync::PoisonError::into_inner)
     }
 
     /// A pen turned to its tip moved with `pressure`, or `None`: another pointer moved
@@ -99,11 +124,31 @@ impl StylusFeed {
             None => {
                 pen.peak = None;
                 pen.touched = 0.0;
+                pen.moves.clear();
             }
         }
         pen.latest = pressure;
         drop(pen);
         self.0.set.notify_all();
+    }
+
+    /// Like [`Self::set_sample`], for a pen sample that comes with one pointer move of the window,
+    /// read before the window handles the move (macOS): its pressure is also kept for that move
+    /// ([`Self::take_moves`]).
+    pub fn set_move(&self, sample: PenSample) {
+        self.set_sample(Some(sample));
+        let mut pen = self.lock();
+        if pen.moves.len() >= MAX_MOVES {
+            pen.moves.pop_front();
+        }
+        let pressure = pen.latest.unwrap_or(1.0);
+        pen.moves.push_back(pressure);
+    }
+
+    /// The pressures of the pointer moves set with [`Self::set_move`] since the last call, oldest
+    /// first (256 at most): the last one is the latest move's.
+    pub fn take_moves(&self) -> Vec<f32> {
+        self.lock().moves.drain(..).collect()
     }
 
     /// The pressure of a press the UI holds (a drag and its release) when a pen was the last
@@ -130,7 +175,7 @@ impl StylusFeed {
 
     fn press_within(&self, wait: Duration) -> Option<f32> {
         let mut pen = self.lock();
-        if pen.hovering() {
+        if pen.hovering() && !self.0.ui_thread {
             pen = self.wait_for_touch(pen, wait);
         }
         let peak = pen.peak.take();
@@ -152,7 +197,7 @@ impl StylusFeed {
         }
     }
 
-    /// The browser's main thread can't wait, and the web build sets no feed.
+    /// The browser's main thread can't wait, and the web build writes its feed on that thread.
     #[cfg(target_arch = "wasm32")]
     fn wait_for_touch<'a>(&'a self, pen: MutexGuard<'a, Pen>, _wait: Duration) -> MutexGuard<'a, Pen> {
         pen
@@ -255,6 +300,24 @@ mod tests {
     }
 
     #[test]
+    fn the_feed_keeps_the_pressure_of_each_move() {
+        let feed = StylusFeed::default();
+        for p in [0.2, 1.5, 0.4] {
+            feed.set_move(PenSample { pressure: p, eraser: false });
+        }
+        feed.set(Some(0.9));
+        assert_eq!(feed.take_moves(), [0.2, 1.0, 0.4], "clamped; a sample without a move keeps none");
+        assert_eq!((feed.take_moves(), feed.held()), (vec![], Some(0.9)), "taken once");
+        for _ in 0..MAX_MOVES + 10 {
+            feed.set_move(PenSample { pressure: 0.5, eraser: false });
+        }
+        assert_eq!(feed.take_moves().len(), MAX_MOVES, "bounded");
+        feed.set_move(PenSample { pressure: 0.5, eraser: false });
+        feed.set(None);
+        assert!(feed.take_moves().is_empty(), "a mouse moved");
+    }
+
+    #[test]
     fn a_held_press_keeps_the_last_touch_when_the_lift_comes_first() {
         let feed = StylusFeed::default();
         feed.set(Some(0.0));
@@ -335,6 +398,17 @@ mod tests {
         assert_eq!(feed.press_within(Duration::from_secs(10)), Some(0.3));
         feed.set(None);
         assert_eq!(feed.press_within(Duration::from_secs(10)), None);
+        assert!(start.elapsed() < Duration::from_secs(5));
+    }
+
+    /// A feed written on the UI thread (macOS) has nothing to wait for: a hovering pen's press
+    /// gets its 0 at once rather than stalling the thread.
+    #[test]
+    fn a_feed_written_on_the_ui_thread_never_waits() {
+        let feed = StylusFeed::on_ui_thread();
+        feed.set(Some(0.0));
+        let start = std::time::Instant::now();
+        assert_eq!(feed.press_within(Duration::from_secs(10)), Some(0.0));
         assert!(start.elapsed() < Duration::from_secs(5));
     }
 }

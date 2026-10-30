@@ -20,7 +20,7 @@ use super::clipboard::Clipboard;
 use super::clipboard::resources::SwatchChoices;
 use super::swatch::str_list;
 use super::swatchlib::{FileData, LibraryFile, LibraryInfo, stem};
-use super::*;
+use super::{CommandSpec, Result, Session, always, bad, bool_or, cmd, has_doc, number_or, str_param};
 
 /// The extension of saved symbol libraries: native documents.
 pub const SYMBOLS_EXT: &str = vectorcraft_format::EXTENSION;
@@ -127,7 +127,7 @@ impl SymbolLibrary {
 }
 
 impl LibraryFile for SymbolLibrary {
-    const EXTS: &'static [&'static str] = &[SYMBOLS_EXT];
+    const EXTS: &[&str] = &[SYMBOLS_EXT];
     fn read(bytes: &[u8], stem: &str) -> std::result::Result<Self, String> {
         let doc = vectorcraft_format::load(bytes).map_err(|e| e.to_string())?;
         SymbolLibrary::from_document(&doc, &[], stem.to_string())

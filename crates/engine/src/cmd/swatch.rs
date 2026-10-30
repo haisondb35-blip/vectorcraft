@@ -7,7 +7,10 @@ use vectorcraft_doc::swatches::{LinkFn, color_name, node_colors};
 use vectorcraft_doc::{Document, NodeId};
 
 use super::paint::paint_from;
-use super::*;
+use super::{
+    CommandSpec, Result, Session, bad, bool_or, check_numbers, check_switches, cmd, color_value, has_doc, index, ok, str_param, switch_or,
+    unique_name,
+};
 use crate::EngineError;
 
 pub fn specs() -> Vec<CommandSpec> {
@@ -829,6 +832,11 @@ impl GroupEdit {
     /// Apply the link changes to the default fill and stroke for new art.
     pub(super) fn defaults(&self, s: &mut Session) {
         self.relinks.iter().for_each(|r| r.defaults(s));
+    }
+
+    /// How many paints linked to the group's swatches the rewrite changed.
+    pub(super) fn relinked(&self) -> usize {
+        self.relinked
     }
 }
 
