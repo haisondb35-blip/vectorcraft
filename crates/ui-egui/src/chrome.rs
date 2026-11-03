@@ -27,6 +27,7 @@ pub use hints::{hint_bar, hint_strings};
 pub use status_bar::status_bar;
 #[cfg(test)]
 use status_bar::{StatusReadoutWidths, status_readouts};
+pub(crate) use tabs::show_document;
 #[cfg(test)]
 use tabs::{CLOSE_BEFORE_TITLE, first_tab_shown, tab_title};
 pub use tabs::{doc_tabs, isolation_bar, step_document};
@@ -105,7 +106,7 @@ pub fn app_bar(app: &mut VectorcraftApp, ui: &mut Ui) {
             // Search → command palette (its shortcut opens it too).
             if search {
                 let tip = match menus::shortcut_of("help.commandPalette") {
-                    Some(sc) => format!("{}  ({})", tl!("Search commands and tools"), menus::pretty_shortcut(sc)),
+                    Some(sc) => format!("{}  ({})", tl!("Search commands and tools"), menus::shown_shortcut(sc)),
                     None => tl!("Search commands and tools").to_string(),
                 };
                 if widgets::icon_button(ui, "search", &tip, app.ui.palette_open, icon).clicked() {

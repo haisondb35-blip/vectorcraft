@@ -28,7 +28,7 @@
 //! layer's hidden objects go to a hidden layer of their own just above it, with `omit` they are
 //! left out, with `visible` they show where they are. Type is written as text the format's reader
 //! lays out again, in the fonts it names; `outlineText` writes its outlines instead (as type that
-//! 8-bit text can't hold always is).
+//! 8-bit text can't hold and type with rotated characters always are).
 
 use std::sync::Arc;
 
@@ -167,7 +167,7 @@ fn expand_image_patterns(d: &mut Document) -> Result<()> {
     let keys = super::super::flatten::see_through_images(d);
     let layers: Vec<NodeId> = d.layers.iter().map(|l| l.id).collect();
     for id in layers {
-        super::super::expand::expand_transparent_image_patterns(d, id, &keys)?;
+        super::super::expand::expand_transparent_image_patterns(d, id, &keys, &|_, _| true)?;
     }
     Ok(())
 }
