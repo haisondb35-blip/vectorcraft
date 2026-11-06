@@ -6,6 +6,8 @@ use super::{Arc, Document, NodeId, NodeKind, Selection, Value, cmd, file_access}
 /// Per-document editing state.
 #[derive(Clone, Debug)]
 pub struct DocState {
+    /// Tells open documents apart while the app runs (not saved; a new one per document).
+    pub uid: u64,
     pub doc: Arc<Document>,
     pub selection: Selection,
     pub history: History,
@@ -229,6 +231,12 @@ impl SameContent {
     }
 }
 
+/// A number no other document of this run has.
+fn next_uid() -> u64 {
+    static NEXT: std::sync::atomic::AtomicU64 = std::sync::atomic::AtomicU64::new(1);
+    NEXT.fetch_add(1, std::sync::atomic::Ordering::Relaxed)
+}
+
 impl DocState {
     pub fn new(mut doc: Document, path: Option<String>) -> Self {
         let active_layer = doc.default_layer();
@@ -239,6 +247,7 @@ impl DocState {
         let layers_open = OpenRows::new(&doc, saved_open);
         let doc = Arc::new(doc);
         Self {
+            uid: next_uid(),
             saved_doc: doc.clone(),
             unsaved_changes: SameContent::default(),
             doc,

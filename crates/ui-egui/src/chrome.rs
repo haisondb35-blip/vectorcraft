@@ -92,7 +92,16 @@ pub fn app_bar(app: &mut VectorcraftApp, ui: &mut Ui) {
             // The Claude button sits next to Discord and goes first when space runs out.
             let claude = discord
                 && room
-                    >= ws_w + 8.0 + gap + icon + 10.0 + gap + crate::community::discord_width(ui, false) + 6.0 + gap + crate::assistant::bar_button_width(ui);
+                    >= ws_w
+                        + 8.0
+                        + gap
+                        + icon
+                        + 10.0
+                        + gap
+                        + crate::community::discord_width(ui, false)
+                        + 6.0
+                        + gap
+                        + crate::assistant::bar_button_width(ui);
             let mut rui = ui.new_child(egui::UiBuilder::new().max_rect(right).layout(egui::Layout::right_to_left(egui::Align::Center)));
             let ui = &mut rui;
             // Workspace switcher: shows the current workspace, opens Window → Workspace.

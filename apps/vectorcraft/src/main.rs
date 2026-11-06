@@ -461,10 +461,16 @@ fn main() -> std::process::ExitCode {
                     rs.device.set_device_lost_callback(move |reason, msg| loss.report(&ctx, format!("{reason:?}: {msg}")));
                 }
                 app.custom_titlebar = custom_titlebar;
+                // Each file's conversation with the assistant is remembered, in the folder all the Craft
+                // apps share (ArtCraft/AI).
+                app.assistant.use_memory(if std::env::var_os("VECTORCRAFT_NO_PREFS").is_none() {
+                    vectorcraft_ui_egui::assistant::Store::shared()
+                } else {
+                    None
+                });
                 // Window > Claude: the pane opens a channel of its own when first asked, on a free
                 // port with its token.
-                app.assistant.starter =
-                    Some(Box::new(|ctx, token| control_server::start_with(0, ctx.clone(), Some(token.to_string()))));
+                app.assistant.starter = Some(Box::new(|ctx, token| control_server::start_with(0, ctx.clone(), Some(token.to_string()))));
                 if let Some(port) = control_port {
                     let rx = control_server::start(port, cc.egui_ctx.clone());
                     app = app.with_control(rx).with_automation_roots(roots.clone());

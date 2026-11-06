@@ -426,10 +426,17 @@ fn a_request_without_the_token_is_refused_and_never_handled() {
     let input = "{\"id\":1,\"method\":\"ui.state\"}\n{\"id\":2,\"method\":\"ui.state\",\"token\":\"tk\"}\n";
     let mut out = Vec::new();
     let mut handled = Vec::new();
-    serve_lines_with(input.as_bytes(), &mut out, Some("tk"), |m, _| {
-        handled.push(m);
-        Some(json!({"ok": true}))
-    }, |_| Ok(()), |_| Ok(()));
+    serve_lines_with(
+        input.as_bytes(),
+        &mut out,
+        Some("tk"),
+        |m, _| {
+            handled.push(m);
+            Some(json!({"ok": true}))
+        },
+        |_| Ok(()),
+        |_| Ok(()),
+    );
     let text = String::from_utf8(out).unwrap();
     let replies: Vec<Value> = text.lines().map(|l| serde_json::from_str(l).unwrap()).collect();
     assert_eq!(replies[0]["error"], "this control channel needs its token");

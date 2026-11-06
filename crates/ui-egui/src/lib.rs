@@ -23,9 +23,9 @@ macro_rules! tl {
 }
 
 pub mod addons;
+pub mod assistant;
 pub mod background;
 mod brand;
-pub mod assistant;
 pub mod canvas;
 pub mod chrome;
 mod clipboard_probe;
