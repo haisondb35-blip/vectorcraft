@@ -334,7 +334,7 @@ fn tcp_connection_is_closed_after_junk() {
     let addr = listener.local_addr().unwrap();
     let server = std::thread::spawn(move || {
         let (s, _) = listener.accept().unwrap();
-        serve_socket(s, ConnectionTimeouts::default(), |_, _| Some(json!({"ok": true})));
+        serve_socket(s, ConnectionTimeouts::default(), None, |_, _| Some(json!({"ok": true})));
     });
     let mut c = TcpStream::connect(addr).unwrap();
     c.set_read_timeout(Some(WAIT)).unwrap();
