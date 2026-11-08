@@ -1036,6 +1036,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "craft-sync"
+version = "0.1.0"
+dependencies = [
+ "chrono",
+ "serde_json",
+]
+
+[[package]]
 name = "craft-ui"
 version = "0.1.0"
 source = "git+https://github.com/storytold/craft-libs?rev=9be9a63782298ab59cd9b7a42ee9cba4f42a5ccb#9be9a63782298ab59cd9b7a42ee9cba4f42a5ccb"
@@ -6569,6 +6577,7 @@ version = "0.21.0"
 dependencies = [
  "bytemuck",
  "craft-keymap",
+ "craft-sync",
  "craft-ui",
  "craft-update",
  "egui",
@@ -6580,6 +6589,7 @@ dependencies = [
  "serde",
  "serde_json",
  "toml",
+ "ureq",
  "vectorcraft-brush",
  "vectorcraft-cad",
  "vectorcraft-color",

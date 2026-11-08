@@ -33,6 +33,9 @@ impl Class {
 /// The layering table. Names are package names without the `vectorcraft-`
 /// prefix.
 pub const TABLE: &[(&str, Class)] = &[
+    // The synced cloud folder shared by every Craft app (settings, AI memory, earlier versions):
+    // a leaf, used by the UI.
+    ("craft-sync", Class::Layer(0)),
     ("geom", Class::Layer(0)),
     ("color", Class::Layer(0)),
     ("doc", Class::Layer(1)),
