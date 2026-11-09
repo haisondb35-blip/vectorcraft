@@ -779,7 +779,11 @@ fn job_for_stamped(s: &Session, st: &DocState, plan: SavePlan, stamped: Option<i
     // A native file records its links' paths relative to where it is written.
     let base = crate::cmd::links::LinkBase::of(st);
     let relative = plan.path.as_deref().filter(|_| is_native(plan.format)).and_then(|p| crate::cmd::links::with_relative_paths(&own, base, p));
-    let doc = relative.map_or(own, Arc::new);
+    let mut doc = relative.map_or(own, Arc::new);
+    // Save chat with file: the desktop app's assistant conversation goes into a native file.
+    if let (Some(p), "vectorcraft" | "template") = (plan.path.as_deref(), plan.format.id) {
+        crate::assistant_chat::apply(p, &mut doc);
+    }
     let mut params = plan.options.clone();
     if is_svg(plan.format) {
         // A save keeps hidden layers (not displayed) unless told otherwise; exports leave them out.

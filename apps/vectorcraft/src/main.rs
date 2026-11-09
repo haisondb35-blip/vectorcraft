@@ -541,6 +541,11 @@ fn main() -> std::process::ExitCode {
                 } else {
                     None
                 });
+                // Save chat with file: a .vectorcraft file's conversation goes into it as it is
+                // saved, and comes back when it is opened.
+                if app.assistant.memory.is_some() {
+                    vectorcraft_ui_egui::assistant::embed::install(&mut app.assistant);
+                }
                 // Window > Claude: the pane opens a channel of its own when first asked, on a free
                 // port with its token.
                 app.assistant.starter = Some(Box::new(|ctx, token| control_server::start_with(0, ctx.clone(), Some(token.to_string()))));
