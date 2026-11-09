@@ -1337,6 +1337,7 @@ lighting	Light	სინათლე
 	Arabic	არაბული
 	Hindi	ჰინდი
 	Farsi	სპარსული
+digits	Hindi	ჰინდი
 digits	Devanagari	დევანაგარი
 digits	Bengali	ბენგალური
 digits	Gurmukhi	გურმუხი
@@ -3302,6 +3303,7 @@ theme	Appearance	იერსახე
 	Snapping Tolerance	მიბმის დაშვება
 	Spacing Guides	შუალედის დამხმარე ხაზები
 	Invoke Distance Guides	მანძილის დამხმარე ხაზების გამოძახება
+	Snap to Last Location	ბოლო მდებარეობაზე მიბმა
 	Spanish	ესპანური
 	Subdivisions	ქვედანაყოფები
 	Templates Folder	შაბლონების საქაღალდე
@@ -3804,7 +3806,7 @@ font-technology	Variable	ცვლადი
 @plural	{n} stroke|{n} strokes	კონტური: {n}
 @msg	no library `{id}`	ბიბლიოთეკა `{id}` არ არსებობს
 @msg	select some type first	ჯერ მონიშნეთ ტექსტი
-@msg	kerning must be a number, "auto", or "optical"	კერნინგი უნდა იყოს რიცხვი, „auto“ ან „optical“
+@msg	kerning must be a number, "auto", or "optical"	kerning უნდა იყოს რიცხვი, „auto“ ან „optical“
 @msg	the selection has no gradient fill	მონიშნულს შევსების გრადიენტი არ აქვს
 @msg	the selection has no gradient stroke	მონიშნულს კონტურის გრადიენტი არ აქვს
 @msg	the selection has no pattern fill	მონიშნულს შევსების პატერნი არ აქვს
@@ -4546,6 +4548,9 @@ font-technology	Variable	ცვლადი
 @msg	the Pixar file's image data is damaged	Pixar ფაილის გამოსახულების მონაცემები დაზიანებულია
 @msg	the JPEG 2000 file can't be read	JPEG 2000 ფაილის წაკითხვა შეუძლებელია
 @msg	the JPEG 2000 file has an unsupported color space or JPX content	JPEG 2000 ფაილს აქვს მხარდაუჭერელი ფერთა სივრცე ან JPX შიგთავსი
+@msg	the HEIC or HEIF file can't be read	HEIC ან HEIF ფაილის წაკითხვა შეუძლებელია
+@msg	the HEIC or HEIF file holds a kind of image that can't be read	HEIC ან HEIF ფაილი შეიცავს გამოსახულების ტიპს, რომლის წაკითხვაც შეუძლებელია
+@msg	HEIC and HEIF images can't be opened in this build	ამ ვერსიაში HEIC და HEIF გამოსახულებების გახსნა შეუძლებელია
 @msg	the PSD image is too large to read ({_1} × {_2} pixels)	PSD გამოსახულება ზედმეტად დიდია წასაკითხად ({_1} × {_2} პიქსელი)
 @msg	zipped 32-bit PSD image data with prediction can't be read	zip-ით შეკუმშული 32-ბიტიანი PSD გამოსახულების მონაცემების წაკითხვა პროგნოზირებით ვერ ხერხდება
 @msg	{depth}-bit PSD files in this colour mode can't be read	ამ ფერის რეჟიმში {depth}-ბიტიანი PSD ფაილების წაკითხვა ვერ ხერხდება
@@ -4559,7 +4564,7 @@ font-technology	Variable	ცვლადი
 @msg	before must name a panel	before უნდა ასახელებდეს პანელს
 @msg	docking action contains an unknown panel or an excessive split path	მიმაგრების მოქმედება შეიცავს უცნობ პანელს ან ზედმეტად გრძელ გაყოფის გზას
 @msg	group must be true or false	group უნდა იყოს true ან false
-@msg	panel is not in a dock group	პანელი არ არის დოკის ჯგუფში
+@msg	panel is not in a dock group	panel არ არის დოკის ჯგუფში
 @msg	only a dock group above or below others collapses, not one beside another	იკეცება მხოლოდ სხვების ზემოთ ან ქვემოთ მდებარე დოკის ჯგუფი, არა სხვის გვერდით მდებარე
 @msg	icon must be true or false	icon უნდა იყოს true ან false
 @msg	icon only docks a panel in the icon column, with no anchor	icon პანელს მხოლოდ ხატულების სვეტში ამაგრებს, anchor-ის გარეშე
@@ -5094,6 +5099,11 @@ imageTrace	Outline	კონტური
 @msg	{path}: not a file	{path}: ფაილი არ არის
 	Load EPS into Clipboard	EPS-ის ბუფერში ჩატვირთვა
 @msg	an image of {w} × {h} pixels is too large to draw	{w} × {h} პიქსელის გამოსახულება დასახატად ზედმეტად დიდია
+@msg	{path}: not a PNG, JPEG, WebP, TIFF or BMP image	{path}: არ არის PNG, JPEG, WebP, TIFF ან BMP გამოსახულება
+@msg	the image is {iw} × {ih} pixels and the artboard at that width is {rw} × {rh} pixels: their proportions differ	გამოსახულება არის {iw} × {ih} პიქსელი, ხოლო სამუშაო დაფა ამ სიგანეზე არის {rw} × {rh} პიქსელი: მათი პროპორციები განსხვავდება
+@msg	`threshold` must be a number from 0 to 1	`threshold` უნდა იყოს რიცხვი 0-დან 1-მდე
+@msg	background {v}: a color such as "#808080"	ფონი {v}: ფერი, მაგალითად "#808080"
+@msg	comparing with an image file isn't available in the browser	გამოსახულების ფაილთან შედარება ბრაუზერში მიუწვდომელია
 @msg	an image of {w} × {h} pixels is shown at reduced size	{w} × {h} პიქსელის გამოსახულება შემცირებული ზომით ჩანს
 	A later row takes this shortcut	ამ მალსახმობს ქვემოთა სტრიქონი იყენებს
 	Add to the Current Shortcuts	მიმდინარე მალსახმობებზე დამატება
@@ -5592,11 +5602,19 @@ imageTrace	Outline	კონტური
 @msg	Save writes {_1}, not {_2}: use file.saveAsTemplate to write it	„შენახვა“ წერს ფორმატს {_1} და არა {_2}: ამისთვის გამოიყენეთ file.saveAsTemplate
 @msg	The image is {_1} × {_2} pixels, more than {LARGE_TRACE_SIDE} on a side: it is traced, but more slowly. A lower-fidelity preset or a smaller copy of the image traces faster.	გამოსახულება არის {_1} × {_2} პიქსელი, ანუ ერთ მხარეზე {LARGE_TRACE_SIDE}-ზე მეტი: ის ვექტორიზდება, მაგრამ უფრო ნელა. ნაკლები სიზუსტის პრესეტი ან გამოსახულების უფრო პატარა ასლი უფრო სწრაფად ვექტორიზდება.
 @msg	The image was traced at {_1} × {_2} pixels, scaled down from {_3} × {_4} ({_5} megapixels at most).	გამოსახულება ვექტორიზდა {_1} × {_2} პიქსელზე, შემცირდა {_3} × {_4}-დან (მაქსიმუმ {_5} მეგაპიქსელი).
+@msg	Flat Logo mode does not use keepColors: it traces the colors named in logoColors, or the colors it finds.	ბრტყელი ლოგოს რეჟიმი keepColors-ს არ იყენებს: ის ვექტორიზებს logoColors-ში მითითებულ ფერებს ან მის მიერ ნაპოვნ ფერებს.
+@msg	Nothing was traced: none of the colors the trace found matches keepColors ({_1}).	არაფერი ვექტორიზდა: ვექტორიზაციის მიერ ნაპოვნი არცერთი ფერი არ შეესაბამება keepColors-ს ({_1}).
+@msg	Nothing was traced: Ignore Color leaves out every area of the colors keepColors lists.	არაფერი ვექტორიზდა: ფერის იგნორირება გამოტოვებს keepColors-ში ჩამოთვლილი ფერების ყველა არეს.
+@msg	Nothing was traced: the colors that match keepColors produce no paths.	არაფერი ვექტორიზდა: keepColors-ის შესაბამისი ფერებიდან არცერთი კონტური არ მიიღება.
+@msg	keepColors: none of the colors the trace found matches {c}, so nothing of it is traced.	keepColors: ვექტორიზაციის მიერ ნაპოვნი არცერთი ფერი არ შეესაბამება {c}-ს, ამიტომ მისგან არაფერი ვექტორიზდება.
 @msg	`colorGroup` needs `library: "document"`	`colorGroup`-ს სჭირდება `library: "document"`
 @msg	`colorGroup` needs `palette: "documentLibrary"`	`colorGroup`-ს სჭირდება `palette: "documentLibrary"`
 @msg	`colorGroup` needs `mode: "color"`	`colorGroup`-ს სჭირდება `mode: "color"`
 @msg	no color group `{name}` in the document (see swatch.list)	დოკუმენტში ფერების ჯგუფი `{name}` არ არის (იხ. swatch.list)
 @msg	Flat Logo traced the image at {_1} × {_2} pixels, averaged down from {_3} × {_4}.	ბრტყელი ლოგოს რეჟიმში გამოსახულება ვექტორიზდა {_1} × {_2} პიქსელზე, საშუალოს გამოთვლით შემცირდა {_3} × {_4}-დან.
+@msg	byColor must be true or false	byColor უნდა იყოს true ან false
+@msg	byColor can't split Auto Grouping groups: trace without Auto Grouping	byColor ვერ დაყოფს ავტომატური დაჯგუფების ჯგუფებს: ვექტორიზება გააკეთეთ ავტომატური დაჯგუფების გარეშე
+@msg	byColor can't regroup a trace with a live Pathfinder effect: expand without byColor	byColor ვერ გადააჯგუფებს ტრასირებას აქტიური Pathfinder ეფექტით: გააფართოვეთ byColor-ის გარეშე
 @msg	`{given}` isn't a library panel (see window.swatchLibrary)	`{given}` ბიბლიოთეკის პანელი არ არის (იხ. window.swatchLibrary)
 @msg	`{key}` must be a #rrggbb color	`{key}` უნდა იყოს #rrggbb ფერი
 @msg	a key object sits on that point	ამ წერტილზე საკვანძო ობიექტი მდებარეობს
@@ -6486,6 +6504,7 @@ breakText	Glyphs	გლიფები
 	Create Swatch Legend	ფერის ნიმუშების ლეგენდის შექმნა
 	Create Swatch Legend…	ფერის ნიმუშების ლეგენდის შექმნა…
 	HEX	HEX
+	Help Bar	დახმარების ზოლი
 	Check for Updates…	განახლებების შემოწმება…
 	VectorCraft Updates	VectorCraft-ის განახლებები
 	Preparing the image…	გამოსახულების მომზადება…
@@ -6566,32 +6585,8 @@ font-script	Japanese	იაპონური
 # 3D Box add-on
 	3D Box	3D ყუთი
 	3D Box Tool	3D ყუთის ხელსაწყო
-	Claude	Claude
-@msg	couldn't open a control channel for Claude	Claude-ისთვის მართვის არხის გახსნა ვერ მოხერხდა
-@msg	install it from {_1}	დააინსტალირეთ {_1}-დან
-@msg	no control channel	მართვის არხი არ არის
-@msg	run `{_1} {_2}` in a terminal to sign in	შესასვლელად ტერმინალში გაუშვით `{_1} {_2}`
-@msg	the Claude pane needs the VectorCraft desktop app	Claude-ის პანელს სჭირდება VectorCraft-ის სამუშაო მაგიდის აპი
-@msg	vectorcraft-cli wasn't found next to VectorCraft; reinstall VectorCraft	vectorcraft-cli ვერ მოიძებნა VectorCraft-ის გვერდით; ხელახლა დააინსტალირეთ VectorCraft
-digits	Hindi	ჰინდი
-	Snap to Last Location	ბოლო მდებარეობაზე მიბმა
-@msg	the HEIC or HEIF file can't be read	HEIC ან HEIF ფაილის წაკითხვა შეუძლებელია
-@msg	the HEIC or HEIF file holds a kind of image that can't be read	HEIC ან HEIF ფაილი შეიცავს გამოსახულების ტიპს, რომლის წაკითხვაც შეუძლებელია
-@msg	HEIC and HEIF images can't be opened in this build	ამ ვერსიაში HEIC და HEIF გამოსახულებების გახსნა შეუძლებელია
-@msg	{path}: not a PNG, JPEG, WebP, TIFF or BMP image	{path}: არ არის PNG, JPEG, WebP, TIFF ან BMP გამოსახულება
-@msg	the image is {iw} × {ih} pixels and the artboard at that width is {rw} × {rh} pixels: their proportions differ	გამოსახულება არის {iw} × {ih} პიქსელი, ხოლო სამუშაო დაფა ამ სიგანეზე არის {rw} × {rh} პიქსელი: მათი პროპორციები განსხვავდება
-@msg	`threshold` must be a number from 0 to 1	`threshold` უნდა იყოს რიცხვი 0-დან 1-მდე
-@msg	background {v}: a color such as "#808080"	ფონი {v}: ფერი, მაგალითად "#808080"
-@msg	comparing with an image file isn't available in the browser	გამოსახულების ფაილთან შედარება ბრაუზერში მიუწვდომელია
-@msg	Flat Logo mode does not use keepColors: it traces the colors named in logoColors, or the colors it finds.	ბრტყელი ლოგოს რეჟიმი keepColors-ს არ იყენებს: ის ვექტორიზებს logoColors-ში მითითებულ ფერებს ან მის მიერ ნაპოვნ ფერებს.
-@msg	Nothing was traced: none of the colors the trace found matches keepColors ({_1}).	არაფერი ვექტორიზდა: ვექტორიზაციის მიერ ნაპოვნი არცერთი ფერი არ შეესაბამება keepColors-ს ({_1}).
-@msg	Nothing was traced: Ignore Color leaves out every area of the colors keepColors lists.	არაფერი ვექტორიზდა: ფერის იგნორირება გამოტოვებს keepColors-ში ჩამოთვლილი ფერების ყველა არეს.
-@msg	Nothing was traced: the colors that match keepColors produce no paths.	არაფერი ვექტორიზდა: keepColors-ის შესაბამისი ფერებიდან არცერთი კონტური არ მიიღება.
-@msg	keepColors: none of the colors the trace found matches {c}, so nothing of it is traced.	keepColors: ვექტორიზაციის მიერ ნაპოვნი არცერთი ფერი არ შეესაბამება {c}-ს, ამიტომ მისგან არაფერი ვექტორიზდება.
-@msg	byColor must be true or false	byColor უნდა იყოს true ან false
-@msg	byColor can't split Auto Grouping groups: trace without Auto Grouping	byColor ვერ დაყოფს ავტომატური დაჯგუფების ჯგუფებს: ვექტორიზება გააკეთეთ ავტომატური დაჯგუფების გარეშე
-@msg	byColor can't regroup a trace with a live Pathfinder effect: expand without byColor	byColor ვერ გადააჯგუფებს ტრასირებას აქტიური Pathfinder ეფექტით: გააფართოვეთ byColor-ის გარეშე
-	Help Bar	დახმარების ზოლი
+
+# Safe Mode
 	Safe Mode…	უსაფრთხო რეჟიმი…
 	Safe Mode	უსაფრთხო რეჟიმი
 	Help › Safe Mode…	დახმარება › უსაფრთხო რეჟიმი…
@@ -6608,5 +6603,14 @@ digits	Hindi	ჰინდი
 @msg	that plug-in isn't disabled (see plugin.safeMode)	ეს პლაგინი გამორთული არ არის (იხ. plugin.safeMode)
 @msg	Couldn't save the disabled plug-ins for the next launch	გამორთული პლაგინების შენახვა შემდეგი გაშვებისთვის ვერ მოხერხდა
 @msg	Expand Appearance: a plug-in effect in the selection can't be expanded in Safe Mode	იერსახის გაშლა: მონიშნულში პლაგინის ეფექტის გაშლა უსაფრთხო რეჟიმში შეუძლებელია
+
+# Align to Pixel Grid
 	Align to Pixel Grid	პიქსელურ ბადეზე გასწორება
 @msg	only paths and compound paths can be aligned to the pixel grid	პიქსელურ ბადეზე მხოლოდ ტრაექტორიების და შედგენილი ტრაექტორიების გასწორებაა შესაძლებელი
+	Claude	Claude
+@msg	couldn't open a control channel for Claude	Claude-ისთვის მართვის არხის გახსნა ვერ მოხერხდა
+@msg	install it from {_1}	დააინსტალირეთ {_1}-დან
+@msg	no control channel	მართვის არხი არ არის
+@msg	run `{_1} {_2}` in a terminal to sign in	შესასვლელად ტერმინალში გაუშვით `{_1} {_2}`
+@msg	the Claude pane needs the VectorCraft desktop app	Claude-ის პანელს სჭირდება VectorCraft-ის სამუშაო მაგიდის აპი
+@msg	vectorcraft-cli wasn't found next to VectorCraft; reinstall VectorCraft	vectorcraft-cli ვერ მოიძებნა VectorCraft-ის გვერდით; ხელახლა დააინსტალირეთ VectorCraft

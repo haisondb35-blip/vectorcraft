@@ -3496,6 +3496,7 @@ theme	Appearance	Vormgeving
 	Snapping Tolerance	Snapping-tolerantie
 	Spacing Guides	Hulplijnen voor tussenruimte
 	Invoke Distance Guides	Afstandshulplijnen oproepen
+	Snap to Last Location	Uitlijnen op laatste locatie
 	Spanish	Spaans
 	Subdivisions	Onderverdelingen
 	Templates Folder	Sjablonenmap
@@ -4043,7 +4044,7 @@ imageTrace	Outline	Contour
 @plural	{n} stroke|{n} strokes	{n} lijn|{n} lijnen
 @msg	no library `{id}`	geen bibliotheek `{id}`
 @msg	select some type first	selecteer eerst wat tekst
-@msg	kerning must be a number, "auto", or "optical"	Kerning moet een getal, ‘auto’ of ‘optical’ zijn
+@msg	kerning must be a number, "auto", or "optical"	kerning moet een getal, ‘auto’ of ‘optical’ zijn
 @msg	{_1} has no {_2} style	{_1} heeft geen {_2}stijl
 @msg	a layer couldn't be read	een laag kon niet worden gelezen
 @msg	it has more than one artboard	het heeft meer dan één tekengebied
@@ -4766,7 +4767,7 @@ imageTrace	Outline	Contour
 @msg	before must name a panel	before moet een paneel benoemen
 @msg	docking action contains an unknown panel or an excessive split path	dokactie bevat een onbekend paneel of een overmatig splitspad
 @msg	group must be true or false	group moet true of false zijn
-@msg	panel is not in a dock group	paneel staat niet in een dockgroep
+@msg	panel is not in a dock group	panel staat niet in een dockgroep
 @msg	only a dock group above or below others collapses, not one beside another	alleen een dockgroep boven of onder andere vouwt samen, niet een ernaast
 @msg	icon must be true or false	icon moet true of false zijn
 @msg	icon only docks a panel in the icon column, with no anchor	icon dockt een paneel alleen in de pictogramkolom, zonder anchor
@@ -6374,6 +6375,7 @@ breakText	Glyphs	Glyphs
 	Create Swatch Legend	Stalenlegenda maken
 	Create Swatch Legend…	Stalenlegenda maken…
 	HEX	HEX
+	Help Bar	Helpbalk
 # Type Tools add-on (Object › Plug-ins › Type Tools).
 	Type Tools	Teksthulpmiddelen
 	Text Tweaker…	Tekst bijstellen…
@@ -6439,9 +6441,8 @@ breakText	Glyphs	Glyphs
 # 3D Box add-on
 	3D Box	3D-doos
 	3D Box Tool	3D-doosgereedschap
-	Claude	Claude
-	Snap to Last Location	Uitlijnen op laatste locatie
-	Help Bar	Helpbalk
+
+# Safe Mode
 	Safe Mode…	Veilige modus…
 	Safe Mode	Veilige modus
 	Help › Safe Mode…	Help › Veilige modus…
@@ -6458,4 +6459,7 @@ breakText	Glyphs	Glyphs
 @msg	that plug-in isn't disabled (see plugin.safeMode)	die plug-in is niet uitgeschakeld (zie plugin.safeMode)
 @msg	Couldn't save the disabled plug-ins for the next launch	De uitgeschakelde plug-ins konden niet worden opgeslagen voor de volgende start
 @msg	Expand Appearance: a plug-in effect in the selection can't be expanded in Safe Mode	Vormgeving uitbreiden: een plug-in-effect in de selectie kan niet worden uitgebreid in veilige modus
+
+# Align to Pixel Grid
 	Align to Pixel Grid	Uitlijnen op pixelraster
+	Claude	Claude

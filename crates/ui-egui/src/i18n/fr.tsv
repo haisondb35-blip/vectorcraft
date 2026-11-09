@@ -2722,6 +2722,14 @@ digits	Malayalam	Malayalam
 	Relink	Lier à nouveau
 	Relink Linked Files to the Document	Lier à nouveau les fichiers liés au document
 	Relink to Folder…	Lier à nouveau à un dossier…
+	Each Link Separately	Chaque lien séparément
+	Selected Instances	Occurrences sélectionnées
+	All Instances	Toutes les occurrences
+	Missing Links from This Folder	Liens manquants de ce dossier
+@msg	scope {v} is not each|selected|all|missingInFolder	scope {v} n’est pas each|selected|all|missingInFolder
+@msg	scope each and paths go together: paths lists entries of ids and path, in place of ids, path and folder	scope each et paths vont ensemble : paths liste des entrées avec ids et path, à la place de ids, path et folder
+@msg	paths entry {i} needs path and ids (object ids no other entry has)	l’entrée {i} de paths nécessite path et ids (des identifiants d’objet qu’aucune autre entrée n’a)
+@msg	scope missingInFolder takes path: the folder of that file is searched for the other missing links	scope missingInFolder prend path : les autres liens manquants sont cherchés dans le dossier de ce fichier
 	Relink…	Lier à nouveau…
 	Find Linked Files	Rechercher des fichiers liés
 	Find Linked Files in Folder…	Rechercher des fichiers liés dans un dossier…
@@ -3286,6 +3294,7 @@ digits	Malayalam	Malayalam
 	Spaces	Espaces
 	Spacing Guides	Repères d’espacement
 	Invoke Distance Guides	Appeler les repères de distance
+	Snap to Last Location	Magnétisme du dernier emplacement
 	Spacing:	Espacement :
 	Spanish	Espagnol
 	Specified Distance	Distance définie
@@ -3977,6 +3986,9 @@ axis	Both	Les deux
 	Put back in the toolbar	Remettre dans la barre d’outils
 	Float Panel	Rendre le panneau flottant
 	Dock Panel	Ancrer le panneau
+	Dock to Top	Ancrer en haut
+	Dock to Bottom	Ancrer en bas
+	Dock Control Bar	Ancrer la barre de contrôle
 	Drag to float the toolbar	Faire glisser pour rendre la barre d’outils flottante
 	Drag to the window's left edge to dock	Faire glisser vers le bord gauche de la fenêtre pour ancrer
 	Float Tool Group	Rendre le groupe d’outils flottant
@@ -3987,7 +3999,7 @@ axis	Both	Les deux
 # names and values in backticks or code (`colorModel rgb`, `document.export`) stay as they are.
 @msg	no library `{id}`	aucune bibliothèque `{id}`
 @msg	select some type first	sélectionnez d’abord du texte
-@msg	kerning must be a number, "auto", or "optical"	Le crénage doit être un nombre, « auto » ou « optical »
+@msg	kerning must be a number, "auto", or "optical"	kerning doit être un nombre, « auto » ou « optical »
 @msg	the selection has no gradient fill	la sélection n’a pas de dégradé de fond
 @msg	the selection has no gradient stroke	la sélection n’a pas de dégradé de contour
 @msg	the selection has no pattern fill	la sélection n’a pas de motif de fond
@@ -4842,6 +4854,9 @@ axis	Both	Les deux
 @msg	the Pixar file's image data is damaged	les données d'image du fichier Pixar sont endommagées
 @msg	the JPEG 2000 file can't be read	le fichier JPEG 2000 ne peut pas être lu
 @msg	the JPEG 2000 file has an unsupported color space or JPX content	le fichier JPEG 2000 contient un espace colorimétrique ou un contenu JPX non pris en charge
+@msg	the HEIC or HEIF file can't be read	le fichier HEIC ou HEIF ne peut pas être lu
+@msg	the HEIC or HEIF file holds a kind of image that can't be read	le fichier HEIC ou HEIF contient un type d'image qui ne peut pas être lu
+@msg	HEIC and HEIF images can't be opened in this build	les images HEIC et HEIF ne peuvent pas être ouvertes dans cette version
 @msg	the PSD image is too large to read ({_1} × {_2} pixels)	l'image PSD est trop grande pour être lue ({_1} × {_2} pixels)
 @msg	zipped 32-bit PSD image data with prediction can't be read	les données d'image PSD 32 bits compressées en ZIP avec prédiction ne peuvent pas être lues
 @msg	{depth}-bit PSD files in this colour mode can't be read	les fichiers PSD {depth} bits dans ce mode colorimétrique ne peuvent pas être lus
@@ -4953,7 +4968,7 @@ effect	Soft	Doux
 @msg	before must name a panel	before doit désigner un panneau
 @msg	docking action contains an unknown panel or an excessive split path	L’action d’ancrage contient un panneau inconnu ou un chemin de divisions trop long
 @msg	group must be true or false	group doit être true ou false
-@msg	panel is not in a dock group	le panneau n’est dans aucun groupe du dock
+@msg	panel is not in a dock group	panel n’est dans aucun groupe du dock
 @msg	only a dock group above or below others collapses, not one beside another	seul un groupe du dock situé au-dessus ou au-dessous d’autres se réduit, pas un groupe à côté
 @msg	icon must be true or false	icon doit être true ou false
 @msg	icon only docks a panel in the icon column, with no anchor	icon ne fait qu’ancrer un panneau dans la colonne d’icônes, sans anchor
@@ -5543,6 +5558,11 @@ mark-style	Japanese	Japonais
 theme	Appearance	Apparence
 	Load EPS into Clipboard	Charger un EPS dans le presse-papiers
 @msg	an image of {w} × {h} pixels is too large to draw	une image de {w} × {h} pixels est trop grande pour être dessinée
+@msg	{path}: not a PNG, JPEG, WebP, TIFF or BMP image	{path} : ce n’est pas une image PNG, JPEG, WebP, TIFF ou BMP
+@msg	the image is {iw} × {ih} pixels and the artboard at that width is {rw} × {rh} pixels: their proportions differ	l’image fait {iw} × {ih} pixels et le plan de travail à cette largeur fait {rw} × {rh} pixels : leurs proportions diffèrent
+@msg	`threshold` must be a number from 0 to 1	`threshold` doit être un nombre de 0 à 1
+@msg	background {v}: a color such as "#808080"	arrière-plan {v} : une couleur comme "#808080"
+@msg	comparing with an image file isn't available in the browser	la comparaison avec un fichier image n’est pas disponible dans le navigateur
 @msg	an image of {w} × {h} pixels is shown at reduced size	une image de {w} × {h} pixels est affichée en taille réduite
 @msg	the image can't be read as a texture	l'image ne peut pas être lue comme texture
 	Fill and Stroke Controls	Commandes de fond et de contour
@@ -6481,6 +6501,7 @@ breakText	Glyphs	Glyphes
 	Create Swatch Legend	Créer une légende des nuances
 	Create Swatch Legend…	Créer une légende des nuances…
 	HEX	HEX
+	Help Bar	Barre d’aide
 # Type Tools add-on (Object › Plug-ins › Type Tools).
 	Type Tools	Outils de texte
 	Text Tweaker…	Ajusteur de texte…
@@ -6546,34 +6567,8 @@ breakText	Glyphs	Glyphes
 # 3D Box add-on
 	3D Box	Boîte 3D
 	3D Box Tool	Outil Boîte 3D
-	Claude	Claude
-@msg	couldn't open a control channel for Claude	impossible d'ouvrir un canal de contrôle pour Claude
-@msg	install it from {_1}	installez-le depuis {_1}
-@msg	no control channel	aucun canal de contrôle
-@msg	run `{_1} {_2}` in a terminal to sign in	exécutez `{_1} {_2}` dans un terminal pour vous connecter
-@msg	the Claude pane needs the VectorCraft desktop app	le panneau Claude nécessite l'application de bureau VectorCraft
-@msg	vectorcraft-cli wasn't found next to VectorCraft; reinstall VectorCraft	vectorcraft-cli est introuvable à côté de VectorCraft ; réinstallez VectorCraft
-	Each Link Separately	Chaque lien séparément
-	Selected Instances	Occurrences sélectionnées
-	All Instances	Toutes les occurrences
-	Missing Links from This Folder	Liens manquants de ce dossier
-@msg	scope {v} is not each|selected|all|missingInFolder	scope {v} n’est pas each|selected|all|missingInFolder
-@msg	scope each and paths go together: paths lists entries of ids and path, in place of ids, path and folder	scope each et paths vont ensemble : paths liste des entrées avec ids et path, à la place de ids, path et folder
-@msg	paths entry {i} needs path and ids (object ids no other entry has)	l’entrée {i} de paths nécessite path et ids (des identifiants d’objet qu’aucune autre entrée n’a)
-@msg	scope missingInFolder takes path: the folder of that file is searched for the other missing links	scope missingInFolder prend path : les autres liens manquants sont cherchés dans le dossier de ce fichier
-	Snap to Last Location	Magnétisme du dernier emplacement
-	Dock to Top	Ancrer en haut
-	Dock to Bottom	Ancrer en bas
-	Dock Control Bar	Ancrer la barre de contrôle
-@msg	the HEIC or HEIF file can't be read	le fichier HEIC ou HEIF ne peut pas être lu
-@msg	the HEIC or HEIF file holds a kind of image that can't be read	le fichier HEIC ou HEIF contient un type d'image qui ne peut pas être lu
-@msg	HEIC and HEIF images can't be opened in this build	les images HEIC et HEIF ne peuvent pas être ouvertes dans cette version
-@msg	{path}: not a PNG, JPEG, WebP, TIFF or BMP image	{path} : ce n’est pas une image PNG, JPEG, WebP, TIFF ou BMP
-@msg	the image is {iw} × {ih} pixels and the artboard at that width is {rw} × {rh} pixels: their proportions differ	l’image fait {iw} × {ih} pixels et le plan de travail à cette largeur fait {rw} × {rh} pixels : leurs proportions diffèrent
-@msg	`threshold` must be a number from 0 to 1	`threshold` doit être un nombre de 0 à 1
-@msg	background {v}: a color such as "#808080"	arrière-plan {v} : une couleur comme "#808080"
-@msg	comparing with an image file isn't available in the browser	la comparaison avec un fichier image n’est pas disponible dans le navigateur
-	Help Bar	Barre d’aide
+
+# Safe Mode
 	Safe Mode…	Mode sans échec…
 	Safe Mode	Mode sans échec
 	Help › Safe Mode…	Aide › Mode sans échec…
@@ -6590,5 +6585,14 @@ breakText	Glyphs	Glyphes
 @msg	that plug-in isn't disabled (see plugin.safeMode)	ce module externe n’est pas désactivé (voir plugin.safeMode)
 @msg	Couldn't save the disabled plug-ins for the next launch	Impossible d’enregistrer les modules externes désactivés pour le prochain lancement
 @msg	Expand Appearance: a plug-in effect in the selection can't be expanded in Safe Mode	Décomposer l’aspect : un effet de module externe de la sélection ne peut pas être décomposé en mode sans échec
+
+# Align to Pixel Grid
 	Align to Pixel Grid	Aligner sur la grille de pixels
 @msg	only paths and compound paths can be aligned to the pixel grid	seuls les tracés et les tracés transparents peuvent être alignés sur la grille de pixels
+	Claude	Claude
+@msg	couldn't open a control channel for Claude	impossible d'ouvrir un canal de contrôle pour Claude
+@msg	install it from {_1}	installez-le depuis {_1}
+@msg	no control channel	aucun canal de contrôle
+@msg	run `{_1} {_2}` in a terminal to sign in	exécutez `{_1} {_2}` dans un terminal pour vous connecter
+@msg	the Claude pane needs the VectorCraft desktop app	le panneau Claude nécessite l'application de bureau VectorCraft
+@msg	vectorcraft-cli wasn't found next to VectorCraft; reinstall VectorCraft	vectorcraft-cli est introuvable à côté de VectorCraft ; réinstallez VectorCraft

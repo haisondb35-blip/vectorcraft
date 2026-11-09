@@ -2655,6 +2655,14 @@ digits	Malayalam	Малаялам
 	Relink	Свързване наново
 	Relink Linked Files to the Document	Свързване наново на свързаните файлове към документа
 	Relink to Folder…	Свързване наново към папка…
+	Each Link Separately	Всяка връзка поотделно
+	Selected Instances	Избраните екземпляри
+	All Instances	Всички екземпляри
+	Missing Links from This Folder	Липсващите връзки от тази папка
+@msg	scope {v} is not each|selected|all|missingInFolder	scope {v} не е each|selected|all|missingInFolder
+@msg	scope each and paths go together: paths lists entries of ids and path, in place of ids, path and folder	scope each и paths вървят заедно: paths изброява записи с ids и path вместо ids, path и folder
+@msg	paths entry {i} needs path and ids (object ids no other entry has)	записът {i} в paths изисква path и ids (идентификатори на обекти, които няма друг запис)
+@msg	scope missingInFolder takes path: the folder of that file is searched for the other missing links	scope missingInFolder приема path: в папката на този файл се търсят другите липсващи връзки
 	Relink…	Свързване наново…
 	Find Linked Files	Търсене на свързани файлове
 	Find Linked Files in Folder…	Търсене на свързани файлове в папка…
@@ -3205,6 +3213,7 @@ digits	Malayalam	Малаялам
 	Spaces	Интервали
 	Spacing Guides	Водачи за разстояние
 	Invoke Distance Guides	Извикване на водачи за отстояния
+	Snap to Last Location	Прилепване към последното местоположение
 	Spacing:	Разстояние:
 	Spanish	Испански
 	Specified Distance	Упоменато разстояние
@@ -3894,12 +3903,15 @@ axis	Both	И двете
 	Put back in the toolbar	Връщане в лентата с инструменти
 	Float Panel	Плаващ панел
 	Dock Panel	Закотвен панел
+	Dock to Top	Закотвяне горе
+	Dock to Bottom	Закотвяне долу
+	Dock Control Bar	Закотвяне на контролната лента
 	Drag to float the toolbar	Плъзнете, за да направите лентата с инструменти плаваща
 	Drag to the window's left edge to dock	Плъзнете до левия ръб на прозореца за закотвяне
 	Float Tool Group	Плаваща група инструменти
 @msg	no library `{id}`	няма библиотека `{id}`
 @msg	select some type first	първо изберете текст
-@msg	kerning must be a number, "auto", or "optical"	Кернингът трябва да е число, „auto“ или „optical“
+@msg	kerning must be a number, "auto", or "optical"	kerning трябва да е число, „auto“ или „optical“
 @msg	{_1} has no {_2} style	{_1} няма стил {_2}
 @msg	a layer couldn't be read	слой не можа да бъде прочетен
 @msg	it has more than one artboard	има повече от една работна област
@@ -4792,8 +4804,8 @@ effect	Soft	Меко
 @msg	anchor must name a registered panel	anchor трябва да указва регистриран панел
 @msg	before must name a panel	before трябва да указва панел
 @msg	docking action contains an unknown panel or an excessive split path	действието по закачане съдържа непознат панел или прекомерен път на разделяне
-@msg	group must be true or false	групата трябва да е истина или лъжа
-@msg	panel is not in a dock group	панелът не е в група на дока
+@msg	group must be true or false	group трябва да е true или false
+@msg	panel is not in a dock group	panel не е в група на дока
 @msg	only a dock group above or below others collapses, not one beside another	свива се само група на дока над или под други, не и такава до друга
 @msg	icon must be true or false	icon трябва да е true или false
 @msg	icon only docks a panel in the icon column, with no anchor	icon закачва панел само в колоната с икони, без anchor
@@ -6298,6 +6310,7 @@ breakText	Glyphs	Глифи
 	Create Swatch Legend	Създаване на легенда на образците
 	Create Swatch Legend…	Създаване на легенда на образците…
 	HEX	HEX
+	Help Bar	Лента за помощ
 # Type Tools add-on (Object › Plug-ins › Type Tools).
 	Type Tools	Инструменти за текст
 	Text Tweaker…	Настройка на текста…
@@ -6363,20 +6376,8 @@ breakText	Glyphs	Глифи
 # 3D Box add-on
 	3D Box	3D кутия
 	3D Box Tool	Инструмент за 3D кутия
-	Claude	Claude
-	Each Link Separately	Всяка връзка поотделно
-	Selected Instances	Избраните екземпляри
-	All Instances	Всички екземпляри
-	Missing Links from This Folder	Липсващите връзки от тази папка
-@msg	scope {v} is not each|selected|all|missingInFolder	scope {v} не е each|selected|all|missingInFolder
-@msg	scope each and paths go together: paths lists entries of ids and path, in place of ids, path and folder	scope each и paths вървят заедно: paths изброява записи с ids и path вместо ids, path и folder
-@msg	paths entry {i} needs path and ids (object ids no other entry has)	записът {i} в paths изисква path и ids (идентификатори на обекти, които няма друг запис)
-@msg	scope missingInFolder takes path: the folder of that file is searched for the other missing links	scope missingInFolder приема path: в папката на този файл се търсят другите липсващи връзки
-	Snap to Last Location	Прилепване към последното местоположение
-	Dock to Top	Закотвяне горе
-	Dock to Bottom	Закотвяне долу
-	Dock Control Bar	Закотвяне на контролната лента
-	Help Bar	Лента за помощ
+
+# Safe Mode
 	Safe Mode…	Безопасен режим…
 	Safe Mode	Безопасен режим
 	Help › Safe Mode…	Помощ › Безопасен режим…
@@ -6393,4 +6394,7 @@ breakText	Glyphs	Глифи
 @msg	that plug-in isn't disabled (see plugin.safeMode)	тази добавка не е изключена (вижте plugin.safeMode)
 @msg	Couldn't save the disabled plug-ins for the next launch	Изключените добавки не можаха да бъдат запазени за следващото стартиране
 @msg	Expand Appearance: a plug-in effect in the selection can't be expanded in Safe Mode	Разширяване на облика: ефект на добавка в селекцията не може да бъде разширен в безопасен режим
+
+# Align to Pixel Grid
 	Align to Pixel Grid	Подравняване към пикселната мрежа
+	Claude	Claude

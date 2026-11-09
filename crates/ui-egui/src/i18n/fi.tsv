@@ -3683,6 +3683,7 @@ theme	Appearance	Ulkoasu
 	Snapping Tolerance	Tartuntatoleranssi
 	Spacing Guides	Välistysapuviivat
 	Invoke Distance Guides	Käytä etäisyysapuviivoja
+	Snap to Last Location	Kohdista viimeiseen sijaintiin
 	Spanish	Espanja
 	Subdivisions	Jaot
 	Templates Folder	Mallipohjakansio
@@ -4234,7 +4235,7 @@ imageTrace	Outline	Ääriviiva
 @plural	{n} stroke|{n} strokes	{n} viiva|{n} viivaa
 @msg	no library `{id}`	ei kirjastoa `{id}`
 @msg	select some type first	valitse ensin tekstiä
-@msg	kerning must be a number, "auto", or "optical"	Parivälistyksen on oltava luku, ”auto” tai ”optical”
+@msg	kerning must be a number, "auto", or "optical"	kerning-arvon on oltava luku, ”auto” tai ”optical”
 @msg	the selection has no gradient fill	valinnalla ei ole liukuväritäyttöä
 @msg	the selection has no gradient stroke	valinnalla ei ole liukuväriviivaa
 @msg	the selection has no pattern fill	valinnalla ei ole kuviotäyttöä
@@ -5030,6 +5031,9 @@ imageTrace	Outline	Ääriviiva
 @msg	the Pixar file's image data is damaged	Pixar-tiedoston kuvadata on vahingoittunut
 @msg	the JPEG 2000 file can't be read	tätä JPEG 2000 -tiedostoa ei voi lukea
 @msg	the JPEG 2000 file has an unsupported color space or JPX content	tässä JPEG 2000 -tiedostossa on tukematon väriavaruus tai JPX-sisältö
+@msg	the HEIC or HEIF file can't be read	tätä HEIC- tai HEIF-tiedostoa ei voi lukea
+@msg	the HEIC or HEIF file holds a kind of image that can't be read	tässä HEIC- tai HEIF-tiedostossa on kuvatyyppi, jota ei voi lukea
+@msg	HEIC and HEIF images can't be opened in this build	HEIC- ja HEIF-kuvia ei voi avata tässä versiossa
 @msg	the PSD image is too large to read ({_1} × {_2} pixels)	tämä PSD-kuva on liian suuri luettavaksi ({_1} × {_2} pikseliä)
 @msg	zipped 32-bit PSD image data with prediction can't be read	ennustusta käyttävää zip-pakattua 32-bittistä PSD-kuvadataa ei voi lukea
 @msg	{depth}-bit PSD files in this colour mode can't be read	tässä väritilassa olevia {depth}-bittisiä PSD-tiedostoja ei voi lukea
@@ -5043,7 +5047,7 @@ imageTrace	Outline	Ääriviiva
 @msg	before must name a panel	before-arvon on nimettävä paneeli
 @msg	docking action contains an unknown panel or an excessive split path	telakointitoiminto sisältää tuntemattoman paneelin tai liian pitkän jakopolun
 @msg	group must be true or false	group-arvon on oltava true tai false
-@msg	panel is not in a dock group	paneeli ei ole telakkaryhmässä
+@msg	panel is not in a dock group	panel ei ole telakkaryhmässä
 @msg	only a dock group above or below others collapses, not one beside another	vain muiden ylä- tai alapuolella oleva telakkaryhmä kutistuu, ei toisen vieressä oleva
 @msg	icon must be true or false	icon-arvon on oltava true tai false
 @msg	icon only docks a panel in the icon column, with no anchor	icon telakoi paneelin vain kuvakesarakkeeseen, ilman anchor-arvoa
@@ -5442,6 +5446,11 @@ mark-style	Japanese	Japanilainen
 @msg	unknown parameter `{key}`; the command takes: {keys}	tuntematon parametri `{key}`; komennon parametrit: {keys}
 	Load EPS into Clipboard	Lataa EPS leikepöydälle
 @msg	an image of {w} × {h} pixels is too large to draw	kuva, jonka koko on {w} × {h} pikseliä, on liian suuri piirrettäväksi
+@msg	{path}: not a PNG, JPEG, WebP, TIFF or BMP image	{path}: ei ole PNG-, JPEG-, WebP-, TIFF- tai BMP-kuva
+@msg	the image is {iw} × {ih} pixels and the artboard at that width is {rw} × {rh} pixels: their proportions differ	kuva on {iw} × {ih} pikseliä ja piirtoalusta tällä leveydellä {rw} × {rh} pikseliä: niiden mittasuhteet eroavat
+@msg	`threshold` must be a number from 0 to 1	`threshold` on oltava luku väliltä 0–1
+@msg	background {v}: a color such as "#808080"	tausta {v}: väri, kuten "#808080"
+@msg	comparing with an image file isn't available in the browser	vertailu kuvatiedostoon ei ole käytettävissä selaimessa
 @msg	an image of {w} × {h} pixels is shown at reduced size	kuva, jonka koko on {w} × {h} pikseliä, näytetään pienennettynä
 	Fill and Stroke Controls	Täytön ja viivan säätimet
 	Coloring Controls	Värityksen säätimet
@@ -6527,6 +6536,7 @@ breakText	Glyphs	Merkit
 	Create Swatch Legend	Luo värimallien selite
 	Create Swatch Legend…	Luo värimallien selite…
 	HEX	HEX
+	Help Bar	Ohjepalkki
 # Type Tools add-on (Object › Plug-ins › Type Tools).
 	Type Tools	Tekstityökalut
 	Text Tweaker…	Tekstin säätö…
@@ -6597,23 +6607,8 @@ breakText	Glyphs	Merkit
 # 3D Box add-on
 	3D Box	3D-laatikko
 	3D Box Tool	3D-laatikkotyökalu
-	Claude	Claude
-@msg	couldn't open a control channel for Claude	Claudelle ei voitu avata ohjauskanavaa
-@msg	install it from {_1}	asenna se osoitteesta {_1}
-@msg	no control channel	ei ohjauskanavaa
-@msg	run `{_1} {_2}` in a terminal to sign in	kirjaudu sisään suorittamalla `{_1} {_2}` päätteessä
-@msg	the Claude pane needs the VectorCraft desktop app	Claude-paneeli tarvitsee VectorCraftin työpöytäsovelluksen
-@msg	vectorcraft-cli wasn't found next to VectorCraft; reinstall VectorCraft	vectorcraft-cli:tä ei löytynyt VectorCraftin vierestä; asenna VectorCraft uudelleen
-	Snap to Last Location	Kohdista viimeiseen sijaintiin
-@msg	the HEIC or HEIF file can't be read	tätä HEIC- tai HEIF-tiedostoa ei voi lukea
-@msg	the HEIC or HEIF file holds a kind of image that can't be read	tässä HEIC- tai HEIF-tiedostossa on kuvatyyppi, jota ei voi lukea
-@msg	HEIC and HEIF images can't be opened in this build	HEIC- ja HEIF-kuvia ei voi avata tässä versiossa
-@msg	{path}: not a PNG, JPEG, WebP, TIFF or BMP image	{path}: ei ole PNG-, JPEG-, WebP-, TIFF- tai BMP-kuva
-@msg	the image is {iw} × {ih} pixels and the artboard at that width is {rw} × {rh} pixels: their proportions differ	kuva on {iw} × {ih} pikseliä ja piirtoalusta tällä leveydellä {rw} × {rh} pikseliä: niiden mittasuhteet eroavat
-@msg	`threshold` must be a number from 0 to 1	`threshold` on oltava luku väliltä 0–1
-@msg	background {v}: a color such as "#808080"	tausta {v}: väri, kuten "#808080"
-@msg	comparing with an image file isn't available in the browser	vertailu kuvatiedostoon ei ole käytettävissä selaimessa
-	Help Bar	Ohjepalkki
+
+# Safe Mode
 	Safe Mode…	Vikasietotila…
 	Safe Mode	Vikasietotila
 	Help › Safe Mode…	Ohje › Vikasietotila…
@@ -6630,5 +6625,14 @@ breakText	Glyphs	Merkit
 @msg	that plug-in isn't disabled (see plugin.safeMode)	laajennusta ei ole poistettu käytöstä (ks. plugin.safeMode)
 @msg	Couldn't save the disabled plug-ins for the next launch	Käytöstä poistettuja laajennuksia ei voitu tallentaa seuraavaa käynnistystä varten
 @msg	Expand Appearance: a plug-in effect in the selection can't be expanded in Safe Mode	Laajenna ulkoasu: valinnan laajennustehostetta ei voi laajentaa vikasietotilassa
+
+# Align to Pixel Grid
 	Align to Pixel Grid	Tasaa pikseliruudukkoon
 @msg	only paths and compound paths can be aligned to the pixel grid	vain polut ja yhdistelmäpolut voi tasata pikseliruudukkoon
+	Claude	Claude
+@msg	couldn't open a control channel for Claude	Claudelle ei voitu avata ohjauskanavaa
+@msg	install it from {_1}	asenna se osoitteesta {_1}
+@msg	no control channel	ei ohjauskanavaa
+@msg	run `{_1} {_2}` in a terminal to sign in	kirjaudu sisään suorittamalla `{_1} {_2}` päätteessä
+@msg	the Claude pane needs the VectorCraft desktop app	Claude-paneeli tarvitsee VectorCraftin työpöytäsovelluksen
+@msg	vectorcraft-cli wasn't found next to VectorCraft; reinstall VectorCraft	vectorcraft-cli:tä ei löytynyt VectorCraftin vierestä; asenna VectorCraft uudelleen

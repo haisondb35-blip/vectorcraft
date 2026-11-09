@@ -3347,6 +3347,14 @@ digits	Malayalam	Malaiàlam
 	Relink	Torna a enllaçar
 	Relink Linked Files to the Document	Torna a enllaçar els fitxers enllaçats al document
 	Relink to Folder…	Torna a enllaçar a una carpeta…
+	Each Link Separately	Cada enllaç per separat
+	Selected Instances	Instàncies seleccionades
+	All Instances	Totes les instàncies
+	Missing Links from This Folder	Enllaços que falten d’aquesta carpeta
+@msg	scope {v} is not each|selected|all|missingInFolder	scope {v} no és each|selected|all|missingInFolder
+@msg	scope each and paths go together: paths lists entries of ids and path, in place of ids, path and folder	scope each i paths van junts: paths llista entrades amb ids i path, en lloc d’ids, path i folder
+@msg	paths entry {i} needs path and ids (object ids no other entry has)	l’entrada {i} de paths necessita path i ids (identificadors d’objecte que cap altra entrada no tingui)
+@msg	scope missingInFolder takes path: the folder of that file is searched for the other missing links	scope missingInFolder pren path: a la carpeta d’aquest fitxer es cerquen els altres enllaços que falten
 	Relink…	Torna a enllaçar…
 	Reload Plug-ins	Recarrega els complements
 	Remember Import Matches	Recorda les coincidències d’importació
@@ -6480,6 +6488,7 @@ breakText	Glyphs	Glifs
 	Create Swatch Legend	Crea una llegenda de mostres
 	Create Swatch Legend…	Crea una llegenda de mostres…
 	HEX	HEX
+	Help Bar	Barra d’ajuda
 # Type Tools add-on (Object › Plug-ins › Type Tools).
 	Type Tools	Eines de text
 	Text Tweaker…	Ajustador de text…
@@ -6545,15 +6554,8 @@ breakText	Glyphs	Glifs
 # 3D Box add-on
 	3D Box	Caixa 3D
 	3D Box Tool	Eina Caixa 3D
-	Each Link Separately	Cada enllaç per separat
-	Selected Instances	Instàncies seleccionades
-	All Instances	Totes les instàncies
-	Missing Links from This Folder	Enllaços que falten d’aquesta carpeta
-@msg	scope {v} is not each|selected|all|missingInFolder	scope {v} no és each|selected|all|missingInFolder
-@msg	scope each and paths go together: paths lists entries of ids and path, in place of ids, path and folder	scope each i paths van junts: paths llista entrades amb ids i path, en lloc d’ids, path i folder
-@msg	paths entry {i} needs path and ids (object ids no other entry has)	l’entrada {i} de paths necessita path i ids (identificadors d’objecte que cap altra entrada no tingui)
-@msg	scope missingInFolder takes path: the folder of that file is searched for the other missing links	scope missingInFolder pren path: a la carpeta d’aquest fitxer es cerquen els altres enllaços que falten
-	Help Bar	Barra d’ajuda
+
+# Safe Mode
 	Safe Mode…	Mode segur…
 	Safe Mode	Mode segur
 	Help › Safe Mode…	Ajuda › Mode segur…
@@ -6570,5 +6572,7 @@ breakText	Glyphs	Glifs
 @msg	that plug-in isn't disabled (see plugin.safeMode)	aquest complement no està desactivat (vegeu plugin.safeMode)
 @msg	Couldn't save the disabled plug-ins for the next launch	No s’han pogut desar els complements desactivats per al proper inici
 @msg	Expand Appearance: a plug-in effect in the selection can't be expanded in Safe Mode	Expandeix l’aparença: un efecte d’un complement de la selecció no es pot expandir en mode segur
+
+# Align to Pixel Grid
 	Align to Pixel Grid	Alinea a la quadrícula de píxels
 @msg	only paths and compound paths can be aligned to the pixel grid	només els traçats i els traçats compostos es poden alinear a la quadrícula de píxels

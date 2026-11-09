@@ -3482,6 +3482,7 @@ theme	Appearance	Udseende
 	Snapping Tolerance	Snap-tolerance
 	Spacing Guides	Afstandshjælpelinjer
 	Invoke Distance Guides	Aktivér hjælpelinjer for afstandsmåling
+	Snap to Last Location	Fastgør til sidste placering
 	Spanish	Spansk
 	Subdivisions	Underinddelinger
 	Templates Folder	Skabelonmappe
@@ -4029,7 +4030,7 @@ imageTrace	Outline	Kontur
 @plural	{n} stroke|{n} strokes	{n} kontur|{n} konturer
 @msg	no library `{id}`	intet bibliotek `{id}`
 @msg	select some type first	markér først noget tekst
-@msg	kerning must be a number, "auto", or "optical"	Kerning skal være et tal, „auto“ eller „optical“
+@msg	kerning must be a number, "auto", or "optical"	kerning skal være et tal, „auto“ eller „optical“
 @msg	{_1} has no {_2} style	{_1} har ingen {_2}-stil
 @msg	a layer couldn't be read	et lag kunne ikke læses
 @msg	it has more than one artboard	den har mere end én tegneflade
@@ -4754,7 +4755,7 @@ imageTrace	Outline	Kontur
 @msg	before must name a panel	before skal angive et panel
 @msg	docking action contains an unknown panel or an excessive split path	dokningshandlingen indeholder et ukendt panel eller en overdreven opdelingssti
 @msg	group must be true or false	group skal være true eller false
-@msg	panel is not in a dock group	panelet er ikke i en dockgruppe
+@msg	panel is not in a dock group	panel er ikke i en dockgruppe
 @msg	only a dock group above or below others collapses, not one beside another	kun en dockgruppe over eller under andre kan skjules, ikke en ved siden af en anden
 @msg	icon must be true or false	icon skal være true eller false
 @msg	icon only docks a panel in the icon column, with no anchor	icon docker kun et panel i ikonkolonnen, uden anchor
@@ -6323,6 +6324,7 @@ breakText	Glyphs	Glyffer
 	Create Swatch Legend	Opret farveprøveforklaring
 	Create Swatch Legend…	Opret farveprøveforklaring…
 	HEX	HEX
+	Help Bar	Hjælpelinje
 # Type Tools add-on (Object › Plug-ins › Type Tools).
 	Type Tools	Tekstværktøjer
 	Text Tweaker…	Tekstjustering…
@@ -6388,9 +6390,8 @@ breakText	Glyphs	Glyffer
 # 3D Box add-on
 	3D Box	3D-boks
 	3D Box Tool	3D-boksværktøj
-	Claude	Claude
-	Snap to Last Location	Fastgør til sidste placering
-	Help Bar	Hjælpelinje
+
+# Safe Mode
 	Safe Mode…	Sikker tilstand…
 	Safe Mode	Sikker tilstand
 	Help › Safe Mode…	Hjælp › Sikker tilstand…
@@ -6407,4 +6408,7 @@ breakText	Glyphs	Glyffer
 @msg	that plug-in isn't disabled (see plugin.safeMode)	det plug-in er ikke deaktiveret (se plugin.safeMode)
 @msg	Couldn't save the disabled plug-ins for the next launch	De deaktiverede plug-ins kunne ikke gemmes til næste start
 @msg	Expand Appearance: a plug-in effect in the selection can't be expanded in Safe Mode	Udvid udseende: en plug-in-effekt i markeringen kan ikke udvides i sikker tilstand
+
+# Align to Pixel Grid
 	Align to Pixel Grid	Juster efter pixelgitter
+	Claude	Claude

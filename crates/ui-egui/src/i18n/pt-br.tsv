@@ -2763,6 +2763,7 @@ digits	Malayalam	Malaiala
 	Spaces	Espaços
 	Spacing Guides	Guias de Espaçamento
 	Invoke Distance Guides	Invocar Guias de Distância
+	Snap to Last Location	Ajustar ao Último Local
 	Spacing:	Espaçamento:
 	Spanish	Espanhol
 	Specify:	Especificar:
@@ -4382,6 +4383,9 @@ axis	Both	Ambos
 @msg	the Pixar file's image data is damaged	os dados de imagem do arquivo Pixar estão danificados
 @msg	the JPEG 2000 file can't be read	não é possível ler o arquivo JPEG 2000
 @msg	the JPEG 2000 file has an unsupported color space or JPX content	o arquivo JPEG 2000 contém um espaço de cores ou conteúdo JPX sem suporte
+@msg	the HEIC or HEIF file can't be read	não é possível ler o arquivo HEIC ou HEIF
+@msg	the HEIC or HEIF file holds a kind of image that can't be read	o arquivo HEIC ou HEIF contém um tipo de imagem que não pode ser lido
+@msg	HEIC and HEIF images can't be opened in this build	imagens HEIC e HEIF não podem ser abertas nesta versão
 @msg	the PSD image is too large to read ({_1} × {_2} pixels)	a imagem PSD é grande demais para ser lida ({_1} × {_2} pixels)
 @msg	zipped 32-bit PSD image data with prediction can't be read	dados de imagem PSD de 32 bits compactados em zip com previsão não podem ser lidos
 @msg	{depth}-bit PSD files in this colour mode can't be read	arquivos PSD de {depth} bits neste modo de cor não podem ser lidos
@@ -4398,7 +4402,7 @@ axis	Both	Ambos
 @msg	before must name a panel	before deve nomear um painel
 @msg	docking action contains an unknown panel or an excessive split path	a ação de encaixe contém um painel desconhecido ou um caminho de divisão excessivo
 @msg	group must be true or false	group deve ser true ou false
-@msg	panel is not in a dock group	o painel não está em um grupo do encaixe
+@msg	panel is not in a dock group	panel não está em um grupo do encaixe
 @msg	only a dock group above or below others collapses, not one beside another	só um grupo do encaixe acima ou abaixo de outros é recolhido, não um ao lado
 @msg	icon must be true or false	icon deve ser true ou false
 @msg	icon only docks a panel in the icon column, with no anchor	icon apenas encaixa um painel na coluna de ícones, sem anchor
@@ -5493,6 +5497,11 @@ mark-style	Japanese	Japonesas
 @msg	The shape is too complex for a 3D effect	A forma é complexa demais para um efeito 3D
 @msg	The 3D surface is too complex; simplify the shape	A superfície 3D é complexa demais; simplifique a forma
 @msg	an image of {w} × {h} pixels is too large to draw	uma imagem de {w} × {h} pixels é grande demais para ser desenhada
+@msg	{path}: not a PNG, JPEG, WebP, TIFF or BMP image	{path}: não é uma imagem PNG, JPEG, WebP, TIFF ou BMP
+@msg	the image is {iw} × {ih} pixels and the artboard at that width is {rw} × {rh} pixels: their proportions differ	a imagem tem {iw} × {ih} pixels e a prancheta nessa largura tem {rw} × {rh} pixels: as proporções são diferentes
+@msg	`threshold` must be a number from 0 to 1	`threshold` deve ser um número de 0 a 1
+@msg	background {v}: a color such as "#808080"	plano de fundo {v}: uma cor como "#808080"
+@msg	comparing with an image file isn't available in the browser	a comparação com um arquivo de imagem não está disponível no navegador
 @msg	an image of {w} × {h} pixels is shown at reduced size	uma imagem de {w} × {h} pixels é exibida em tamanho reduzido
 	Fill and Stroke Controls	Controles de Preenchimento e Traçado
 	Coloring Controls	Controles de Coloração
@@ -6570,6 +6579,7 @@ swatch	Yellow Green	Verde-amarelado
 	Create Swatch Legend	Criar Legenda de Amostras
 	Create Swatch Legend…	Criar Legenda de Amostras…
 	HEX	HEX
+	Help Bar	Barra de ajuda
 # Type Tools add-on (Object › Plug-ins › Type Tools).
 	Type Tools	Ferramentas de texto
 	Text Tweaker…	Ajustador de texto…
@@ -6635,23 +6645,8 @@ swatch	Yellow Green	Verde-amarelado
 # 3D Box add-on
 	3D Box	Caixa 3D
 	3D Box Tool	Ferramenta Caixa 3D
-	Claude	Claude
-@msg	couldn't open a control channel for Claude	não foi possível abrir um canal de controle para o Claude
-@msg	install it from {_1}	instale-o a partir de {_1}
-@msg	no control channel	nenhum canal de controle
-@msg	run `{_1} {_2}` in a terminal to sign in	execute `{_1} {_2}` em um terminal para entrar
-@msg	the Claude pane needs the VectorCraft desktop app	o painel do Claude precisa do aplicativo de desktop do VectorCraft
-@msg	vectorcraft-cli wasn't found next to VectorCraft; reinstall VectorCraft	vectorcraft-cli não foi encontrado ao lado do VectorCraft; reinstale o VectorCraft
-	Snap to Last Location	Ajustar ao Último Local
-@msg	the HEIC or HEIF file can't be read	não é possível ler o arquivo HEIC ou HEIF
-@msg	the HEIC or HEIF file holds a kind of image that can't be read	o arquivo HEIC ou HEIF contém um tipo de imagem que não pode ser lido
-@msg	HEIC and HEIF images can't be opened in this build	imagens HEIC e HEIF não podem ser abertas nesta versão
-@msg	{path}: not a PNG, JPEG, WebP, TIFF or BMP image	{path}: não é uma imagem PNG, JPEG, WebP, TIFF ou BMP
-@msg	the image is {iw} × {ih} pixels and the artboard at that width is {rw} × {rh} pixels: their proportions differ	a imagem tem {iw} × {ih} pixels e a prancheta nessa largura tem {rw} × {rh} pixels: as proporções são diferentes
-@msg	`threshold` must be a number from 0 to 1	`threshold` deve ser um número de 0 a 1
-@msg	background {v}: a color such as "#808080"	plano de fundo {v}: uma cor como "#808080"
-@msg	comparing with an image file isn't available in the browser	a comparação com um arquivo de imagem não está disponível no navegador
-	Help Bar	Barra de ajuda
+
+# Safe Mode
 	Safe Mode…	Modo de Segurança…
 	Safe Mode	Modo de Segurança
 	Help › Safe Mode…	Ajuda › Modo de Segurança…
@@ -6668,5 +6663,14 @@ swatch	Yellow Green	Verde-amarelado
 @msg	that plug-in isn't disabled (see plugin.safeMode)	esse plug-in não está desativado (veja plugin.safeMode)
 @msg	Couldn't save the disabled plug-ins for the next launch	Não foi possível salvar os plug-ins desativados para a próxima inicialização
 @msg	Expand Appearance: a plug-in effect in the selection can't be expanded in Safe Mode	Expandir aparência: um efeito de plug-in na seleção não pode ser expandido no Modo de Segurança
+
+# Align to Pixel Grid
 	Align to Pixel Grid	Alinhar à Grade de Pixels
 @msg	only paths and compound paths can be aligned to the pixel grid	somente caminhos e caminhos compostos podem ser alinhados à grade de pixels
+	Claude	Claude
+@msg	couldn't open a control channel for Claude	não foi possível abrir um canal de controle para o Claude
+@msg	install it from {_1}	instale-o a partir de {_1}
+@msg	no control channel	nenhum canal de controle
+@msg	run `{_1} {_2}` in a terminal to sign in	execute `{_1} {_2}` em um terminal para entrar
+@msg	the Claude pane needs the VectorCraft desktop app	o painel do Claude precisa do aplicativo de desktop do VectorCraft
+@msg	vectorcraft-cli wasn't found next to VectorCraft; reinstall VectorCraft	vectorcraft-cli não foi encontrado ao lado do VectorCraft; reinstale o VectorCraft

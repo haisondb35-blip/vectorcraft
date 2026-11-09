@@ -2730,6 +2730,14 @@ digits	Malayalam	Malayálam
 	Relink	Volver a vincular
 	Relink Linked Files to the Document	Volver a vincular los archivos vinculados al documento
 	Relink to Folder…	Volver a vincular a carpeta…
+	Each Link Separately	Cada vínculo por separado
+	Selected Instances	Instancias seleccionadas
+	All Instances	Todas las instancias
+	Missing Links from This Folder	Vínculos que faltan de esta carpeta
+@msg	scope {v} is not each|selected|all|missingInFolder	scope {v} no es each|selected|all|missingInFolder
+@msg	scope each and paths go together: paths lists entries of ids and path, in place of ids, path and folder	scope each y paths van juntos: paths enumera entradas con ids y path, en lugar de ids, path y folder
+@msg	paths entry {i} needs path and ids (object ids no other entry has)	la entrada {i} de paths necesita path e ids (id. de objeto que ninguna otra entrada tenga)
+@msg	scope missingInFolder takes path: the folder of that file is searched for the other missing links	scope missingInFolder toma path: en la carpeta de ese archivo se buscan los demás vínculos que faltan
 	Relink…	Volver a vincular…
 	Find Linked Files	Buscar archivos vinculados
 	Find Linked Files in Folder…	Buscar archivos vinculados en una carpeta…
@@ -3294,6 +3302,7 @@ digits	Malayalam	Malayálam
 	Spaces	Espacios
 	Spacing Guides	Guías de espaciado
 	Invoke Distance Guides	Invocar guías de distancia
+	Snap to Last Location	Ajustar a última ubicación
 	Spacing:	Espaciado:
 	Spanish	Español
 	Specified Distance	Distancia especificada
@@ -3987,6 +3996,9 @@ axis	Both	Ambos
 	Put back in the toolbar	Devolver a la barra de herramientas
 	Float Panel	Hacer flotar el panel
 	Dock Panel	Anclar panel
+	Dock to Top	Anclar arriba
+	Dock to Bottom	Anclar abajo
+	Dock Control Bar	Anclar barra de control
 	Drag to float the toolbar	Arrastrar para hacer flotar la barra de herramientas
 	Drag to the window's left edge to dock	Arrastrar al borde izquierdo de la ventana para anclar
 	Float Tool Group	Hacer flotar el grupo de herramientas
@@ -3997,7 +4009,7 @@ axis	Both	Ambos
 # names and values in backticks or code (`colorModel rgb`, `document.export`) stay as they are.
 @msg	no library `{id}`	no hay ninguna biblioteca `{id}`
 @msg	select some type first	selecciona primero algún texto
-@msg	kerning must be a number, "auto", or "optical"	El interletraje debe ser un número, «auto» u «optical»
+@msg	kerning must be a number, "auto", or "optical"	kerning debe ser un número, «auto» u «optical»
 @msg	the selection has no gradient fill	la selección no tiene un degradado de relleno
 @msg	the selection has no gradient stroke	la selección no tiene un degradado de trazo
 @msg	the selection has no pattern fill	la selección no tiene un motivo de relleno
@@ -4834,6 +4846,9 @@ axis	Both	Ambos
 @msg	the Pixar file's image data is damaged	los datos de imagen del archivo Pixar están dañados
 @msg	the JPEG 2000 file can't be read	no se puede leer el archivo JPEG 2000
 @msg	the JPEG 2000 file has an unsupported color space or JPX content	el archivo JPEG 2000 tiene un espacio de color o contenido JPX no compatible
+@msg	the HEIC or HEIF file can't be read	no se puede leer el archivo HEIC o HEIF
+@msg	the HEIC or HEIF file holds a kind of image that can't be read	el archivo HEIC o HEIF contiene un tipo de imagen que no se puede leer
+@msg	HEIC and HEIF images can't be opened in this build	las imágenes HEIC y HEIF no se pueden abrir en esta compilación
 @msg	the PSD image is too large to read ({_1} × {_2} pixels)	la imagen PSD es demasiado grande para leerla ({_1} × {_2} píxeles)
 @msg	zipped 32-bit PSD image data with prediction can't be read	no se pueden leer datos de imagen PSD de 32 bits comprimidos en ZIP con predicción
 @msg	{depth}-bit PSD files in this colour mode can't be read	los archivos PSD de {depth} bits en este modo de color no se pueden leer
@@ -5487,6 +5502,11 @@ mark-style	Japanese	Japonesas
 @msg	unknown parameter `{key}`; the command takes: {keys}	parámetro desconocido `{key}`; el comando acepta: {keys}
 	Load EPS into Clipboard	Cargar EPS en el portapapeles
 @msg	an image of {w} × {h} pixels is too large to draw	una imagen de {w} × {h} píxeles es demasiado grande para dibujarse
+@msg	{path}: not a PNG, JPEG, WebP, TIFF or BMP image	{path}: no es una imagen PNG, JPEG, WebP, TIFF ni BMP
+@msg	the image is {iw} × {ih} pixels and the artboard at that width is {rw} × {rh} pixels: their proportions differ	la imagen mide {iw} × {ih} píxeles y la mesa de trabajo a ese ancho mide {rw} × {rh} píxeles: sus proporciones difieren
+@msg	`threshold` must be a number from 0 to 1	`threshold` debe ser un número de 0 a 1
+@msg	background {v}: a color such as "#808080"	fondo {v}: un color como "#808080"
+@msg	comparing with an image file isn't available in the browser	la comparación con un archivo de imagen no está disponible en el navegador
 @msg	an image of {w} × {h} pixels is shown at reduced size	una imagen de {w} × {h} píxeles se muestra a tamaño reducido
 @msg	the image can't be read as a texture	la imagen no se puede leer como textura
 	Fill and Stroke Controls	Controles de relleno y trazo
@@ -6428,6 +6448,7 @@ breakText	Glyphs	Glifos
 	Create Swatch Legend	Crear leyenda de muestras
 	Create Swatch Legend…	Crear leyenda de muestras…
 	HEX	HEX
+	Help Bar	Barra de ayuda
 # Type Tools add-on (Object › Plug-ins › Type Tools).
 	Type Tools	Herramientas de texto
 	Text Tweaker…	Ajustador de texto…
@@ -6493,34 +6514,8 @@ breakText	Glyphs	Glifos
 # 3D Box add-on
 	3D Box	Caja 3D
 	3D Box Tool	Herramienta Caja 3D
-	Claude	Claude
-@msg	couldn't open a control channel for Claude	no se pudo abrir un canal de control para Claude
-@msg	install it from {_1}	instálalo desde {_1}
-@msg	no control channel	no hay canal de control
-@msg	run `{_1} {_2}` in a terminal to sign in	ejecuta `{_1} {_2}` en un terminal para iniciar sesión
-@msg	the Claude pane needs the VectorCraft desktop app	el panel de Claude necesita la aplicación de escritorio de VectorCraft
-@msg	vectorcraft-cli wasn't found next to VectorCraft; reinstall VectorCraft	no se encontró vectorcraft-cli junto a VectorCraft; reinstala VectorCraft
-	Each Link Separately	Cada vínculo por separado
-	Selected Instances	Instancias seleccionadas
-	All Instances	Todas las instancias
-	Missing Links from This Folder	Vínculos que faltan de esta carpeta
-@msg	scope {v} is not each|selected|all|missingInFolder	scope {v} no es each|selected|all|missingInFolder
-@msg	scope each and paths go together: paths lists entries of ids and path, in place of ids, path and folder	scope each y paths van juntos: paths enumera entradas con ids y path, en lugar de ids, path y folder
-@msg	paths entry {i} needs path and ids (object ids no other entry has)	la entrada {i} de paths necesita path e ids (id. de objeto que ninguna otra entrada tenga)
-@msg	scope missingInFolder takes path: the folder of that file is searched for the other missing links	scope missingInFolder toma path: en la carpeta de ese archivo se buscan los demás vínculos que faltan
-	Snap to Last Location	Ajustar a última ubicación
-	Dock to Top	Anclar arriba
-	Dock to Bottom	Anclar abajo
-	Dock Control Bar	Anclar barra de control
-@msg	the HEIC or HEIF file can't be read	no se puede leer el archivo HEIC o HEIF
-@msg	the HEIC or HEIF file holds a kind of image that can't be read	el archivo HEIC o HEIF contiene un tipo de imagen que no se puede leer
-@msg	HEIC and HEIF images can't be opened in this build	las imágenes HEIC y HEIF no se pueden abrir en esta compilación
-@msg	{path}: not a PNG, JPEG, WebP, TIFF or BMP image	{path}: no es una imagen PNG, JPEG, WebP, TIFF ni BMP
-@msg	the image is {iw} × {ih} pixels and the artboard at that width is {rw} × {rh} pixels: their proportions differ	la imagen mide {iw} × {ih} píxeles y la mesa de trabajo a ese ancho mide {rw} × {rh} píxeles: sus proporciones difieren
-@msg	`threshold` must be a number from 0 to 1	`threshold` debe ser un número de 0 a 1
-@msg	background {v}: a color such as "#808080"	fondo {v}: un color como "#808080"
-@msg	comparing with an image file isn't available in the browser	la comparación con un archivo de imagen no está disponible en el navegador
-	Help Bar	Barra de ayuda
+
+# Safe Mode
 	Safe Mode…	Modo seguro…
 	Safe Mode	Modo seguro
 	Help › Safe Mode…	Ayuda › Modo seguro…
@@ -6537,5 +6532,14 @@ breakText	Glyphs	Glifos
 @msg	that plug-in isn't disabled (see plugin.safeMode)	ese plugin no está desactivado (consulta plugin.safeMode)
 @msg	Couldn't save the disabled plug-ins for the next launch	No se pudieron guardar los plugins desactivados para el próximo inicio
 @msg	Expand Appearance: a plug-in effect in the selection can't be expanded in Safe Mode	Expandir apariencia: un efecto de plugin de la selección no se puede expandir en modo seguro
+
+# Align to Pixel Grid
 	Align to Pixel Grid	Alinear con cuadrícula de píxeles
 @msg	only paths and compound paths can be aligned to the pixel grid	solo los trazados y los trazados compuestos se pueden alinear con la cuadrícula de píxeles
+	Claude	Claude
+@msg	couldn't open a control channel for Claude	no se pudo abrir un canal de control para Claude
+@msg	install it from {_1}	instálalo desde {_1}
+@msg	no control channel	no hay canal de control
+@msg	run `{_1} {_2}` in a terminal to sign in	ejecuta `{_1} {_2}` en un terminal para iniciar sesión
+@msg	the Claude pane needs the VectorCraft desktop app	el panel de Claude necesita la aplicación de escritorio de VectorCraft
+@msg	vectorcraft-cli wasn't found next to VectorCraft; reinstall VectorCraft	no se encontró vectorcraft-cli junto a VectorCraft; reinstala VectorCraft

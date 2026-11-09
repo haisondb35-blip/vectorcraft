@@ -2666,6 +2666,14 @@ digits	Malayalam	Malayalam
 	Relink	Länka om
 	Relink Linked Files to the Document	Länka om länkade filer till dokumentet
 	Relink to Folder…	Länka om till mapp…
+	Each Link Separately	Varje länk separat
+	Selected Instances	Markerade instanser
+	All Instances	Alla instanser
+	Missing Links from This Folder	Saknade länkar från den här mappen
+@msg	scope {v} is not each|selected|all|missingInFolder	scope {v} är inte each|selected|all|missingInFolder
+@msg	scope each and paths go together: paths lists entries of ids and path, in place of ids, path and folder	scope each och paths hör ihop: paths listar poster med ids och path i stället för ids, path och folder
+@msg	paths entry {i} needs path and ids (object ids no other entry has)	post {i} i paths behöver path och ids (objekt-id:n som ingen annan post har)
+@msg	scope missingInFolder takes path: the folder of that file is searched for the other missing links	scope missingInFolder tar path: de andra saknade länkarna söks i den filens mapp
 	Relink…	Länka om…
 	Find Linked Files	Sök länkade filer
 	Find Linked Files in Folder…	Sök länkade filer i mapp…
@@ -3216,6 +3224,7 @@ digits	Malayalam	Malayalam
 	Spaces	Blanksteg
 	Spacing Guides	Avståndsstödlinjer
 	Invoke Distance Guides	Anropa mätstödlinjer för avstånd
+	Snap to Last Location	Fäst mot senaste plats
 	Spacing:	Avstånd:
 	Spanish	Spanska
 	Specified Distance	Angivet avstånd
@@ -3904,12 +3913,15 @@ axis	Both	Båda
 	Put back in the toolbar	Lägg tillbaka i verktygsfältet
 	Float Panel	Gör panelen flytande
 	Dock Panel	Docka panel
+	Dock to Top	Docka överst
+	Dock to Bottom	Docka nederst
+	Dock Control Bar	Docka kontrollfältet
 	Drag to float the toolbar	Dra för att göra verktygsfältet flytande
 	Drag to the window's left edge to dock	Dra till fönstrets vänsterkant för att docka
 	Float Tool Group	Gör verktygsgruppen flytande
 @msg	no library `{id}`	inget bibliotek `{id}`
 @msg	select some type first	markera någon text först
-@msg	kerning must be a number, "auto", or "optical"	Kerning måste vara ett tal, ”auto” eller ”optical”
+@msg	kerning must be a number, "auto", or "optical"	kerning måste vara ett tal, ”auto” eller ”optical”
 @msg	the selection has no gradient fill	markeringen har ingen fyllnadsgradient
 @msg	the selection has no gradient stroke	markeringen har ingen konturgradient
 @msg	the selection has no pattern fill	markeringen har inget fyllnadsmönster
@@ -4751,6 +4763,9 @@ axis	Both	Båda
 @msg	the Pixar file's image data is damaged	Pixar-filens bilddata är skadade
 @msg	the JPEG 2000 file can't be read	JPEG 2000-filen kan inte läsas
 @msg	the JPEG 2000 file has an unsupported color space or JPX content	JPEG 2000-filen har en färgrymd eller ett JPX-innehåll som inte stöds
+@msg	the HEIC or HEIF file can't be read	HEIC- eller HEIF-filen kan inte läsas
+@msg	the HEIC or HEIF file holds a kind of image that can't be read	HEIC- eller HEIF-filen innehåller en typ av bild som inte kan läsas
+@msg	HEIC and HEIF images can't be opened in this build	HEIC- och HEIF-bilder kan inte öppnas i den här versionen
 @msg	the PSD image is too large to read ({_1} × {_2} pixels)	PSD-bilden är för stor för att läsas ({_1} × {_2} pixlar)
 @msg	zipped 32-bit PSD image data with prediction can't be read	zippad 32-bitars PSD-bilddata med prediktion kan inte läsas
 @msg	{depth}-bit PSD files in this colour mode can't be read	{depth}-bitars PSD-filer i det här färgläget kan inte läsas
@@ -4861,7 +4876,7 @@ effect	Soft	Mjuk
 @msg	before must name a panel	before måste ange en panel
 @msg	docking action contains an unknown panel or an excessive split path	dockningsåtgärden innehåller en okänd panel eller en alltför djup delningssökväg
 @msg	group must be true or false	group måste vara true eller false
-@msg	panel is not in a dock group	panelen ligger inte i en dockningsgrupp
+@msg	panel is not in a dock group	panel ligger inte i en dockningsgrupp
 @msg	only a dock group above or below others collapses, not one beside another	bara en dockningsgrupp ovanför eller under andra komprimeras, inte en bredvid en annan
 @msg	icon must be true or false	icon måste vara true eller false
 @msg	icon only docks a panel in the icon column, with no anchor	icon dockar bara en panel i ikonkolumnen, utan anchor
@@ -5447,6 +5462,11 @@ mark-style	Japanese	Japanska
 theme	Appearance	Utseende
 	Load EPS into Clipboard	Läs in EPS till urklipp
 @msg	an image of {w} × {h} pixels is too large to draw	en bild på {w} × {h} pixlar är för stor för att ritas
+@msg	{path}: not a PNG, JPEG, WebP, TIFF or BMP image	{path}: inte en PNG-, JPEG-, WebP-, TIFF- eller BMP-bild
+@msg	the image is {iw} × {ih} pixels and the artboard at that width is {rw} × {rh} pixels: their proportions differ	bilden är {iw} × {ih} pixlar och ritytan i den bredden är {rw} × {rh} pixlar: proportionerna skiljer sig åt
+@msg	`threshold` must be a number from 0 to 1	`threshold` måste vara ett tal från 0 till 1
+@msg	background {v}: a color such as "#808080"	background {v}: en färg som "#808080"
+@msg	comparing with an image file isn't available in the browser	jämförelse med en bildfil är inte tillgänglig i webbläsaren
 @msg	an image of {w} × {h} pixels is shown at reduced size	en bild på {w} × {h} pixlar visas i förminskad storlek
 	Fill and Stroke Controls	Kontroller för fyllning och kontur
 	Coloring Controls	Kontroller för färgläggning
@@ -6608,13 +6628,6 @@ digits	Hindi	Hindi
 # 3D Box add-on
 	3D Box	3D-låda
 	3D Box Tool	3D-lådverktyg
-	Claude	Claude
-@msg	couldn't open a control channel for Claude	kunde inte öppna en kontrollkanal för Claude
-@msg	install it from {_1}	installera den från {_1}
-@msg	no control channel	ingen kontrollkanal
-@msg	run `{_1} {_2}` in a terminal to sign in	kör `{_1} {_2}` i en terminal för att logga in
-@msg	the Claude pane needs the VectorCraft desktop app	Claude-panelen behöver skrivbordsappen VectorCraft
-@msg	vectorcraft-cli wasn't found next to VectorCraft; reinstall VectorCraft	vectorcraft-cli hittades inte bredvid VectorCraft; installera om VectorCraft
 	Apply Gradient Preset	Använd gradientförinställning
 	Cancel Image Trace	Avbryt bildkalkering
 	Caps Lock Cursor State	Caps Lock-status för textmarkör
@@ -8046,26 +8059,8 @@ digits	Hindi	Hindi
 @msg	x and y must be given together	x och y måste anges tillsammans
 @msg	zone needs an anchor: dock beside a panel with anchor, or in a new dock column with side (Start or End)	zone behöver ett ankare: docka bredvid en panel med anchor eller i en ny dockkolumn med side (Start eller End)
 @msg	zoom must be positive	zoom måste vara positiv
-	Each Link Separately	Varje länk separat
-	Selected Instances	Markerade instanser
-	All Instances	Alla instanser
-	Missing Links from This Folder	Saknade länkar från den här mappen
-@msg	scope {v} is not each|selected|all|missingInFolder	scope {v} är inte each|selected|all|missingInFolder
-@msg	scope each and paths go together: paths lists entries of ids and path, in place of ids, path and folder	scope each och paths hör ihop: paths listar poster med ids och path i stället för ids, path och folder
-@msg	paths entry {i} needs path and ids (object ids no other entry has)	post {i} i paths behöver path och ids (objekt-id:n som ingen annan post har)
-@msg	scope missingInFolder takes path: the folder of that file is searched for the other missing links	scope missingInFolder tar path: de andra saknade länkarna söks i den filens mapp
-	Snap to Last Location	Fäst mot senaste plats
-	Dock to Top	Docka överst
-	Dock to Bottom	Docka nederst
-	Dock Control Bar	Docka kontrollfältet
-@msg	the HEIC or HEIF file can't be read	HEIC- eller HEIF-filen kan inte läsas
-@msg	the HEIC or HEIF file holds a kind of image that can't be read	HEIC- eller HEIF-filen innehåller en typ av bild som inte kan läsas
-@msg	HEIC and HEIF images can't be opened in this build	HEIC- och HEIF-bilder kan inte öppnas i den här versionen
-@msg	{path}: not a PNG, JPEG, WebP, TIFF or BMP image	{path}: inte en PNG-, JPEG-, WebP-, TIFF- eller BMP-bild
-@msg	the image is {iw} × {ih} pixels and the artboard at that width is {rw} × {rh} pixels: their proportions differ	bilden är {iw} × {ih} pixlar och ritytan i den bredden är {rw} × {rh} pixlar: proportionerna skiljer sig åt
-@msg	`threshold` must be a number from 0 to 1	`threshold` måste vara ett tal från 0 till 1
-@msg	background {v}: a color such as "#808080"	background {v}: en färg som "#808080"
-@msg	comparing with an image file isn't available in the browser	jämförelse med en bildfil är inte tillgänglig i webbläsaren
+
+# Safe Mode
 	Safe Mode…	Felsäkert läge…
 	Safe Mode	Felsäkert läge
 	Help › Safe Mode…	Hjälp › Felsäkert läge…
@@ -8082,5 +8077,14 @@ digits	Hindi	Hindi
 @msg	that plug-in isn't disabled (see plugin.safeMode)	det pluginet är inte inaktiverat (se plugin.safeMode)
 @msg	Couldn't save the disabled plug-ins for the next launch	De inaktiverade pluginen kunde inte sparas till nästa start
 @msg	Expand Appearance: a plug-in effect in the selection can't be expanded in Safe Mode	Expandera utseende: en plugin-effekt i markeringen kan inte expanderas i felsäkert läge
+
+# Align to Pixel Grid
 	Align to Pixel Grid	Justera mot pixelrutnät
 @msg	only paths and compound paths can be aligned to the pixel grid	bara banor och sammansatta banor kan justeras mot pixelrutnätet
+	Claude	Claude
+@msg	couldn't open a control channel for Claude	kunde inte öppna en kontrollkanal för Claude
+@msg	install it from {_1}	installera den från {_1}
+@msg	no control channel	ingen kontrollkanal
+@msg	run `{_1} {_2}` in a terminal to sign in	kör `{_1} {_2}` i en terminal för att logga in
+@msg	the Claude pane needs the VectorCraft desktop app	Claude-panelen behöver skrivbordsappen VectorCraft
+@msg	vectorcraft-cli wasn't found next to VectorCraft; reinstall VectorCraft	vectorcraft-cli hittades inte bredvid VectorCraft; installera om VectorCraft

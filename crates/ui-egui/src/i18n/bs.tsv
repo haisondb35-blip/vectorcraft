@@ -4264,7 +4264,7 @@ imageTrace	Outline	Obris
 @plural	{n} stroke|{n} strokes	{n} potez|{n} poteza|{n} poteza
 @msg	no library `{id}`	nema biblioteke `{id}`
 @msg	select some type first	prvo odaberite tekst
-@msg	kerning must be a number, "auto", or "optical"	Podrezivanje mora biti broj, „auto” ili „optical”
+@msg	kerning must be a number, "auto", or "optical"	kerning mora biti broj, „auto” ili „optical”
 @msg	the selection has no gradient fill	odabir nema ispunu gradijentom
 @msg	the selection has no gradient stroke	odabir nema potez gradijentom
 @msg	the selection has no pattern fill	odabir nema ispunu uzorkom
@@ -5061,6 +5061,9 @@ imageTrace	Outline	Obris
 @msg	the Pixar file's image data is damaged	slikovni podaci Pixar datoteke su oštećeni
 @msg	the JPEG 2000 file can't be read	datoteku JPEG 2000 nije moguće pročitati
 @msg	the JPEG 2000 file has an unsupported color space or JPX content	datoteka JPEG 2000 ima nepodržan prostor boja ili JPX sadržaj
+@msg	the HEIC or HEIF file can't be read	datoteku HEIC ili HEIF nije moguće pročitati
+@msg	the HEIC or HEIF file holds a kind of image that can't be read	datoteka HEIC ili HEIF sadrži vrstu slike koju nije moguće pročitati
+@msg	HEIC and HEIF images can't be opened in this build	HEIC i HEIF slike nije moguće otvoriti u ovoj verziji programa
 @msg	the PSD image is too large to read ({_1} × {_2} pixels)	PSD slika je prevelika za čitanje ({_1} × {_2} piksela)
 @msg	zipped 32-bit PSD image data with prediction can't be read	zipovani 32-bitni PSD podaci slike s predviđanjem ne mogu se pročitati
 @msg	{depth}-bit PSD files in this colour mode can't be read	{depth}-bitne PSD datoteke u ovom načinu boja ne mogu se pročitati
@@ -6356,6 +6359,7 @@ shape	Open	Otvoren
 	Create Swatch Legend	Kreiraj legendu uzoraka boja
 	Create Swatch Legend…	Kreiraj legendu uzoraka boja…
 	HEX	HEX
+	Help Bar	Traka pomoći
 # Type Tools add-on (Object › Plug-ins › Type Tools).
 	Type Tools	Alati za tekst
 	Text Tweaker…	Podešavanje teksta…
@@ -6422,10 +6426,8 @@ shape	Open	Otvoren
 # 3D Box add-on
 	3D Box	3D kutija
 	3D Box Tool	Alat za 3D kutiju
-@msg	the HEIC or HEIF file can't be read	datoteku HEIC ili HEIF nije moguće pročitati
-@msg	the HEIC or HEIF file holds a kind of image that can't be read	datoteka HEIC ili HEIF sadrži vrstu slike koju nije moguće pročitati
-@msg	HEIC and HEIF images can't be opened in this build	HEIC i HEIF slike nije moguće otvoriti u ovoj verziji programa
-	Help Bar	Traka pomoći
+
+# Safe Mode
 	Safe Mode…	Sigurni način rada…
 	Safe Mode	Sigurni način rada
 	Help › Safe Mode…	Pomoć › Sigurni način rada…
@@ -6442,4 +6444,6 @@ shape	Open	Otvoren
 @msg	that plug-in isn't disabled (see plugin.safeMode)	taj dodatak nije onemogućen (vidi plugin.safeMode)
 @msg	Couldn't save the disabled plug-ins for the next launch	Onemogućeni dodaci nisu mogli biti sačuvani za sljedeće pokretanje
 @msg	Expand Appearance: a plug-in effect in the selection can't be expanded in Safe Mode	Proširi izgled: efekat dodatka u odabiru ne može se proširiti u sigurnom načinu rada
+
+# Align to Pixel Grid
 	Align to Pixel Grid	Poravnaj s mrežom piksela

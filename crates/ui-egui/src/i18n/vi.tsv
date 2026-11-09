@@ -3030,6 +3030,14 @@ mark-style	Japanese	Kiểu Nhật
 	Relink	Liên kết lại
 	Relink Linked Files to the Document	Liên kết lại các tệp liên kết với tài liệu
 	Relink to Folder…	Liên kết lại vào thư mục…
+	Each Link Separately	Từng liên kết riêng
+	Selected Instances	Các phiên bản đã chọn
+	All Instances	Tất cả phiên bản
+	Missing Links from This Folder	Liên kết thiếu từ thư mục này
+@msg	scope {v} is not each|selected|all|missingInFolder	scope {v} không phải each|selected|all|missingInFolder
+@msg	scope each and paths go together: paths lists entries of ids and path, in place of ids, path and folder	scope each và paths đi cùng nhau: paths liệt kê các mục có ids và path, thay cho ids, path và folder
+@msg	paths entry {i} needs path and ids (object ids no other entry has)	mục {i} của paths cần path và ids (ID đối tượng mà không mục nào khác có)
+@msg	scope missingInFolder takes path: the folder of that file is searched for the other missing links	scope missingInFolder nhận path: các liên kết thiếu khác được tìm trong thư mục của tệp đó
 	Relink…	Liên kết lại…
 	Reload Plug-ins	Tải lại plug-in
 	Remove	Gỡ
@@ -3660,6 +3668,7 @@ mark-style	Japanese	Kiểu Nhật
 	Spacing	Khoảng cách
 	Spacing Guides	Đường căn khoảng cách
 	Invoke Distance Guides	Gọi đường căn đo khoảng cách
+	Snap to Last Location	Hút vào vị trí cuối cùng
 	Spacing:	Khoảng cách:
 	Spanish	Tiếng Tây Ban Nha
 	Spatter	Bắn tung tóe
@@ -4220,6 +4229,7 @@ mark-style	Japanese	Kiểu Nhật
 	Zoom to Selection	Thu phóng đến vùng chọn
 	Zoom Tool	Công cụ thu phóng
 	Zoom with Mouse Wheel	Thu phóng bằng con lăn chuột
+	Scroll Sideways with Cmd/Ctrl + Wheel	Cuộn ngang bằng Cmd/Ctrl + con lăn
 @plural	{n} file in {folder} {note}. Show the package folder?|{n} files in {folder} {note}. Show the package folder?	{n} tệp trong {folder} {note}. Hiện thư mục gói?
 @plural	{n} folder or file couldn't be read|{n} folders or files couldn't be read	{n} thư mục hoặc tệp không thể đọc được
 @plural	{n} folder skipped, such as another app's or the system's folder or a hidden one|{n} folders skipped, such as other apps' and the system's folders and hidden ones	Đã bỏ qua {n} thư mục, chẳng hạn thư mục của ứng dụng khác, thư mục hệ thống và thư mục ẩn
@@ -4913,7 +4923,7 @@ theme	Appearance	Giao diện
 @msg	select paths or anchor points	chọn đường dẫn hoặc điểm neo
 @msg	select paths to join	hãy chọn đường dẫn để nối
 @msg	select some type first	hãy chọn chữ trước
-@msg	kerning must be a number, "auto", or "optical"	Kerning phải là số, “auto” hoặc “optical”
+@msg	kerning must be a number, "auto", or "optical"	kerning phải là số, “auto” hoặc “optical”
 @msg	the selection has no gradient fill	vùng chọn không có tô chuyển sắc
 @msg	the selection has no gradient stroke	vùng chọn không có nét chuyển sắc
 @msg	the selection has no pattern fill	vùng chọn không có tô họa tiết
@@ -5022,6 +5032,9 @@ theme	Appearance	Giao diện
 @msg	the Pixar file's image data is damaged	dữ liệu ảnh của tệp Pixar bị hỏng
 @msg	the JPEG 2000 file can't be read	không thể đọc tệp JPEG 2000
 @msg	the JPEG 2000 file has an unsupported color space or JPX content	tệp JPEG 2000 có không gian màu hoặc nội dung JPX không được hỗ trợ
+@msg	the HEIC or HEIF file can't be read	không thể đọc tệp HEIC hoặc HEIF
+@msg	the HEIC or HEIF file holds a kind of image that can't be read	tệp HEIC hoặc HEIF chứa loại ảnh không thể đọc được
+@msg	HEIC and HEIF images can't be opened in this build	không thể mở ảnh HEIC và HEIF trong bản dựng này
 @msg	the PSD image is too large to read ({_1} × {_2} pixels)	ảnh PSD quá lớn để đọc ({_1} × {_2} pixel)
 @msg	the Save PDF dialog didn't open	hộp thoại Lưu PDF không mở
 @msg	the scale is not a usable number	tỷ lệ không phải là số dùng được
@@ -5141,6 +5154,11 @@ theme	Appearance	Giao diện
 @msg	{tool} isn't in a toolbar group of several tools	{tool} không nằm trong nhóm thanh công cụ có nhiều công cụ
 	Load EPS into Clipboard	Tải EPS vào bảng tạm
 @msg	an image of {w} × {h} pixels is too large to draw	ảnh {w} × {h} điểm ảnh quá lớn nên không thể vẽ
+@msg	{path}: not a PNG, JPEG, WebP, TIFF or BMP image	{path}: không phải ảnh PNG, JPEG, WebP, TIFF hay BMP
+@msg	the image is {iw} × {ih} pixels and the artboard at that width is {rw} × {rh} pixels: their proportions differ	ảnh có kích thước {iw} × {ih} điểm ảnh, còn bảng vẽ ở chiều rộng đó có kích thước {rw} × {rh} điểm ảnh: tỉ lệ của chúng khác nhau
+@msg	`threshold` must be a number from 0 to 1	`threshold` phải là một số từ 0 đến 1
+@msg	background {v}: a color such as "#808080"	background {v}: màu như "#808080"
+@msg	comparing with an image file isn't available in the browser	không thể so sánh với tệp ảnh trong trình duyệt
 @msg	an image of {w} × {h} pixels is shown at reduced size	ảnh {w} × {h} điểm ảnh được hiển thị ở kích thước thu nhỏ
 	Basic	Cơ bản
 	Fill and Stroke Controls	Điều khiển tô và nét
@@ -6089,6 +6107,7 @@ breakText	Glyphs	Glyph
 	Create Swatch Legend	Tạo chú giải mẫu màu
 	Create Swatch Legend…	Tạo chú giải mẫu màu…
 	HEX	HEX
+	Help Bar	Thanh trợ giúp
 # Type Tools add-on (Object › Plug-ins › Type Tools).
 	Type Tools	Công cụ văn bản
 	Text Tweaker…	Tinh chỉnh văn bản…
@@ -6154,32 +6173,8 @@ breakText	Glyphs	Glyph
 # 3D Box add-on
 	3D Box	Hộp 3D
 	3D Box Tool	Công cụ Hộp 3D
-	Claude	Claude
-@msg	couldn't open a control channel for Claude	không mở được kênh điều khiển cho Claude
-@msg	install it from {_1}	cài đặt từ {_1}
-@msg	no control channel	không có kênh điều khiển
-@msg	run `{_1} {_2}` in a terminal to sign in	chạy `{_1} {_2}` trong cửa sổ dòng lệnh để đăng nhập
-@msg	the Claude pane needs the VectorCraft desktop app	khung Claude cần ứng dụng VectorCraft trên máy tính
-@msg	vectorcraft-cli wasn't found next to VectorCraft; reinstall VectorCraft	không tìm thấy vectorcraft-cli bên cạnh VectorCraft; hãy cài đặt lại VectorCraft
-	Each Link Separately	Từng liên kết riêng
-	Selected Instances	Các phiên bản đã chọn
-	All Instances	Tất cả phiên bản
-	Missing Links from This Folder	Liên kết thiếu từ thư mục này
-@msg	scope {v} is not each|selected|all|missingInFolder	scope {v} không phải each|selected|all|missingInFolder
-@msg	scope each and paths go together: paths lists entries of ids and path, in place of ids, path and folder	scope each và paths đi cùng nhau: paths liệt kê các mục có ids và path, thay cho ids, path và folder
-@msg	paths entry {i} needs path and ids (object ids no other entry has)	mục {i} của paths cần path và ids (ID đối tượng mà không mục nào khác có)
-@msg	scope missingInFolder takes path: the folder of that file is searched for the other missing links	scope missingInFolder nhận path: các liên kết thiếu khác được tìm trong thư mục của tệp đó
-	Snap to Last Location	Hút vào vị trí cuối cùng
-	Scroll Sideways with Cmd/Ctrl + Wheel	Cuộn ngang bằng Cmd/Ctrl + con lăn
-@msg	the HEIC or HEIF file can't be read	không thể đọc tệp HEIC hoặc HEIF
-@msg	the HEIC or HEIF file holds a kind of image that can't be read	tệp HEIC hoặc HEIF chứa loại ảnh không thể đọc được
-@msg	HEIC and HEIF images can't be opened in this build	không thể mở ảnh HEIC và HEIF trong bản dựng này
-@msg	{path}: not a PNG, JPEG, WebP, TIFF or BMP image	{path}: không phải ảnh PNG, JPEG, WebP, TIFF hay BMP
-@msg	the image is {iw} × {ih} pixels and the artboard at that width is {rw} × {rh} pixels: their proportions differ	ảnh có kích thước {iw} × {ih} điểm ảnh, còn bảng vẽ ở chiều rộng đó có kích thước {rw} × {rh} điểm ảnh: tỉ lệ của chúng khác nhau
-@msg	`threshold` must be a number from 0 to 1	`threshold` phải là một số từ 0 đến 1
-@msg	background {v}: a color such as "#808080"	background {v}: màu như "#808080"
-@msg	comparing with an image file isn't available in the browser	không thể so sánh với tệp ảnh trong trình duyệt
-	Help Bar	Thanh trợ giúp
+
+# Safe Mode
 	Safe Mode…	Chế độ an toàn…
 	Safe Mode	Chế độ an toàn
 	Help › Safe Mode…	Trợ giúp › Chế độ an toàn…
@@ -6196,5 +6191,14 @@ breakText	Glyphs	Glyph
 @msg	that plug-in isn't disabled (see plugin.safeMode)	plug-in đó không bị tắt (xem plugin.safeMode)
 @msg	Couldn't save the disabled plug-ins for the next launch	Không thể lưu các plug-in đã tắt cho lần khởi chạy tiếp theo
 @msg	Expand Appearance: a plug-in effect in the selection can't be expanded in Safe Mode	Mở rộng diện mạo: không thể mở rộng hiệu ứng plug-in trong vùng chọn ở chế độ an toàn
+
+# Align to Pixel Grid
 	Align to Pixel Grid	Căn theo lưới pixel
 @msg	only paths and compound paths can be aligned to the pixel grid	chỉ đường dẫn và đường dẫn phức mới căn theo lưới pixel được
+	Claude	Claude
+@msg	couldn't open a control channel for Claude	không mở được kênh điều khiển cho Claude
+@msg	install it from {_1}	cài đặt từ {_1}
+@msg	no control channel	không có kênh điều khiển
+@msg	run `{_1} {_2}` in a terminal to sign in	chạy `{_1} {_2}` trong cửa sổ dòng lệnh để đăng nhập
+@msg	the Claude pane needs the VectorCraft desktop app	khung Claude cần ứng dụng VectorCraft trên máy tính
+@msg	vectorcraft-cli wasn't found next to VectorCraft; reinstall VectorCraft	không tìm thấy vectorcraft-cli bên cạnh VectorCraft; hãy cài đặt lại VectorCraft

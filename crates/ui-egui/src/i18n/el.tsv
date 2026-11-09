@@ -2181,7 +2181,7 @@ axis	Both	Και τα δύο
 	Dock Control Bar	Αγκύρωση γραμμής ελέγχου
 @msg	no library `{id}`	Δεν υπάρχει βιβλιοθήκη με αναγνωριστικό `{id}`
 @msg	select some type first	Επιλέξτε πρώτα κάποιο κείμενο
-@msg	kerning must be a number, "auto", or "optical"	Η διαγραμμάτωση πρέπει να είναι αριθμός, «auto» ή «optical»
+@msg	kerning must be a number, "auto", or "optical"	το kerning πρέπει να είναι αριθμός, «auto» ή «optical»
 @msg	the selection has no gradient fill	η επιλογή δεν έχει ντεγκραντέ γεμίσματος
 @msg	the selection has no gradient stroke	η επιλογή δεν έχει ντεγκραντέ περιγράμματος
 @msg	the selection has no pattern fill	η επιλογή δεν έχει μοτίβο γεμίσματος
@@ -3303,6 +3303,14 @@ digits	Malayalam	Μαλαγιάλαμ
 	Relink	Επανασύνδεση
 	Relink Linked Files to the Document	Επανασύνδεση συνδεδεμένων αρχείων με το έγγραφο
 	Relink to Folder…	Επανασύνδεση σε φάκελο…
+	Each Link Separately	Κάθε σύνδεση χωριστά
+	Selected Instances	Επιλεγμένες παρουσίες
+	All Instances	Όλες οι παρουσίες
+	Missing Links from This Folder	Συνδέσεις που λείπουν από αυτόν τον φάκελο
+@msg	scope {v} is not each|selected|all|missingInFolder	το scope {v} δεν είναι each|selected|all|missingInFolder
+@msg	scope each and paths go together: paths lists entries of ids and path, in place of ids, path and folder	τα scope each και paths πάνε μαζί: το paths απαριθμεί καταχωρίσεις με ids και path, αντί για ids, path και folder
+@msg	paths entry {i} needs path and ids (object ids no other entry has)	η καταχώριση {i} του paths χρειάζεται path και ids (αναγνωριστικά αντικειμένων που δεν έχει άλλη καταχώριση)
+@msg	scope missingInFolder takes path: the folder of that file is searched for the other missing links	το scope missingInFolder δέχεται path: στον φάκελο αυτού του αρχείου αναζητούνται οι άλλες συνδέσεις που λείπουν
 	Relink…	Επανασύνδεση…
 	Find Linked Files	Εύρεση συνδεδεμένων αρχείων
 	Find Linked Files in Folder…	Εύρεση συνδεδεμένων αρχείων σε φάκελο…
@@ -3682,6 +3690,7 @@ digits	Malayalam	Μαλαγιάλαμ
 	Spaces	Διαστήματα
 	Spacing Guides	Οδηγοί αποστάσεων
 	Invoke Distance Guides	Εμφάνιση οδηγών μέτρησης απόστασης
+	Snap to Last Location	Προσκόλληση στην τελευταία θέση
 	Spanish	Ισπανικά
 	Specified Distance	Καθορισμένη απόσταση
 	Specified Steps	Καθορισμένα βήματα
@@ -4798,6 +4807,9 @@ digits	Malayalam	Μαλαγιάλαμ
 @msg	the Pixar file's image data is damaged	τα δεδομένα εικόνας του αρχείου Pixar είναι κατεστραμμένα
 @msg	the JPEG 2000 file can't be read	δεν είναι δυνατή η ανάγνωση του αρχείου JPEG 2000
 @msg	the JPEG 2000 file has an unsupported color space or JPX content	το αρχείο JPEG 2000 έχει μη υποστηριζόμενο χρωματικό χώρο ή περιεχόμενο JPX
+@msg	the HEIC or HEIF file can't be read	δεν είναι δυνατή η ανάγνωση του αρχείου HEIC ή HEIF
+@msg	the HEIC or HEIF file holds a kind of image that can't be read	το αρχείο HEIC ή HEIF περιέχει είδος εικόνας που δεν είναι δυνατό να διαβαστεί
+@msg	HEIC and HEIF images can't be opened in this build	οι εικόνες HEIC και HEIF δεν μπορούν να ανοίξουν σε αυτή την έκδοση
 @msg	the PSD image is too large to read ({_1} × {_2} pixels)	η εικόνα PSD είναι πολύ μεγάλη για ανάγνωση ({_1} × {_2} εικονοστοιχεία)
 @msg	zipped 32-bit PSD image data with prediction can't be read	τα συμπιεσμένα δεδομένα εικόνας PSD 32 bit με πρόβλεψη δεν διαβάζονται
 @msg	{depth}-bit PSD files in this colour mode can't be read	τα αρχεία PSD {depth} bit δεν διαβάζονται σε αυτήν τη λειτουργία χρώματος
@@ -4829,7 +4841,7 @@ digits	Malayalam	Μαλαγιάλαμ
 @msg	before must name a panel	το before πρέπει να ορίζει πίνακα
 @msg	docking action contains an unknown panel or an excessive split path	η ενέργεια σύνδεσης περιέχει άγνωστο πίνακα ή υπερβολικά βαθιά διαδρομή διαίρεσης
 @msg	group must be true or false	το group πρέπει να είναι true ή false
-@msg	panel is not in a dock group	Το πάνελ δεν βρίσκεται σε ομάδα αγκύρωσης
+@msg	panel is not in a dock group	το panel δεν βρίσκεται σε ομάδα αγκύρωσης
 @msg	only a dock group above or below others collapses, not one beside another	συμπτύσσεται μόνο ομάδα αγκύρωσης πάνω ή κάτω από άλλες, όχι δίπλα σε άλλη
 @msg	icon must be true or false	το icon πρέπει να είναι true ή false
 @msg	icon only docks a panel in the icon column, with no anchor	το icon αγκυρώνει πάνελ μόνο στη στήλη εικονιδίων, χωρίς anchor
@@ -5294,6 +5306,11 @@ effect	Points	Σημεία
 	Load EPS into Clipboard	Φόρτωση EPS στο πρόχειρο
 @msg	unknown control `{name}`: fillStroke, coloring, drawMode or screenMode	Άγνωστο στοιχείο ελέγχου `{name}`: fillStroke, coloring, drawMode ή screenMode
 @msg	an image of {w} × {h} pixels is too large to draw	Η εικόνα {w} × {h} εικονοστοιχείων είναι υπερβολικά μεγάλη για σχεδίαση
+@msg	{path}: not a PNG, JPEG, WebP, TIFF or BMP image	{path}: δεν είναι εικόνα PNG, JPEG, WebP, TIFF ή BMP
+@msg	the image is {iw} × {ih} pixels and the artboard at that width is {rw} × {rh} pixels: their proportions differ	η εικόνα είναι {iw} × {ih} εικονοστοιχεία και ο πίνακας σχεδίασης σε αυτό το πλάτος είναι {rw} × {rh} εικονοστοιχεία: οι αναλογίες τους διαφέρουν
+@msg	`threshold` must be a number from 0 to 1	Το `threshold` πρέπει να είναι αριθμός από 0 έως 1
+@msg	background {v}: a color such as "#808080"	φόντο {v}: χρώμα όπως "#808080"
+@msg	comparing with an image file isn't available in the browser	η σύγκριση με αρχείο εικόνας δεν είναι διαθέσιμη στο πρόγραμμα περιήγησης
 @msg	an image of {w} × {h} pixels is shown at reduced size	Η εικόνα {w} × {h} εικονοστοιχείων εμφανίζεται σε μειωμένο μέγεθος
 	Open Recent File 1	Άνοιγμα πρόσφατου αρχείου 1
 	Open Recent File 2	Άνοιγμα πρόσφατου αρχείου 2
@@ -6441,6 +6458,7 @@ breakText	Glyphs	Γλύφοι
 	Create Swatch Legend	Δημιουργία υπομνήματος δειγμάτων χρωμάτων
 	Create Swatch Legend…	Δημιουργία υπομνήματος δειγμάτων χρωμάτων…
 	HEX	HEX
+	Help Bar	Γραμμή βοήθειας
 # Type Tools add-on (Object › Plug-ins › Type Tools).
 	Type Tools	Εργαλεία κειμένου
 	Text Tweaker…	Ρύθμιση κειμένου…
@@ -6506,31 +6524,8 @@ breakText	Glyphs	Γλύφοι
 # 3D Box add-on
 	3D Box	Κουτί 3D
 	3D Box Tool	Εργαλείο κουτιού 3D
-	Claude	Claude
-@msg	couldn't open a control channel for Claude	δεν ήταν δυνατό το άνοιγμα καναλιού ελέγχου για το Claude
-@msg	install it from {_1}	εγκαταστήστε το από {_1}
-@msg	no control channel	κανένα κανάλι ελέγχου
-@msg	run `{_1} {_2}` in a terminal to sign in	εκτελέστε `{_1} {_2}` σε ένα τερματικό για να συνδεθείτε
-@msg	the Claude pane needs the VectorCraft desktop app	το πλαίσιο Claude χρειάζεται την εφαρμογή επιφάνειας εργασίας VectorCraft
-@msg	vectorcraft-cli wasn't found next to VectorCraft; reinstall VectorCraft	το vectorcraft-cli δεν βρέθηκε δίπλα στο VectorCraft· εγκαταστήστε ξανά το VectorCraft
-	Each Link Separately	Κάθε σύνδεση χωριστά
-	Selected Instances	Επιλεγμένες παρουσίες
-	All Instances	Όλες οι παρουσίες
-	Missing Links from This Folder	Συνδέσεις που λείπουν από αυτόν τον φάκελο
-@msg	scope {v} is not each|selected|all|missingInFolder	το scope {v} δεν είναι each|selected|all|missingInFolder
-@msg	scope each and paths go together: paths lists entries of ids and path, in place of ids, path and folder	τα scope each και paths πάνε μαζί: το paths απαριθμεί καταχωρίσεις με ids και path, αντί για ids, path και folder
-@msg	paths entry {i} needs path and ids (object ids no other entry has)	η καταχώριση {i} του paths χρειάζεται path και ids (αναγνωριστικά αντικειμένων που δεν έχει άλλη καταχώριση)
-@msg	scope missingInFolder takes path: the folder of that file is searched for the other missing links	το scope missingInFolder δέχεται path: στον φάκελο αυτού του αρχείου αναζητούνται οι άλλες συνδέσεις που λείπουν
-	Snap to Last Location	Προσκόλληση στην τελευταία θέση
-@msg	the HEIC or HEIF file can't be read	δεν είναι δυνατή η ανάγνωση του αρχείου HEIC ή HEIF
-@msg	the HEIC or HEIF file holds a kind of image that can't be read	το αρχείο HEIC ή HEIF περιέχει είδος εικόνας που δεν είναι δυνατό να διαβαστεί
-@msg	HEIC and HEIF images can't be opened in this build	οι εικόνες HEIC και HEIF δεν μπορούν να ανοίξουν σε αυτή την έκδοση
-@msg	{path}: not a PNG, JPEG, WebP, TIFF or BMP image	{path}: δεν είναι εικόνα PNG, JPEG, WebP, TIFF ή BMP
-@msg	the image is {iw} × {ih} pixels and the artboard at that width is {rw} × {rh} pixels: their proportions differ	η εικόνα είναι {iw} × {ih} εικονοστοιχεία και ο πίνακας σχεδίασης σε αυτό το πλάτος είναι {rw} × {rh} εικονοστοιχεία: οι αναλογίες τους διαφέρουν
-@msg	`threshold` must be a number from 0 to 1	Το `threshold` πρέπει να είναι αριθμός από 0 έως 1
-@msg	background {v}: a color such as "#808080"	φόντο {v}: χρώμα όπως "#808080"
-@msg	comparing with an image file isn't available in the browser	η σύγκριση με αρχείο εικόνας δεν είναι διαθέσιμη στο πρόγραμμα περιήγησης
-	Help Bar	Γραμμή βοήθειας
+
+# Safe Mode
 	Safe Mode…	Ασφαλής λειτουργία…
 	Safe Mode	Ασφαλής λειτουργία
 	Help › Safe Mode…	Βοήθεια › Ασφαλής λειτουργία…
@@ -6547,5 +6542,14 @@ breakText	Glyphs	Γλύφοι
 @msg	that plug-in isn't disabled (see plugin.safeMode)	αυτό το πρόσθετο δεν είναι απενεργοποιημένο (δείτε plugin.safeMode)
 @msg	Couldn't save the disabled plug-ins for the next launch	Δεν ήταν δυνατή η αποθήκευση των απενεργοποιημένων πρόσθετων για την επόμενη εκκίνηση
 @msg	Expand Appearance: a plug-in effect in the selection can't be expanded in Safe Mode	Επέκταση εμφάνισης: ένα εφέ πρόσθετου στην επιλογή δεν μπορεί να επεκταθεί σε ασφαλή λειτουργία
+
+# Align to Pixel Grid
 	Align to Pixel Grid	Στοίχιση στο πλέγμα εικονοστοιχείων
 @msg	only paths and compound paths can be aligned to the pixel grid	μόνο διαδρομές και σύνθετες διαδρομές μπορούν να στοιχιστούν στο πλέγμα εικονοστοιχείων
+	Claude	Claude
+@msg	couldn't open a control channel for Claude	δεν ήταν δυνατό το άνοιγμα καναλιού ελέγχου για το Claude
+@msg	install it from {_1}	εγκαταστήστε το από {_1}
+@msg	no control channel	κανένα κανάλι ελέγχου
+@msg	run `{_1} {_2}` in a terminal to sign in	εκτελέστε `{_1} {_2}` σε ένα τερματικό για να συνδεθείτε
+@msg	the Claude pane needs the VectorCraft desktop app	το πλαίσιο Claude χρειάζεται την εφαρμογή επιφάνειας εργασίας VectorCraft
+@msg	vectorcraft-cli wasn't found next to VectorCraft; reinstall VectorCraft	το vectorcraft-cli δεν βρέθηκε δίπλα στο VectorCraft· εγκαταστήστε ξανά το VectorCraft

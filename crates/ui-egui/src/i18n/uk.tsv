@@ -2755,6 +2755,14 @@ digits	Malayalam	Малаялам
 	Relink	Відновити зв’язок
 	Relink Linked Files to the Document	Відновити зв’язані файли з документом
 	Relink to Folder…	Відновити зв’язок із папкою…
+	Each Link Separately	Кожен зв’язок окремо
+	Selected Instances	Вибрані екземпляри
+	All Instances	Усі екземпляри
+	Missing Links from This Folder	Відсутні зв’язки з цієї папки
+@msg	scope {v} is not each|selected|all|missingInFolder	scope {v} не є одним із each|selected|all|missingInFolder
+@msg	scope each and paths go together: paths lists entries of ids and path, in place of ids, path and folder	scope each і paths задаються разом: paths перелічує записи з ids і path замість ids, path і folder
+@msg	paths entry {i} needs path and ids (object ids no other entry has)	запису {i} у paths потрібні path і ids (ідентифікатори об’єктів, яких немає в інших записах)
+@msg	scope missingInFolder takes path: the folder of that file is searched for the other missing links	scope missingInFolder приймає path: у папці цього файлу шукаються інші відсутні зв’язки
 	Relink…	Відновити зв’язок…
 	Find Linked Files	Знайти пов’язані файли
 	Find Linked Files in Folder…	Знайти пов’язані файли в папці…
@@ -3323,6 +3331,7 @@ effect	Points	Точки
 	Spaces	Пробіли
 	Spacing Guides	Напрямні інтервалів
 	Invoke Distance Guides	Викликати напрямні відстаней
+	Snap to Last Location	Прив’язати до останнього розташування
 	Spacing:	Інтервал:
 	Spanish	Іспанська
 	Specified Distance	Задана відстань
@@ -4018,12 +4027,15 @@ axis	Both	Обидві
 	Put back in the toolbar	Повернути на панель інструментів
 	Float Panel	Від’єднати панель
 	Dock Panel	Прикріпити панель
+	Dock to Top	Прикріпити вгорі
+	Dock to Bottom	Прикріпити внизу
+	Dock Control Bar	Прикріпити панель керування
 	Drag to float the toolbar	Перетягніть, щоб від’єднати панель інструментів
 	Drag to the window's left edge to dock	Перетягніть до лівого краю вікна для прикріплення
 	Float Tool Group	Від’єднати групу інструментів
 @msg	no library `{id}`	немає бібліотеки `{id}`
 @msg	select some type first	спочатку виділіть текст
-@msg	kerning must be a number, "auto", or "optical"	Кернінг має бути числом, «auto» або «optical»
+@msg	kerning must be a number, "auto", or "optical"	kerning має бути числом, «auto» або «optical»
 @msg	the selection has no gradient fill	виділення не має градієнтної заливки
 @msg	the selection has no gradient stroke	виділення не має градієнтного обведення
 @msg	the selection has no pattern fill	виділення не має візерункової заливки
@@ -4860,6 +4872,9 @@ axis	Both	Обидві
 @msg	the Pixar file's image data is damaged	дані зображення у файлі Pixar пошкоджені
 @msg	the JPEG 2000 file can't be read	не вдається прочитати файл JPEG 2000
 @msg	the JPEG 2000 file has an unsupported color space or JPX content	файл JPEG 2000 містить непідтримуваний колірний простір або вміст JPX
+@msg	the HEIC or HEIF file can't be read	не вдається прочитати файл HEIC або HEIF
+@msg	the HEIC or HEIF file holds a kind of image that can't be read	файл HEIC або HEIF містить зображення такого типу, яке не вдається прочитати
+@msg	HEIC and HEIF images can't be opened in this build	зображення HEIC і HEIF не можна відкрити в цій збірці
 @msg	the PSD image is too large to read ({_1} × {_2} pixels)	зображення PSD завелике для читання ({_1} × {_2} пікс.)
 @msg	zipped 32-bit PSD image data with prediction can't be read	32-бітні дані зображення PSD зі стисненням ZIP із передбаченням не читаються
 @msg	{depth}-bit PSD files in this colour mode can't be read	{depth}-бітні файли PSD у цьому колірному режимі не читаються
@@ -4970,7 +4985,7 @@ axis	Both	Обидві
 @msg	before must name a panel	before має вказувати панель
 @msg	docking action contains an unknown panel or an excessive split path	Дія прикріплення містить невідому панель або надто довгий шлях поділів
 @msg	group must be true or false	group має мати значення true або false
-@msg	panel is not in a dock group	панель не входить до групи дока
+@msg	panel is not in a dock group	panel не входить до групи дока
 @msg	only a dock group above or below others collapses, not one beside another	згорнути можна лише групу дока над або під іншими, а не поруч з ними
 @msg	icon must be true or false	icon має бути true або false
 @msg	icon only docks a panel in the icon column, with no anchor	icon лише закріплює панель у стовпці значків, без anchor
@@ -5135,6 +5150,11 @@ lighting	Light	Світло
 @msg	unknown parameter `{key}`; the command takes: {keys}	невідомий параметр `{key}`; команда приймає: {keys}
 	Load EPS into Clipboard	Завантажити EPS у буфер обміну
 @msg	an image of {w} × {h} pixels is too large to draw	зображення розміром {w} × {h} пікселів завелике для відображення
+@msg	{path}: not a PNG, JPEG, WebP, TIFF or BMP image	{path}: це не зображення PNG, JPEG, WebP, TIFF чи BMP
+@msg	the image is {iw} × {ih} pixels and the artboard at that width is {rw} × {rh} pixels: their proportions differ	розмір зображення {iw} × {ih} пікселів, а монтажної області за цієї ширини {rw} × {rh} пікселів: їхні пропорції відрізняються
+@msg	`threshold` must be a number from 0 to 1	`threshold` має бути числом від 0 до 1
+@msg	background {v}: a color such as "#808080"	фон {v}: колір, наприклад "#808080"
+@msg	comparing with an image file isn't available in the browser	порівняння з файлом зображення недоступне в браузері
 @msg	an image of {w} × {h} pixels is shown at reduced size	зображення розміром {w} × {h} пікселів показано в зменшеному розмірі
 @msg	the image can't be read as a texture	зображення не вдається прочитати як текстуру
 	Basic	Базовий
@@ -6086,6 +6106,7 @@ breakText	Glyphs	Гліфи
 	Create Swatch Legend	Створити легенду зразків
 	Create Swatch Legend…	Створити легенду зразків…
 	HEX	HEX
+	Help Bar	Панель підказок
 # Type Tools add-on (Object › Plug-ins › Type Tools).
 	Type Tools	Інструменти тексту
 	Text Tweaker…	Налаштування тексту…
@@ -6151,34 +6172,8 @@ breakText	Glyphs	Гліфи
 # 3D Box add-on
 	3D Box	3D-паралелепіпед
 	3D Box Tool	Інструмент «3D-паралелепіпед»
-	Claude	Claude
-@msg	couldn't open a control channel for Claude	не вдалося відкрити канал керування для Claude
-@msg	install it from {_1}	установіть його з {_1}
-@msg	no control channel	немає каналу керування
-@msg	run `{_1} {_2}` in a terminal to sign in	щоб увійти, виконайте `{_1} {_2}` у терміналі
-@msg	the Claude pane needs the VectorCraft desktop app	панелі Claude потрібна настільна програма VectorCraft
-@msg	vectorcraft-cli wasn't found next to VectorCraft; reinstall VectorCraft	vectorcraft-cli не знайдено поруч із VectorCraft; перевстановіть VectorCraft
-	Each Link Separately	Кожен зв’язок окремо
-	Selected Instances	Вибрані екземпляри
-	All Instances	Усі екземпляри
-	Missing Links from This Folder	Відсутні зв’язки з цієї папки
-@msg	scope {v} is not each|selected|all|missingInFolder	scope {v} не є одним із each|selected|all|missingInFolder
-@msg	scope each and paths go together: paths lists entries of ids and path, in place of ids, path and folder	scope each і paths задаються разом: paths перелічує записи з ids і path замість ids, path і folder
-@msg	paths entry {i} needs path and ids (object ids no other entry has)	запису {i} у paths потрібні path і ids (ідентифікатори об’єктів, яких немає в інших записах)
-@msg	scope missingInFolder takes path: the folder of that file is searched for the other missing links	scope missingInFolder приймає path: у папці цього файлу шукаються інші відсутні зв’язки
-	Snap to Last Location	Прив’язати до останнього розташування
-	Dock to Top	Прикріпити вгорі
-	Dock to Bottom	Прикріпити внизу
-	Dock Control Bar	Прикріпити панель керування
-@msg	the HEIC or HEIF file can't be read	не вдається прочитати файл HEIC або HEIF
-@msg	the HEIC or HEIF file holds a kind of image that can't be read	файл HEIC або HEIF містить зображення такого типу, яке не вдається прочитати
-@msg	HEIC and HEIF images can't be opened in this build	зображення HEIC і HEIF не можна відкрити в цій збірці
-@msg	{path}: not a PNG, JPEG, WebP, TIFF or BMP image	{path}: це не зображення PNG, JPEG, WebP, TIFF чи BMP
-@msg	the image is {iw} × {ih} pixels and the artboard at that width is {rw} × {rh} pixels: their proportions differ	розмір зображення {iw} × {ih} пікселів, а монтажної області за цієї ширини {rw} × {rh} пікселів: їхні пропорції відрізняються
-@msg	`threshold` must be a number from 0 to 1	`threshold` має бути числом від 0 до 1
-@msg	background {v}: a color such as "#808080"	фон {v}: колір, наприклад "#808080"
-@msg	comparing with an image file isn't available in the browser	порівняння з файлом зображення недоступне в браузері
-	Help Bar	Панель підказок
+
+# Safe Mode
 	Safe Mode…	Безпечний режим…
 	Safe Mode	Безпечний режим
 	Help › Safe Mode…	Довідка › Безпечний режим…
@@ -6195,5 +6190,14 @@ breakText	Glyphs	Гліфи
 @msg	that plug-in isn't disabled (see plugin.safeMode)	цей модуль не вимкнено (див. plugin.safeMode)
 @msg	Couldn't save the disabled plug-ins for the next launch	Не вдалося зберегти вимкнені модулі для наступного запуску
 @msg	Expand Appearance: a plug-in effect in the selection can't be expanded in Safe Mode	Розбір оформлення: ефект модуля у виділенні не можна розібрати в безпечному режимі
+
+# Align to Pixel Grid
 	Align to Pixel Grid	Вирівняти за піксельною сіткою
 @msg	only paths and compound paths can be aligned to the pixel grid	за піксельною сіткою можна вирівняти лише контури і складені контури
+	Claude	Claude
+@msg	couldn't open a control channel for Claude	не вдалося відкрити канал керування для Claude
+@msg	install it from {_1}	установіть його з {_1}
+@msg	no control channel	немає каналу керування
+@msg	run `{_1} {_2}` in a terminal to sign in	щоб увійти, виконайте `{_1} {_2}` у терміналі
+@msg	the Claude pane needs the VectorCraft desktop app	панелі Claude потрібна настільна програма VectorCraft
+@msg	vectorcraft-cli wasn't found next to VectorCraft; reinstall VectorCraft	vectorcraft-cli не знайдено поруч із VectorCraft; перевстановіть VectorCraft

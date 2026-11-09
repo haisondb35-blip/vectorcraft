@@ -3759,6 +3759,7 @@ theme	Appearance	Motiv
 	Snapping Tolerance	Tolerance přichytávání
 	Spacing Guides	Vodítka rozestupů
 	Invoke Distance Guides	Vyvolat vodítka vzdálenosti
+	Snap to Last Location	Přichytávat k poslednímu umístění
 	Spanish	Španělština
 	Subdivisions	Dělení
 	Templates Folder	Složka šablon
@@ -4319,7 +4320,7 @@ imageTrace	Outline	Obrys
 # Status and error messages
 @msg	no library `{id}`	knihovna `{id}` neexistuje
 @msg	select some type first	nejprve vyberte text
-@msg	kerning must be a number, "auto", or "optical"	Vyrovnání párů musí být číslo, „auto“ nebo „optical“
+@msg	kerning must be a number, "auto", or "optical"	kerning musí být číslo, „auto“ nebo „optical“
 @msg	the selection has no gradient fill	výběr nemá přechodovou výplň
 @msg	the selection has no gradient stroke	výběr nemá přechodový tah
 @msg	the selection has no pattern fill	výběr nemá vzorkovou výplň
@@ -5128,6 +5129,9 @@ imageTrace	Outline	Obrys
 @msg	the Pixar file's image data is damaged	obrazová data souboru Pixar jsou poškozená
 @msg	the JPEG 2000 file can't be read	soubor JPEG 2000 nelze přečíst
 @msg	the JPEG 2000 file has an unsupported color space or JPX content	soubor JPEG 2000 obsahuje nepodporovaný barevný prostor nebo obsah JPX
+@msg	the HEIC or HEIF file can't be read	soubor HEIC nebo HEIF nelze přečíst
+@msg	the HEIC or HEIF file holds a kind of image that can't be read	soubor HEIC nebo HEIF obsahuje druh obrázku, který nelze přečíst
+@msg	HEIC and HEIF images can't be opened in this build	obrázky HEIC a HEIF nelze v tomto sestavení otevřít
 @msg	the PSD image is too large to read ({_1} × {_2} pixels)	obraz PSD je příliš velký na přečtení ({_1} × {_2} obrazových bodů)
 @msg	zipped 32-bit PSD image data with prediction can't be read	zazipovaná 32bitová obrazová data PSD s predikcí nelze přečíst
 @msg	{depth}-bit PSD files in this colour mode can't be read	{depth}bitové soubory PSD v tomto barevném režimu nelze přečíst
@@ -5558,6 +5562,11 @@ mark-style	Japanese	Japonské
 @msg	unknown parameter `{key}`; the command takes: {keys}	neznámý parametr `{key}`; příkaz přijímá: {keys}
 	Load EPS into Clipboard	Načíst EPS do schránky
 @msg	an image of {w} × {h} pixels is too large to draw	obraz o velikosti {w} × {h} obrazových bodů je příliš velký na vykreslení
+@msg	{path}: not a PNG, JPEG, WebP, TIFF or BMP image	{path}: není obraz PNG, JPEG, WebP, TIFF ani BMP
+@msg	the image is {iw} × {ih} pixels and the artboard at that width is {rw} × {rh} pixels: their proportions differ	obraz má {iw} × {ih} obrazových bodů a pracovní plocha v této šířce má {rw} × {rh} obrazových bodů: jejich proporce se liší
+@msg	`threshold` must be a number from 0 to 1	`threshold` musí být číslo od 0 do 1
+@msg	background {v}: a color such as "#808080"	pozadí {v}: barva jako "#808080"
+@msg	comparing with an image file isn't available in the browser	porovnání se souborem obrazu není v prohlížeči k dispozici
 @msg	an image of {w} × {h} pixels is shown at reduced size	obraz o velikosti {w} × {h} obrazových bodů se zobrazuje ve zmenšené velikosti
 @msg	the image can't be read as a texture	obraz nelze načíst jako texturu
 	Fill and Stroke Controls	Ovládací prvky výplně a tahu
@@ -6497,6 +6506,7 @@ breakText	Glyphs	Glyfy
 	Create Swatch Legend	Vytvořit legendu vzorníku
 	Create Swatch Legend…	Vytvořit legendu vzorníku…
 	HEX	HEX
+	Help Bar	Panel nápovědy
 # Type Tools add-on (Object › Plug-ins › Type Tools).
 	Type Tools	Nástroje textu
 	Text Tweaker…	Ladění textu…
@@ -6562,23 +6572,8 @@ breakText	Glyphs	Glyfy
 # 3D Box add-on
 	3D Box	3D kvádr
 	3D Box Tool	Nástroj 3D kvádr
-	Claude	Claude
-@msg	couldn't open a control channel for Claude	nepodařilo se otevřít řídicí kanál pro Claude
-@msg	install it from {_1}	nainstalujte jej z {_1}
-@msg	no control channel	žádný řídicí kanál
-@msg	run `{_1} {_2}` in a terminal to sign in	pro přihlášení spusťte v terminálu `{_1} {_2}`
-@msg	the Claude pane needs the VectorCraft desktop app	panel Claude vyžaduje desktopovou aplikaci VectorCraft
-@msg	vectorcraft-cli wasn't found next to VectorCraft; reinstall VectorCraft	vectorcraft-cli nebyl nalezen vedle VectorCraftu; přeinstalujte VectorCraft
-	Snap to Last Location	Přichytávat k poslednímu umístění
-@msg	the HEIC or HEIF file can't be read	soubor HEIC nebo HEIF nelze přečíst
-@msg	the HEIC or HEIF file holds a kind of image that can't be read	soubor HEIC nebo HEIF obsahuje druh obrázku, který nelze přečíst
-@msg	HEIC and HEIF images can't be opened in this build	obrázky HEIC a HEIF nelze v tomto sestavení otevřít
-@msg	{path}: not a PNG, JPEG, WebP, TIFF or BMP image	{path}: není obraz PNG, JPEG, WebP, TIFF ani BMP
-@msg	the image is {iw} × {ih} pixels and the artboard at that width is {rw} × {rh} pixels: their proportions differ	obraz má {iw} × {ih} obrazových bodů a pracovní plocha v této šířce má {rw} × {rh} obrazových bodů: jejich proporce se liší
-@msg	`threshold` must be a number from 0 to 1	`threshold` musí být číslo od 0 do 1
-@msg	background {v}: a color such as "#808080"	pozadí {v}: barva jako "#808080"
-@msg	comparing with an image file isn't available in the browser	porovnání se souborem obrazu není v prohlížeči k dispozici
-	Help Bar	Panel nápovědy
+
+# Safe Mode
 	Safe Mode…	Nouzový režim…
 	Safe Mode	Nouzový režim
 	Help › Safe Mode…	Nápověda › Nouzový režim…
@@ -6595,5 +6590,14 @@ breakText	Glyphs	Glyfy
 @msg	that plug-in isn't disabled (see plugin.safeMode)	tento zásuvný modul není zakázán (viz plugin.safeMode)
 @msg	Couldn't save the disabled plug-ins for the next launch	Zakázané zásuvné moduly nebylo možné uložit pro příští spuštění
 @msg	Expand Appearance: a plug-in effect in the selection can't be expanded in Safe Mode	Rozložit vzhled: efekt zásuvného modulu ve výběru nelze v nouzovém režimu rozložit
+
+# Align to Pixel Grid
 	Align to Pixel Grid	Zarovnat na mřížku obrazových bodů
 @msg	only paths and compound paths can be aligned to the pixel grid	na mřížku obrazových bodů lze zarovnat jen cesty a složené cesty
+	Claude	Claude
+@msg	couldn't open a control channel for Claude	nepodařilo se otevřít řídicí kanál pro Claude
+@msg	install it from {_1}	nainstalujte jej z {_1}
+@msg	no control channel	žádný řídicí kanál
+@msg	run `{_1} {_2}` in a terminal to sign in	pro přihlášení spusťte v terminálu `{_1} {_2}`
+@msg	the Claude pane needs the VectorCraft desktop app	panel Claude vyžaduje desktopovou aplikaci VectorCraft
+@msg	vectorcraft-cli wasn't found next to VectorCraft; reinstall VectorCraft	vectorcraft-cli nebyl nalezen vedle VectorCraftu; přeinstalujte VectorCraft

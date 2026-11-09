@@ -3482,6 +3482,7 @@ theme	Appearance	Tampilan
 	Snapping Tolerance	Toleransi kancing
 	Spacing Guides	Panduan jarak
 	Invoke Distance Guides	Panggil panduan pengukuran jarak
+	Snap to Last Location	Snap ke lokasi terakhir
 	Spanish	Spanyol
 	Subdivisions	Subdivisi
 	Templates Folder	Folder templat
@@ -4029,7 +4030,7 @@ imageTrace	Outline	Kontur
 @plural	{n} stroke|{n} strokes	{n} goresan
 @msg	no library `{id}`	tidak ada pustaka `{id}`
 @msg	select some type first	pilih beberapa teks terlebih dahulu
-@msg	kerning must be a number, "auto", or "optical"	Kerning harus berupa angka, “auto”, atau “optical”
+@msg	kerning must be a number, "auto", or "optical"	kerning harus berupa angka, “auto”, atau “optical”
 @msg	{_1} has no {_2} style	{_1} tidak memiliki gaya {_2}
 @msg	a layer couldn't be read	satu lapisan tidak dapat dibaca
 @msg	it has more than one artboard	memiliki lebih dari satu artboard
@@ -6323,6 +6324,7 @@ breakText	Glyphs	Glif
 	Create Swatch Legend	Buat Legenda Swatch
 	Create Swatch Legend…	Buat Legenda Swatch…
 	HEX	HEX
+	Help Bar	Bilah Bantuan
 # Type Tools add-on (Object › Plug-ins › Type Tools).
 	Type Tools	Alat Teks
 	Text Tweaker…	Penyetel Teks…
@@ -6388,9 +6390,8 @@ breakText	Glyphs	Glif
 # 3D Box add-on
 	3D Box	Kotak 3D
 	3D Box Tool	Alat Kotak 3D
-	Claude	Claude
-	Snap to Last Location	Snap ke lokasi terakhir
-	Help Bar	Bilah Bantuan
+
+# Safe Mode
 	Safe Mode…	Mode aman…
 	Safe Mode	Mode aman
 	Help › Safe Mode…	Bantuan › Mode aman…
@@ -6407,4 +6408,7 @@ breakText	Glyphs	Glif
 @msg	that plug-in isn't disabled (see plugin.safeMode)	plug-in itu tidak dinonaktifkan (lihat plugin.safeMode)
 @msg	Couldn't save the disabled plug-ins for the next launch	Plug-in yang dinonaktifkan tidak dapat disimpan untuk peluncuran berikutnya
 @msg	Expand Appearance: a plug-in effect in the selection can't be expanded in Safe Mode	Perluas tampilan: efek plug-in dalam seleksi tidak dapat diperluas dalam mode aman
+
+# Align to Pixel Grid
 	Align to Pixel Grid	Sejajarkan ke grid piksel
+	Claude	Claude

@@ -2758,6 +2758,14 @@ digits	Malayalam	Малаялам
 	Relink	Восстановить связь
 	Relink Linked Files to the Document	Восстановить связи связанных файлов с документом
 	Relink to Folder…	Восстановить связь с папкой…
+	Each Link Separately	Каждую связь отдельно
+	Selected Instances	Выбранные экземпляры
+	All Instances	Все экземпляры
+	Missing Links from This Folder	Отсутствующие связи из этой папки
+@msg	scope {v} is not each|selected|all|missingInFolder	scope {v} не является одним из each|selected|all|missingInFolder
+@msg	scope each and paths go together: paths lists entries of ids and path, in place of ids, path and folder	scope each и paths задаются вместе: paths перечисляет записи с ids и path вместо ids, path и folder
+@msg	paths entry {i} needs path and ids (object ids no other entry has)	записи {i} в paths нужны path и ids (идентификаторы объектов, которых нет в других записях)
+@msg	scope missingInFolder takes path: the folder of that file is searched for the other missing links	scope missingInFolder принимает path: в папке этого файла ищутся остальные отсутствующие связи
 	Relink…	Восстановить связь…
 	Find Linked Files	Найти связанные файлы
 	Find Linked Files in Folder…	Найти связанные файлы в папке…
@@ -3325,6 +3333,7 @@ digits	Malayalam	Малаялам
 	Spaces	Пробелы
 	Spacing Guides	Направляющие интервалов
 	Invoke Distance Guides	Вызывать направляющие расстояний
+	Snap to Last Location	Привязать к последнему положению
 	Spacing:	Интервал:
 	Spanish	Испанский
 	Specified Distance	Заданное расстояние
@@ -4024,6 +4033,9 @@ axis	Both	Оба
 	Put back in the toolbar	Вернуть на панель инструментов
 	Float Panel	Сделать панель плавающей
 	Dock Panel	Прикрепить панель
+	Dock to Top	Прикрепить сверху
+	Dock to Bottom	Прикрепить снизу
+	Dock Control Bar	Прикрепить панель управления
 	Drag to float the toolbar	Перетащите, чтобы сделать панель инструментов плавающей
 	Drag to the window's left edge to dock	Перетащите к левому краю окна для прикрепления
 	Float Tool Group	Сделать группу инструментов плавающей
@@ -4034,7 +4046,7 @@ axis	Both	Оба
 # names and values in backticks or code (`colorModel rgb`, `document.export`) stay as they are.
 @msg	no library `{id}`	нет библиотеки `{id}`
 @msg	select some type first	сначала выделите текст
-@msg	kerning must be a number, "auto", or "optical"	Кернинг должен быть числом, «auto» или «optical»
+@msg	kerning must be a number, "auto", or "optical"	kerning должен быть числом, «auto» или «optical»
 @msg	the selection has no gradient fill	у выделения нет градиентной заливки
 @msg	the selection has no gradient stroke	у выделения нет градиентной обводки
 @msg	the selection has no pattern fill	у выделения нет узорной заливки
@@ -4873,6 +4885,9 @@ axis	Both	Оба
 @msg	the Pixar file's image data is damaged	данные изображения в файле Pixar повреждены
 @msg	the JPEG 2000 file can't be read	не удается прочитать файл JPEG 2000
 @msg	the JPEG 2000 file has an unsupported color space or JPX content	файл JPEG 2000 содержит неподдерживаемое цветовое пространство или содержимое JPX
+@msg	the HEIC or HEIF file can't be read	не удается прочитать файл HEIC или HEIF
+@msg	the HEIC or HEIF file holds a kind of image that can't be read	файл HEIC или HEIF содержит изображение такого типа, которое не удается прочитать
+@msg	HEIC and HEIF images can't be opened in this build	изображения HEIC и HEIF нельзя открыть в этой сборке
 @msg	the PSD image is too large to read ({_1} × {_2} pixels)	изображение PSD слишком велико для чтения ({_1} × {_2} пикс.)
 @msg	zipped 32-bit PSD image data with prediction can't be read	32-битные данные изображения PSD со сжатием ZIP с предсказанием не читаются
 @msg	{depth}-bit PSD files in this colour mode can't be read	{depth}-битные файлы PSD в этом цветовом режиме не читаются
@@ -4983,7 +4998,7 @@ axis	Both	Оба
 @msg	before must name a panel	before должен указывать панель
 @msg	docking action contains an unknown panel or an excessive split path	Действие прикрепления содержит неизвестную панель или слишком длинный путь разделений
 @msg	group must be true or false	group должен иметь значение true или false
-@msg	panel is not in a dock group	панель не находится в группе дока
+@msg	panel is not in a dock group	panel не находится в группе дока
 @msg	only a dock group above or below others collapses, not one beside another	свернуть можно только группу дока над или под другими, а не рядом с ними
 @msg	icon must be true or false	icon должен быть true или false
 @msg	icon only docks a panel in the icon column, with no anchor	icon только закрепляет панель в столбце значков, без anchor
@@ -5150,6 +5165,11 @@ lighting	Light	Свет
 @msg	unknown parameter `{key}`; the command takes: {keys}	неизвестный параметр `{key}`; команда принимает: {keys}
 	Load EPS into Clipboard	Загрузить EPS в буфер обмена
 @msg	an image of {w} × {h} pixels is too large to draw	изображение размером {w} × {h} пикселей слишком велико для отрисовки
+@msg	{path}: not a PNG, JPEG, WebP, TIFF or BMP image	{path}: это не изображение PNG, JPEG, WebP, TIFF или BMP
+@msg	the image is {iw} × {ih} pixels and the artboard at that width is {rw} × {rh} pixels: their proportions differ	размер изображения {iw} × {ih} пикселей, а монтажной области при этой ширине {rw} × {rh} пикселей: их пропорции различаются
+@msg	`threshold` must be a number from 0 to 1	`threshold` должно быть числом от 0 до 1
+@msg	background {v}: a color such as "#808080"	фон {v}: цвет, например "#808080"
+@msg	comparing with an image file isn't available in the browser	сравнение с файлом изображения недоступно в браузере
 @msg	an image of {w} × {h} pixels is shown at reduced size	изображение размером {w} × {h} пикселей показано в уменьшенном размере
 @msg	the image can't be read as a texture	изображение не удаётся прочитать как текстуру
 	Basic	Базовый
@@ -6641,33 +6661,8 @@ shape	Open	Открытый
 # 3D Box add-on
 	3D Box	3D-параллелепипед
 	3D Box Tool	Инструмент «3D-параллелепипед»
-	Claude	Claude
-@msg	couldn't open a control channel for Claude	не удалось открыть канал управления для Claude
-@msg	install it from {_1}	установите его с {_1}
-@msg	no control channel	нет канала управления
-@msg	run `{_1} {_2}` in a terminal to sign in	чтобы войти, выполните `{_1} {_2}` в терминале
-@msg	the Claude pane needs the VectorCraft desktop app	панели Claude нужно настольное приложение VectorCraft
-@msg	vectorcraft-cli wasn't found next to VectorCraft; reinstall VectorCraft	vectorcraft-cli не найден рядом с VectorCraft; переустановите VectorCraft
-	Each Link Separately	Каждую связь отдельно
-	Selected Instances	Выбранные экземпляры
-	All Instances	Все экземпляры
-	Missing Links from This Folder	Отсутствующие связи из этой папки
-@msg	scope {v} is not each|selected|all|missingInFolder	scope {v} не является одним из each|selected|all|missingInFolder
-@msg	scope each and paths go together: paths lists entries of ids and path, in place of ids, path and folder	scope each и paths задаются вместе: paths перечисляет записи с ids и path вместо ids, path и folder
-@msg	paths entry {i} needs path and ids (object ids no other entry has)	записи {i} в paths нужны path и ids (идентификаторы объектов, которых нет в других записях)
-@msg	scope missingInFolder takes path: the folder of that file is searched for the other missing links	scope missingInFolder принимает path: в папке этого файла ищутся остальные отсутствующие связи
-	Snap to Last Location	Привязать к последнему положению
-	Dock to Top	Прикрепить сверху
-	Dock to Bottom	Прикрепить снизу
-	Dock Control Bar	Прикрепить панель управления
-@msg	the HEIC or HEIF file can't be read	не удается прочитать файл HEIC или HEIF
-@msg	the HEIC or HEIF file holds a kind of image that can't be read	файл HEIC или HEIF содержит изображение такого типа, которое не удается прочитать
-@msg	HEIC and HEIF images can't be opened in this build	изображения HEIC и HEIF нельзя открыть в этой сборке
-@msg	{path}: not a PNG, JPEG, WebP, TIFF or BMP image	{path}: это не изображение PNG, JPEG, WebP, TIFF или BMP
-@msg	the image is {iw} × {ih} pixels and the artboard at that width is {rw} × {rh} pixels: their proportions differ	размер изображения {iw} × {ih} пикселей, а монтажной области при этой ширине {rw} × {rh} пикселей: их пропорции различаются
-@msg	`threshold` must be a number from 0 to 1	`threshold` должно быть числом от 0 до 1
-@msg	background {v}: a color such as "#808080"	фон {v}: цвет, например "#808080"
-@msg	comparing with an image file isn't available in the browser	сравнение с файлом изображения недоступно в браузере
+
+# Safe Mode
 	Safe Mode…	Безопасный режим…
 	Safe Mode	Безопасный режим
 	Help › Safe Mode…	Справка › Безопасный режим…
@@ -6684,5 +6679,14 @@ shape	Open	Открытый
 @msg	that plug-in isn't disabled (see plugin.safeMode)	этот модуль не отключён (см. plugin.safeMode)
 @msg	Couldn't save the disabled plug-ins for the next launch	Не удалось сохранить отключённые модули для следующего запуска
 @msg	Expand Appearance: a plug-in effect in the selection can't be expanded in Safe Mode	Разбор оформления: эффект модуля в выделении нельзя разобрать в безопасном режиме
+
+# Align to Pixel Grid
 	Align to Pixel Grid	Выровнять по пиксельной сетке
 @msg	only paths and compound paths can be aligned to the pixel grid	по пиксельной сетке можно выровнять только контуры и составные контуры
+	Claude	Claude
+@msg	couldn't open a control channel for Claude	не удалось открыть канал управления для Claude
+@msg	install it from {_1}	установите его с {_1}
+@msg	no control channel	нет канала управления
+@msg	run `{_1} {_2}` in a terminal to sign in	чтобы войти, выполните `{_1} {_2}` в терминале
+@msg	the Claude pane needs the VectorCraft desktop app	панели Claude нужно настольное приложение VectorCraft
+@msg	vectorcraft-cli wasn't found next to VectorCraft; reinstall VectorCraft	vectorcraft-cli не найден рядом с VectorCraft; переустановите VectorCraft

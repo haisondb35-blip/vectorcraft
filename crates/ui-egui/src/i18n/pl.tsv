@@ -3621,6 +3621,7 @@ theme	Appearance	Wygląd
 	Snapping Tolerance	Tolerancja przyciągania
 	Spacing Guides	Linie odstępów
 	Invoke Distance Guides	Wywołuj linie odległości
+	Snap to Last Location	Przyciągaj do ostatniego położenia
 	Spanish	Hiszpański
 	Subdivisions	Podpodziały
 	Templates Folder	Folder szablonów
@@ -4141,7 +4142,7 @@ imageTrace	Outline	Kontur
 @plural	{n} stroke|{n} strokes	{n} obrys|{n} obrysy|{n} obrysów
 @msg	no library `{id}`	brak biblioteki `{id}`
 @msg	select some type first	najpierw zaznacz tekst
-@msg	kerning must be a number, "auto", or "optical"	Kerning musi być liczbą, „auto” lub „optical”
+@msg	kerning must be a number, "auto", or "optical"	kerning musi być liczbą, „auto” lub „optical”
 @msg	the selection has no gradient fill	zaznaczenie nie ma gradientu wypełnienia
 @msg	the selection has no gradient stroke	zaznaczenie nie ma gradientu obrysu
 @msg	the selection has no pattern fill	zaznaczenie nie ma wzorka wypełnienia
@@ -4953,6 +4954,9 @@ imageTrace	Outline	Kontur
 @msg	the Pixar file's image data is damaged	dane obrazu pliku Pixar są uszkodzone
 @msg	the JPEG 2000 file can't be read	nie można odczytać pliku JPEG 2000
 @msg	the JPEG 2000 file has an unsupported color space or JPX content	plik JPEG 2000 zawiera nieobsługiwaną przestrzeń barw lub zawartość JPX
+@msg	the HEIC or HEIF file can't be read	nie można odczytać pliku HEIC lub HEIF
+@msg	the HEIC or HEIF file holds a kind of image that can't be read	plik HEIC lub HEIF zawiera rodzaj obrazu, którego nie można odczytać
+@msg	HEIC and HEIF images can't be opened in this build	obrazów HEIC i HEIF nie można otworzyć w tej wersji
 @msg	the PSD image is too large to read ({_1} × {_2} pixels)	obraz PSD jest zbyt duży, aby go odczytać ({_1} × {_2} pikseli)
 @msg	zipped 32-bit PSD image data with prediction can't be read	nie można odczytać spakowanych 32-bitowych danych obrazu PSD z predykcją
 @msg	{depth}-bit PSD files in this colour mode can't be read	nie można odczytać {depth}-bitowych plików PSD w tym trybie koloru
@@ -5396,6 +5400,11 @@ mark-style	Japanese	Japońskie
 @msg	unknown parameter `{key}`; the command takes: {keys}	nieznany parametr `{key}`; polecenie przyjmuje: {keys}
 	Load EPS into Clipboard	Wczytaj EPS do schowka
 @msg	an image of {w} × {h} pixels is too large to draw	obraz o wymiarach {w} × {h} pikseli jest zbyt duży, aby go narysować
+@msg	{path}: not a PNG, JPEG, WebP, TIFF or BMP image	{path}: to nie jest obraz PNG, JPEG, WebP, TIFF ani BMP
+@msg	the image is {iw} × {ih} pixels and the artboard at that width is {rw} × {rh} pixels: their proportions differ	obraz ma {iw} × {ih} pikseli, a obszar kompozycji przy tej szerokości ma {rw} × {rh} pikseli: ich proporcje się różnią
+@msg	`threshold` must be a number from 0 to 1	`threshold` musi być liczbą od 0 do 1
+@msg	background {v}: a color such as "#808080"	tło {v}: kolor, np. "#808080"
+@msg	comparing with an image file isn't available in the browser	porównywanie z plikiem obrazu nie jest dostępne w przeglądarce
 @msg	an image of {w} × {h} pixels is shown at reduced size	obraz o wymiarach {w} × {h} pikseli jest wyświetlany w zmniejszonym rozmiarze
 	Basic	Podstawowy
 	Fill and Stroke Controls	Elementy sterujące wypełnieniem i obrysem
@@ -6352,6 +6361,7 @@ breakText	Glyphs	Glify
 	Create Swatch Legend	Utwórz legendę próbek
 	Create Swatch Legend…	Utwórz legendę próbek…
 	HEX	HEX
+	Help Bar	Pasek pomocy
 # Type Tools add-on (Object › Plug-ins › Type Tools).
 	Type Tools	Narzędzia tekstu
 	Text Tweaker…	Strojenie tekstu…
@@ -6417,23 +6427,8 @@ breakText	Glyphs	Glify
 # 3D Box add-on
 	3D Box	Bryła 3D
 	3D Box Tool	Narzędzie Bryła 3D
-	Claude	Claude
-@msg	couldn't open a control channel for Claude	nie udało się otworzyć kanału sterowania dla Claude
-@msg	install it from {_1}	zainstaluj z {_1}
-@msg	no control channel	brak kanału sterowania
-@msg	run `{_1} {_2}` in a terminal to sign in	aby się zalogować, uruchom `{_1} {_2}` w terminalu
-@msg	the Claude pane needs the VectorCraft desktop app	panel Claude wymaga aplikacji desktopowej VectorCraft
-@msg	vectorcraft-cli wasn't found next to VectorCraft; reinstall VectorCraft	nie znaleziono vectorcraft-cli obok VectorCraft; zainstaluj ponownie VectorCraft
-	Snap to Last Location	Przyciągaj do ostatniego położenia
-@msg	the HEIC or HEIF file can't be read	nie można odczytać pliku HEIC lub HEIF
-@msg	the HEIC or HEIF file holds a kind of image that can't be read	plik HEIC lub HEIF zawiera rodzaj obrazu, którego nie można odczytać
-@msg	HEIC and HEIF images can't be opened in this build	obrazów HEIC i HEIF nie można otworzyć w tej wersji
-@msg	{path}: not a PNG, JPEG, WebP, TIFF or BMP image	{path}: to nie jest obraz PNG, JPEG, WebP, TIFF ani BMP
-@msg	the image is {iw} × {ih} pixels and the artboard at that width is {rw} × {rh} pixels: their proportions differ	obraz ma {iw} × {ih} pikseli, a obszar kompozycji przy tej szerokości ma {rw} × {rh} pikseli: ich proporcje się różnią
-@msg	`threshold` must be a number from 0 to 1	`threshold` musi być liczbą od 0 do 1
-@msg	background {v}: a color such as "#808080"	tło {v}: kolor, np. "#808080"
-@msg	comparing with an image file isn't available in the browser	porównywanie z plikiem obrazu nie jest dostępne w przeglądarce
-	Help Bar	Pasek pomocy
+
+# Safe Mode
 	Safe Mode…	Tryb awaryjny…
 	Safe Mode	Tryb awaryjny
 	Help › Safe Mode…	Pomoc › Tryb awaryjny…
@@ -6450,5 +6445,14 @@ breakText	Glyphs	Glify
 @msg	that plug-in isn't disabled (see plugin.safeMode)	ta wtyczka nie jest wyłączona (patrz plugin.safeMode)
 @msg	Couldn't save the disabled plug-ins for the next launch	Nie można zapisać wyłączonych wtyczek na następne uruchomienie
 @msg	Expand Appearance: a plug-in effect in the selection can't be expanded in Safe Mode	Rozszerz wygląd: efektu wtyczki w zaznaczeniu nie można rozszerzyć w trybie awaryjnym
+
+# Align to Pixel Grid
 	Align to Pixel Grid	Wyrównaj do siatki pikseli
 @msg	only paths and compound paths can be aligned to the pixel grid	do siatki pikseli można wyrównać tylko ścieżki i ścieżki złożone
+	Claude	Claude
+@msg	couldn't open a control channel for Claude	nie udało się otworzyć kanału sterowania dla Claude
+@msg	install it from {_1}	zainstaluj z {_1}
+@msg	no control channel	brak kanału sterowania
+@msg	run `{_1} {_2}` in a terminal to sign in	aby się zalogować, uruchom `{_1} {_2}` w terminalu
+@msg	the Claude pane needs the VectorCraft desktop app	panel Claude wymaga aplikacji desktopowej VectorCraft
+@msg	vectorcraft-cli wasn't found next to VectorCraft; reinstall VectorCraft	nie znaleziono vectorcraft-cli obok VectorCraft; zainstaluj ponownie VectorCraft

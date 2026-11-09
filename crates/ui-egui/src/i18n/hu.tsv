@@ -3254,6 +3254,14 @@ mark-style	Japanese	Japán
 	Relink	Újracsatolás
 	Relink Linked Files to the Document	Csatolt fájlok újracsatolása a dokumentumhoz
 	Relink to Folder…	Újracsatolás mappából…
+	Each Link Separately	Minden csatolás külön
+	Selected Instances	Kijelölt példányok
+	All Instances	Összes példány
+	Missing Links from This Folder	Hiányzó csatolások ebből a mappából
+@msg	scope {v} is not each|selected|all|missingInFolder	a scope {v} nem each|selected|all|missingInFolder
+@msg	scope each and paths go together: paths lists entries of ids and path, in place of ids, path and folder	a scope each és a paths együtt jár: a paths ids és path elemű bejegyzéseket sorol fel az ids, path és folder helyett
+@msg	paths entry {i} needs path and ids (object ids no other entry has)	a paths {i} bejegyzéséhez path és ids kell (olyan objektumazonosítók, amelyek más bejegyzésben nincsenek)
+@msg	scope missingInFolder takes path: the folder of that file is searched for the other missing links	a scope missingInFolder path értéket vár: a többi hiányzó csatolást a fájl mappájában keresi
 	Relink…	Újracsatolás…
 	Find Linked Files	Csatolt fájlok keresése
 	Find Linked Files in Folder…	Csatolt fájlok keresése mappában…
@@ -3932,6 +3940,7 @@ mark-style	Japanese	Japán
 	Spacing	Térköz
 	Spacing Guides	Térköz-segédvonalak
 	Invoke Distance Guides	Távolság-segédvonalak előhívása
+	Snap to Last Location	Illesztés az utolsó helyre
 	Spacing:	Térköz:
 	Spanish	Spanyol
 	Spatter	Fröcskölés
@@ -4557,6 +4566,7 @@ mark-style	Japanese	Japán
 	Zoom to Selection	Nagyítás a kijelölésre
 	Zoom Tool	Nagyító
 	Zoom with Mouse Wheel	Nagyítás egérgörgővel
+	Scroll Sideways with Cmd/Ctrl + Wheel	Vízszintes görgetés Cmd/Ctrl + görgővel
 @plural	{n} file in {folder} {note}. Show the package folder?|{n} files in {folder} {note}. Show the package folder?	Fájlok: {n}, mappa: {folder} {note}. Megnyitod a csomag mappáját?
 @plural	{n} folder or file couldn't be read|{n} folders or files couldn't be read	Nem olvasható mappák vagy fájlok: {n}
 @plural	{n} folder skipped, such as another app's or the system's folder or a hidden one|{n} folders skipped, such as other apps' and the system's folders and hidden ones	Kihagyott mappák: {n} (például más alkalmazások, a rendszer és a rejtett mappák)
@@ -5259,7 +5269,7 @@ imageTrace	Outline	Körvonal
 @msg	select paths or anchor points	jelölj ki útvonalakat vagy horgonypontokat
 @msg	select paths to join	jelöld ki az összekapcsolandó útvonalakat
 @msg	select some type first	előbb jelölj ki szöveget
-@msg	kerning must be a number, "auto", or "optical"	Az alávágás szám, „auto” vagy „optical” lehet
+@msg	kerning must be a number, "auto", or "optical"	a kerning szám, „auto” vagy „optical” lehet
 @msg	the selection has no gradient fill	a kijelölésnek nincs színátmenetes kitöltése
 @msg	the selection has no gradient stroke	a kijelölésnek nincs színátmenetes körvonala
 @msg	the selection has no pattern fill	a kijelölésnek nincs mintázatos kitöltése
@@ -5363,6 +5373,9 @@ imageTrace	Outline	Körvonal
 @msg	the Pixar file's image data is damaged	a Pixar-fájl képadatai sérültek
 @msg	the JPEG 2000 file can't be read	a JPEG 2000 fájl nem olvasható
 @msg	the JPEG 2000 file has an unsupported color space or JPX content	a JPEG 2000 fájl nem támogatott színteret vagy JPX-tartalmat tartalmaz
+@msg	the HEIC or HEIF file can't be read	a HEIC- vagy HEIF-fájl nem olvasható
+@msg	the HEIC or HEIF file holds a kind of image that can't be read	a HEIC- vagy HEIF-fájl olyan képtípust tartalmaz, amely nem olvasható
+@msg	HEIC and HEIF images can't be opened in this build	a HEIC- és HEIF-képek ebben a buildben nem nyithatók meg
 @msg	the PSD image is too large to read ({_1} × {_2} pixels)	a PSD-kép túl nagy a beolvasáshoz ({_1} × {_2} pixel)
 @msg	the Save PDF dialog didn't open	a PDF mentése párbeszédablak nem nyílt meg
 @msg	the scale is not a usable number	a méretarány nem használható szám
@@ -5532,6 +5545,11 @@ imageTrace	Outline	Körvonal
 @msg	unknown parameter `{key}`; the command takes: {keys}	ismeretlen paraméter: `{key}`; a parancs ezeket fogadja el: {keys}
 	Load EPS into Clipboard	EPS betöltése a vágólapra
 @msg	an image of {w} × {h} pixels is too large to draw	egy {w} × {h} pixeles kép túl nagy a kirajzoláshoz
+@msg	{path}: not a PNG, JPEG, WebP, TIFF or BMP image	{path}: nem PNG, JPEG, WebP, TIFF vagy BMP kép
+@msg	the image is {iw} × {ih} pixels and the artboard at that width is {rw} × {rh} pixels: their proportions differ	a kép {iw} × {ih} pixeles, a rajztábla ilyen szélességben {rw} × {rh} pixeles: az arányaik eltérnek
+@msg	`threshold` must be a number from 0 to 1	a `threshold` értéke 0 és 1 közötti szám lehet
+@msg	background {v}: a color such as "#808080"	background {v}: egy szín, például "#808080"
+@msg	comparing with an image file isn't available in the browser	a képfájllal való összehasonlítás a böngészőben nem érhető el
 @msg	an image of {w} × {h} pixels is shown at reduced size	egy {w} × {h} pixeles kép csökkentett méretben jelenik meg
 @msg	the image can't be read as a texture	a kép nem olvasható be textúraként
 	Fill and Stroke Controls	Kitöltés és körvonal vezérlői
@@ -6472,6 +6490,7 @@ breakText	Glyphs	Glifák
 	Create Swatch Legend	Színmintajelmagyarázat létrehozása
 	Create Swatch Legend…	Színmintajelmagyarázat létrehozása…
 	HEX	HEX
+	Help Bar	Súgósáv
 # Type Tools add-on (Object › Plug-ins › Type Tools).
 	Type Tools	Szövegeszközök
 	Text Tweaker…	Szöveghangoló…
@@ -6537,32 +6556,8 @@ breakText	Glyphs	Glifák
 # 3D Box add-on
 	3D Box	3D doboz
 	3D Box Tool	3D doboz eszköz
-	Claude	Claude
-@msg	couldn't open a control channel for Claude	nem sikerült vezérlőcsatornát nyitni a Claude számára
-@msg	install it from {_1}	telepítse innen: {_1}
-@msg	no control channel	nincs vezérlőcsatorna
-@msg	run `{_1} {_2}` in a terminal to sign in	a bejelentkezéshez futtassa a(z) `{_1} {_2}` parancsot egy terminálban
-@msg	the Claude pane needs the VectorCraft desktop app	a Claude panelhez a VectorCraft asztali alkalmazás szükséges
-@msg	vectorcraft-cli wasn't found next to VectorCraft; reinstall VectorCraft	a vectorcraft-cli nem található a VectorCraft mellett; telepítse újra a VectorCraftot
-	Each Link Separately	Minden csatolás külön
-	Selected Instances	Kijelölt példányok
-	All Instances	Összes példány
-	Missing Links from This Folder	Hiányzó csatolások ebből a mappából
-@msg	scope {v} is not each|selected|all|missingInFolder	a scope {v} nem each|selected|all|missingInFolder
-@msg	scope each and paths go together: paths lists entries of ids and path, in place of ids, path and folder	a scope each és a paths együtt jár: a paths ids és path elemű bejegyzéseket sorol fel az ids, path és folder helyett
-@msg	paths entry {i} needs path and ids (object ids no other entry has)	a paths {i} bejegyzéséhez path és ids kell (olyan objektumazonosítók, amelyek más bejegyzésben nincsenek)
-@msg	scope missingInFolder takes path: the folder of that file is searched for the other missing links	a scope missingInFolder path értéket vár: a többi hiányzó csatolást a fájl mappájában keresi
-	Snap to Last Location	Illesztés az utolsó helyre
-	Scroll Sideways with Cmd/Ctrl + Wheel	Vízszintes görgetés Cmd/Ctrl + görgővel
-@msg	the HEIC or HEIF file can't be read	a HEIC- vagy HEIF-fájl nem olvasható
-@msg	the HEIC or HEIF file holds a kind of image that can't be read	a HEIC- vagy HEIF-fájl olyan képtípust tartalmaz, amely nem olvasható
-@msg	HEIC and HEIF images can't be opened in this build	a HEIC- és HEIF-képek ebben a buildben nem nyithatók meg
-@msg	{path}: not a PNG, JPEG, WebP, TIFF or BMP image	{path}: nem PNG, JPEG, WebP, TIFF vagy BMP kép
-@msg	the image is {iw} × {ih} pixels and the artboard at that width is {rw} × {rh} pixels: their proportions differ	a kép {iw} × {ih} pixeles, a rajztábla ilyen szélességben {rw} × {rh} pixeles: az arányaik eltérnek
-@msg	`threshold` must be a number from 0 to 1	a `threshold` értéke 0 és 1 közötti szám lehet
-@msg	background {v}: a color such as "#808080"	background {v}: egy szín, például "#808080"
-@msg	comparing with an image file isn't available in the browser	a képfájllal való összehasonlítás a böngészőben nem érhető el
-	Help Bar	Súgósáv
+
+# Safe Mode
 	Safe Mode…	Csökkentett mód…
 	Safe Mode	Csökkentett mód
 	Help › Safe Mode…	Súgó › Csökkentett mód…
@@ -6579,5 +6574,14 @@ breakText	Glyphs	Glifák
 @msg	that plug-in isn't disabled (see plugin.safeMode)	ez a bővítmény nincs letiltva (lásd: plugin.safeMode)
 @msg	Couldn't save the disabled plug-ins for the next launch	A letiltott bővítményeket nem sikerült menteni a következő indításhoz
 @msg	Expand Appearance: a plug-in effect in the selection can't be expanded in Safe Mode	Megjelenés kibontása: a kijelölésben lévő bővítményeffektus csökkentett módban nem bontható ki
+
+# Align to Pixel Grid
 	Align to Pixel Grid	Igazítás a pixelrácshoz
 @msg	only paths and compound paths can be aligned to the pixel grid	csak útvonalak és összetett útvonalak igazíthatók a pixelrácshoz
+	Claude	Claude
+@msg	couldn't open a control channel for Claude	nem sikerült vezérlőcsatornát nyitni a Claude számára
+@msg	install it from {_1}	telepítse innen: {_1}
+@msg	no control channel	nincs vezérlőcsatorna
+@msg	run `{_1} {_2}` in a terminal to sign in	a bejelentkezéshez futtassa a(z) `{_1} {_2}` parancsot egy terminálban
+@msg	the Claude pane needs the VectorCraft desktop app	a Claude panelhez a VectorCraft asztali alkalmazás szükséges
+@msg	vectorcraft-cli wasn't found next to VectorCraft; reinstall VectorCraft	a vectorcraft-cli nem található a VectorCraft mellett; telepítse újra a VectorCraftot

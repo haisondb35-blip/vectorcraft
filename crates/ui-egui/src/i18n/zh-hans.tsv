@@ -2633,6 +2633,14 @@ digits	Malayalam	马拉雅拉姆数字
 	Relink	重新链接
 	Relink Linked Files to the Document	将链接文件重新链接到文档
 	Relink to Folder…	重新链接到文件夹…
+	Each Link Separately	逐个链接
+	Selected Instances	所选实例
+	All Instances	所有实例
+	Missing Links from This Folder	此文件夹中缺失的链接
+@msg	scope {v} is not each|selected|all|missingInFolder	scope {v} 不是 each|selected|all|missingInFolder 之一
+@msg	scope each and paths go together: paths lists entries of ids and path, in place of ids, path and folder	scope each 与 paths 需一起使用：paths 列出包含 ids 和 path 的条目，用来代替 ids、path 和 folder
+@msg	paths entry {i} needs path and ids (object ids no other entry has)	paths 条目 {i} 需要 path 和 ids（其他条目没有的对象 ID）
+@msg	scope missingInFolder takes path: the folder of that file is searched for the other missing links	scope missingInFolder 需要 path：将在该文件所在的文件夹中查找其他缺失的链接
 	Relink…	重新链接…
 	Find Linked Files	查找链接文件
 	Find Linked Files in Folder…	在文件夹中查找链接文件…
@@ -3162,6 +3170,7 @@ digits	Malayalam	马拉雅拉姆数字
 	Spaces	空格
 	Spacing Guides	间距参考线
 	Invoke Distance Guides	调用距离参考线
+	Snap to Last Location	对齐上一位置
 	Spacing:	间距：
 	Spanish	西班牙语
 	Specified Distance	指定距离
@@ -3886,7 +3895,7 @@ imageTrace	Outline	轮廓
 @msg	at this scale the drawing is {w} × {h} pt, more than the canvas holds: choose a smaller scale or fit it to the artboard	按此比例，图纸为 {w} × {h} pt，超出画布的容量：请选择较小的比例，或使其适合画板
 @msg	the scale is not a usable number	比例不是可用的数字
 @msg	the drawing is too large to open	图纸过大，无法打开
-@msg	scale must be a number from {_1} to {_2}, not {_3}	比例必须是 {_1} 到 {_2} 之间的数字，而不是 {_3}
+@msg	scale must be a number from {_1} to {_2}, not {_3}	scale 必须是 {_1} 到 {_2} 之间的数字，而不是 {_3}
 @msg	an image has no pixels and was left out	已略去没有像素的图像
 @msg	object {0} cannot have children	对象 {0} 不能包含子对象
 @msg	range `{s}` is empty	范围 `{s}` 为空
@@ -4480,7 +4489,7 @@ imageTrace	Outline	轮廓
 @msg	choose a folder to export to	请选择要导出到的文件夹
 @msg	the selection has no URL (or they differ)	所选对象没有 URL (或其 URL 各不相同)
 @msg	select some type first	请先选择一些文字
-@msg	kerning must be a number, "auto", or "optical"	字偶距必须是数字、“auto”或“optical”
+@msg	kerning must be a number, "auto", or "optical"	kerning 必须是数字、“auto”或“optical”
 @msg	the selection has no gradient fill	所选对象没有渐变填色
 @msg	the selection has no gradient stroke	所选对象没有渐变描边
 @msg	the selection has no pattern fill	所选对象没有图案填色
@@ -4629,6 +4638,9 @@ imageTrace	Outline	轮廓
 @msg	the Pixar file's image data is damaged	Pixar 文件的图像数据已损坏
 @msg	the JPEG 2000 file can't be read	无法读取 JPEG 2000 文件
 @msg	the JPEG 2000 file has an unsupported color space or JPX content	JPEG 2000 文件包含不受支持的色彩空间或 JPX 内容
+@msg	the HEIC or HEIF file can't be read	无法读取 HEIC 或 HEIF 文件
+@msg	the HEIC or HEIF file holds a kind of image that can't be read	HEIC 或 HEIF 文件包含无法读取的图像类型
+@msg	HEIC and HEIF images can't be opened in this build	此版本无法打开 HEIC 和 HEIF 图像
 @msg	the PSD image is too large to read ({_1} × {_2} pixels)	PSD 图像过大，无法读取 ({_1} × {_2} 像素)
 @msg	zipped 32-bit PSD image data with prediction can't be read	无法读取带预测的 ZIP 压缩 32 位 PSD 图像数据
 @msg	{depth}-bit PSD files in this colour mode can't be read	无法读取此颜色模式下的 {depth} 位 PSD 文件
@@ -4643,7 +4655,7 @@ imageTrace	Outline	轮廓
 @msg	before must name a panel	before 必须指定面板
 @msg	docking action contains an unknown panel or an excessive split path	停靠操作包含未知面板或过长的拆分路径
 @msg	group must be true or false	group 必须是 true 或 false
-@msg	panel is not in a dock group	面板不在停放组中
+@msg	panel is not in a dock group	panel 不在停放组中
 @msg	only a dock group above or below others collapses, not one beside another	只有位于其他组上方或下方的停放组可以折叠，并排的不行
 @msg	icon must be true or false	icon 必须为 true 或 false
 @msg	icon only docks a panel in the icon column, with no anchor	icon 只会把面板停放到图标栏中，不能带 anchor
@@ -5099,6 +5111,9 @@ axis	Both	两者
 	Put back in the toolbar	放回工具栏
 	Float Panel	浮动面板
 	Dock Panel	停放面板
+	Dock to Top	停放到顶部
+	Dock to Bottom	停放到底部
+	Dock Control Bar	停放控制栏
 	Drag to float the toolbar	拖动以浮动工具栏
 	Drag to the window's left edge to dock	拖到窗口左边缘以停放
 	Float Tool Group	浮动工具组
@@ -5421,6 +5436,11 @@ lighting	Light	光源
 @msg	unknown parameter `{key}`; the command takes: {keys}	未知参数 `{key}`；该命令接受：{keys}
 	Load EPS into Clipboard	将 EPS 载入剪贴板
 @msg	an image of {w} × {h} pixels is too large to draw	{w} × {h} 像素的图像过大，无法绘制
+@msg	{path}: not a PNG, JPEG, WebP, TIFF or BMP image	{path}：不是 PNG、JPEG、WebP、TIFF 或 BMP 图像
+@msg	the image is {iw} × {ih} pixels and the artboard at that width is {rw} × {rh} pixels: their proportions differ	图像为 {iw} × {ih} 像素，而画板在该宽度下为 {rw} × {rh} 像素：两者的比例不同
+@msg	`threshold` must be a number from 0 to 1	`threshold` 必须是 0 到 1 之间的数字
+@msg	background {v}: a color such as "#808080"	background {v}：颜色，例如 "#808080"
+@msg	comparing with an image file isn't available in the browser	浏览器中无法与图像文件进行比较
 @msg	an image of {w} × {h} pixels is shown at reduced size	{w} × {h} 像素的图像以缩小的尺寸显示
 	Fill and Stroke Controls	填色和描边控件
 	Coloring Controls	颜色控件
@@ -6327,6 +6347,7 @@ breakText	Glyphs	字形
 	Create Swatch Legend	创建色板图例
 	Create Swatch Legend…	创建色板图例…
 	HEX	HEX
+	Help Bar	帮助栏
 # Type Tools add-on (Object › Plug-ins › Type Tools).
 	Type Tools	文字工具
 	Text Tweaker…	文字微调…
@@ -6392,34 +6413,8 @@ breakText	Glyphs	字形
 # 3D Box add-on
 	3D Box	3D 盒子
 	3D Box Tool	3D 盒子工具
-	Claude	Claude
-@msg	couldn't open a control channel for Claude	无法为 Claude 打开控制通道
-@msg	install it from {_1}	请从 {_1} 安装
-@msg	no control channel	没有控制通道
-@msg	run `{_1} {_2}` in a terminal to sign in	请在终端中运行 `{_1} {_2}` 以登录
-@msg	the Claude pane needs the VectorCraft desktop app	Claude 窗格需要 VectorCraft 桌面应用
-@msg	vectorcraft-cli wasn't found next to VectorCraft; reinstall VectorCraft	在 VectorCraft 旁边找不到 vectorcraft-cli；请重新安装 VectorCraft
-	Each Link Separately	逐个链接
-	Selected Instances	所选实例
-	All Instances	所有实例
-	Missing Links from This Folder	此文件夹中缺失的链接
-@msg	scope {v} is not each|selected|all|missingInFolder	scope {v} 不是 each|selected|all|missingInFolder 之一
-@msg	scope each and paths go together: paths lists entries of ids and path, in place of ids, path and folder	scope each 与 paths 需一起使用：paths 列出包含 ids 和 path 的条目，用来代替 ids、path 和 folder
-@msg	paths entry {i} needs path and ids (object ids no other entry has)	paths 条目 {i} 需要 path 和 ids（其他条目没有的对象 ID）
-@msg	scope missingInFolder takes path: the folder of that file is searched for the other missing links	scope missingInFolder 需要 path：将在该文件所在的文件夹中查找其他缺失的链接
-	Snap to Last Location	对齐上一位置
-@msg	the HEIC or HEIF file can't be read	无法读取 HEIC 或 HEIF 文件
-@msg	the HEIC or HEIF file holds a kind of image that can't be read	HEIC 或 HEIF 文件包含无法读取的图像类型
-@msg	HEIC and HEIF images can't be opened in this build	此版本无法打开 HEIC 和 HEIF 图像
-	Dock to Top	停放到顶部
-	Dock to Bottom	停放到底部
-	Dock Control Bar	停放控制栏
-@msg	{path}: not a PNG, JPEG, WebP, TIFF or BMP image	{path}：不是 PNG、JPEG、WebP、TIFF 或 BMP 图像
-@msg	the image is {iw} × {ih} pixels and the artboard at that width is {rw} × {rh} pixels: their proportions differ	图像为 {iw} × {ih} 像素，而画板在该宽度下为 {rw} × {rh} 像素：两者的比例不同
-@msg	`threshold` must be a number from 0 to 1	`threshold` 必须是 0 到 1 之间的数字
-@msg	background {v}: a color such as "#808080"	background {v}：颜色，例如 "#808080"
-@msg	comparing with an image file isn't available in the browser	浏览器中无法与图像文件进行比较
-	Help Bar	帮助栏
+
+# Safe Mode
 	Safe Mode…	安全模式…
 	Safe Mode	安全模式
 	Help › Safe Mode…	帮助 › 安全模式…
@@ -6436,5 +6431,14 @@ breakText	Glyphs	字形
 @msg	that plug-in isn't disabled (see plugin.safeMode)	该增效工具未停用 (请参阅 plugin.safeMode)
 @msg	Couldn't save the disabled plug-ins for the next launch	无法为下次启动保存已停用的增效工具
 @msg	Expand Appearance: a plug-in effect in the selection can't be expanded in Safe Mode	扩展外观：在安全模式下无法扩展所选对象中的增效工具效果
+
+# Align to Pixel Grid
 	Align to Pixel Grid	对齐像素网格
 @msg	only paths and compound paths can be aligned to the pixel grid	只有路径和复合路径可以对齐像素网格
+	Claude	Claude
+@msg	couldn't open a control channel for Claude	无法为 Claude 打开控制通道
+@msg	install it from {_1}	请从 {_1} 安装
+@msg	no control channel	没有控制通道
+@msg	run `{_1} {_2}` in a terminal to sign in	请在终端中运行 `{_1} {_2}` 以登录
+@msg	the Claude pane needs the VectorCraft desktop app	Claude 窗格需要 VectorCraft 桌面应用
+@msg	vectorcraft-cli wasn't found next to VectorCraft; reinstall VectorCraft	在 VectorCraft 旁边找不到 vectorcraft-cli；请重新安装 VectorCraft

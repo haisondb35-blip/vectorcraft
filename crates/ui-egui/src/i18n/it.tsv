@@ -2763,6 +2763,14 @@ digits	Malayalam	Malayalam
 	Relink	Ricollega
 	Relink Linked Files to the Document	Ricollega i file collegati al documento
 	Relink to Folder…	Ricollega a cartella…
+	Each Link Separately	Ogni collegamento separatamente
+	Selected Instances	Istanze selezionate
+	All Instances	Tutte le istanze
+	Missing Links from This Folder	Collegamenti mancanti da questa cartella
+@msg	scope {v} is not each|selected|all|missingInFolder	scope {v} non è each|selected|all|missingInFolder
+@msg	scope each and paths go together: paths lists entries of ids and path, in place of ids, path and folder	scope each e paths vanno insieme: paths elenca voci con ids e path, al posto di ids, path e folder
+@msg	paths entry {i} needs path and ids (object ids no other entry has)	la voce {i} di paths richiede path e ids (ID di oggetti che nessun'altra voce ha)
+@msg	scope missingInFolder takes path: the folder of that file is searched for the other missing links	scope missingInFolder accetta path: nella cartella di quel file si cercano gli altri collegamenti mancanti
 	Relink…	Ricollega…
 	Find Linked Files	Trova file collegati
 	Find Linked Files in Folder…	Trova file collegati in una cartella…
@@ -3330,6 +3338,7 @@ digits	Malayalam	Malayalam
 	Spaces	Spazi
 	Spacing Guides	Guide di spaziatura
 	Invoke Distance Guides	Richiama guide di distanza
+	Snap to Last Location	Aggancia all'ultima posizione
 	Spacing:	Spaziatura:
 	Spanish	Spagnolo
 	Specified Distance	Distanza specificata
@@ -4029,6 +4038,9 @@ axis	Both	Entrambi
 	Put back in the toolbar	Riporta nella barra degli strumenti
 	Float Panel	Rendi mobile pannello
 	Dock Panel	Ancora pannello
+	Dock to Top	Ancora in alto
+	Dock to Bottom	Ancora in basso
+	Dock Control Bar	Ancora barra di controllo
 	Drag to float the toolbar	Trascina per rendere mobile la barra degli strumenti
 	Drag to the window's left edge to dock	Trascina sul bordo sinistro della finestra per ancorare
 	Float Tool Group	Rendi mobile gruppo strumenti
@@ -4039,7 +4051,7 @@ axis	Both	Entrambi
 # names and values in backticks or code (`colorModel rgb`, `document.export`) stay as they are.
 @msg	no library `{id}`	nessuna libreria `{id}`
 @msg	select some type first	seleziona prima del testo
-@msg	kerning must be a number, "auto", or "optical"	La crenatura deve essere un numero, «auto» o «optical»
+@msg	kerning must be a number, "auto", or "optical"	kerning deve essere un numero, «auto» o «optical»
 @msg	the selection has no gradient fill	la selezione non ha una sfumatura di riempimento
 @msg	the selection has no gradient stroke	la selezione non ha una sfumatura di traccia
 @msg	the selection has no pattern fill	la selezione non ha un motivo di riempimento
@@ -4876,6 +4888,9 @@ axis	Both	Entrambi
 @msg	the Pixar file's image data is damaged	i dati immagine del file Pixar sono danneggiati
 @msg	the JPEG 2000 file can't be read	impossibile leggere il file JPEG 2000
 @msg	the JPEG 2000 file has an unsupported color space or JPX content	il file JPEG 2000 contiene uno spazio colore o un contenuto JPX non supportato
+@msg	the HEIC or HEIF file can't be read	impossibile leggere il file HEIC o HEIF
+@msg	the HEIC or HEIF file holds a kind of image that can't be read	il file HEIC o HEIF contiene un tipo di immagine che non può essere letto
+@msg	HEIC and HEIF images can't be opened in this build	le immagini HEIC e HEIF non possono essere aperte in questa build
 @msg	the PSD image is too large to read ({_1} × {_2} pixels)	l'immagine PSD è troppo grande per essere letta ({_1} × {_2} pixel)
 @msg	zipped 32-bit PSD image data with prediction can't be read	i dati immagine PSD a 32 bit compressi ZIP con previsione non possono essere letti
 @msg	{depth}-bit PSD files in this colour mode can't be read	i file PSD a {depth} bit in questo metodo colore non possono essere letti
@@ -4988,7 +5003,7 @@ effect	Regular	Normale
 @msg	before must name a panel	before deve indicare un pannello
 @msg	docking action contains an unknown panel or an excessive split path	L’azione di ancoraggio contiene un pannello sconosciuto o un percorso di divisioni troppo lungo
 @msg	group must be true or false	group deve essere true o false
-@msg	panel is not in a dock group	il pannello non è in un gruppo del dock
+@msg	panel is not in a dock group	panel non è in un gruppo del dock
 @msg	only a dock group above or below others collapses, not one beside another	si comprime solo un gruppo del dock sopra o sotto altri, non uno accanto
 @msg	icon must be true or false	icon deve essere true o false
 @msg	icon only docks a panel in the icon column, with no anchor	icon ancora un pannello solo nella colonna delle icone, senza anchor
@@ -5155,6 +5170,11 @@ lighting	Light	Luce
 @msg	unknown parameter `{key}`; the command takes: {keys}	parametro sconosciuto `{key}`; il comando accetta: {keys}
 	Load EPS into Clipboard	Carica EPS negli appunti
 @msg	an image of {w} × {h} pixels is too large to draw	un'immagine di {w} × {h} pixel è troppo grande per essere disegnata
+@msg	{path}: not a PNG, JPEG, WebP, TIFF or BMP image	{path}: non è un'immagine PNG, JPEG, WebP, TIFF o BMP
+@msg	the image is {iw} × {ih} pixels and the artboard at that width is {rw} × {rh} pixels: their proportions differ	l'immagine è di {iw} × {ih} pixel e la tavola da disegno a quella larghezza è di {rw} × {rh} pixel: le proporzioni sono diverse
+@msg	`threshold` must be a number from 0 to 1	`threshold` deve essere un numero da 0 a 1
+@msg	background {v}: a color such as "#808080"	sfondo {v}: un colore come "#808080"
+@msg	comparing with an image file isn't available in the browser	il confronto con un file immagine non è disponibile nel browser
 @msg	an image of {w} × {h} pixels is shown at reduced size	un'immagine di {w} × {h} pixel viene mostrata a dimensioni ridotte
 @msg	the image can't be read as a texture	l'immagine non può essere letta come texture
 	Basic	Base
@@ -6106,6 +6126,7 @@ breakText	Glyphs	Glifi
 	Create Swatch Legend	Crea legenda campioni
 	Create Swatch Legend…	Crea legenda campioni…
 	HEX	HEX
+	Help Bar	Barra della guida
 # Type Tools add-on (Object › Plug-ins › Type Tools).
 	Type Tools	Strumenti testo
 	Text Tweaker…	Regolatore testo…
@@ -6171,34 +6192,8 @@ breakText	Glyphs	Glifi
 # 3D Box add-on
 	3D Box	Scatola 3D
 	3D Box Tool	Strumento Scatola 3D
-	Claude	Claude
-@msg	couldn't open a control channel for Claude	impossibile aprire un canale di controllo per Claude
-@msg	install it from {_1}	installalo da {_1}
-@msg	no control channel	nessun canale di controllo
-@msg	run `{_1} {_2}` in a terminal to sign in	esegui `{_1} {_2}` in un terminale per accedere
-@msg	the Claude pane needs the VectorCraft desktop app	il pannello Claude richiede l'app desktop di VectorCraft
-@msg	vectorcraft-cli wasn't found next to VectorCraft; reinstall VectorCraft	vectorcraft-cli non è stato trovato accanto a VectorCraft; reinstalla VectorCraft
-	Each Link Separately	Ogni collegamento separatamente
-	Selected Instances	Istanze selezionate
-	All Instances	Tutte le istanze
-	Missing Links from This Folder	Collegamenti mancanti da questa cartella
-@msg	scope {v} is not each|selected|all|missingInFolder	scope {v} non è each|selected|all|missingInFolder
-@msg	scope each and paths go together: paths lists entries of ids and path, in place of ids, path and folder	scope each e paths vanno insieme: paths elenca voci con ids e path, al posto di ids, path e folder
-@msg	paths entry {i} needs path and ids (object ids no other entry has)	la voce {i} di paths richiede path e ids (ID di oggetti che nessun'altra voce ha)
-@msg	scope missingInFolder takes path: the folder of that file is searched for the other missing links	scope missingInFolder accetta path: nella cartella di quel file si cercano gli altri collegamenti mancanti
-	Snap to Last Location	Aggancia all'ultima posizione
-	Dock to Top	Ancora in alto
-	Dock to Bottom	Ancora in basso
-	Dock Control Bar	Ancora barra di controllo
-@msg	the HEIC or HEIF file can't be read	impossibile leggere il file HEIC o HEIF
-@msg	the HEIC or HEIF file holds a kind of image that can't be read	il file HEIC o HEIF contiene un tipo di immagine che non può essere letto
-@msg	HEIC and HEIF images can't be opened in this build	le immagini HEIC e HEIF non possono essere aperte in questa build
-@msg	{path}: not a PNG, JPEG, WebP, TIFF or BMP image	{path}: non è un'immagine PNG, JPEG, WebP, TIFF o BMP
-@msg	the image is {iw} × {ih} pixels and the artboard at that width is {rw} × {rh} pixels: their proportions differ	l'immagine è di {iw} × {ih} pixel e la tavola da disegno a quella larghezza è di {rw} × {rh} pixel: le proporzioni sono diverse
-@msg	`threshold` must be a number from 0 to 1	`threshold` deve essere un numero da 0 a 1
-@msg	background {v}: a color such as "#808080"	sfondo {v}: un colore come "#808080"
-@msg	comparing with an image file isn't available in the browser	il confronto con un file immagine non è disponibile nel browser
-	Help Bar	Barra della guida
+
+# Safe Mode
 	Safe Mode…	Modalità provvisoria…
 	Safe Mode	Modalità provvisoria
 	Help › Safe Mode…	Aiuto › Modalità provvisoria…
@@ -6215,5 +6210,14 @@ breakText	Glyphs	Glifi
 @msg	that plug-in isn't disabled (see plugin.safeMode)	quel plug-in non è disattivato (vedi plugin.safeMode)
 @msg	Couldn't save the disabled plug-ins for the next launch	Impossibile salvare i plug-in disattivati per il prossimo avvio
 @msg	Expand Appearance: a plug-in effect in the selection can't be expanded in Safe Mode	Espandi aspetto: un effetto plug-in nella selezione non può essere espanso in modalità provvisoria
+
+# Align to Pixel Grid
 	Align to Pixel Grid	Allinea alla griglia pixel
 @msg	only paths and compound paths can be aligned to the pixel grid	solo i tracciati e i tracciati composti possono essere allineati alla griglia pixel
+	Claude	Claude
+@msg	couldn't open a control channel for Claude	impossibile aprire un canale di controllo per Claude
+@msg	install it from {_1}	installalo da {_1}
+@msg	no control channel	nessun canale di controllo
+@msg	run `{_1} {_2}` in a terminal to sign in	esegui `{_1} {_2}` in un terminale per accedere
+@msg	the Claude pane needs the VectorCraft desktop app	il pannello Claude richiede l'app desktop di VectorCraft
+@msg	vectorcraft-cli wasn't found next to VectorCraft; reinstall VectorCraft	vectorcraft-cli non è stato trovato accanto a VectorCraft; reinstalla VectorCraft

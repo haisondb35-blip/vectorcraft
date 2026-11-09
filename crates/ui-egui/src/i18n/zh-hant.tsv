@@ -2334,7 +2334,7 @@ file-filter	Templates	範本
 @msg	choose a folder to export to	請選擇要匯出至的資料夾
 @msg	the selection has no URL (or they differ)	選取範圍沒有 URL (或其 URL 各不相同)
 @msg	select some type first	請先選取一些文字
-@msg	kerning must be a number, "auto", or "optical"	字距微調必須是數字、「auto」或「optical」
+@msg	kerning must be a number, "auto", or "optical"	kerning 必須是數字、「auto」或「optical」
 @msg	the selection has no gradient fill	選取範圍沒有漸層填色
 @msg	the selection has no gradient stroke	選取範圍沒有漸層筆畫
 @msg	the selection has no pattern fill	選取範圍沒有圖樣填色
@@ -2477,6 +2477,9 @@ file-filter	Templates	範本
 @msg	the Pixar file's image data is damaged	Pixar 檔案的影像資料已損毀
 @msg	the JPEG 2000 file can't be read	無法讀取 JPEG 2000 檔案
 @msg	the JPEG 2000 file has an unsupported color space or JPX content	JPEG 2000 檔案包含不支援的色彩空間或 JPX 內容
+@msg	the HEIC or HEIF file can't be read	無法讀取 HEIC 或 HEIF 檔案
+@msg	the HEIC or HEIF file holds a kind of image that can't be read	HEIC 或 HEIF 檔案包含無法讀取的影像類型
+@msg	HEIC and HEIF images can't be opened in this build	此版本無法開啟 HEIC 和 HEIF 影像
 @msg	the PSD image is too large to read ({_1} × {_2} pixels)	PSD 影像過大，無法讀取 ({_1} × {_2} 像素)
 @msg	zipped 32-bit PSD image data with prediction can't be read	無法讀取使用預測的 ZIP 壓縮 32 位元 PSD 影像資料
 @msg	{depth}-bit PSD files in this colour mode can't be read	無法讀取此色彩模式的 {depth} 位元 PSD 檔案
@@ -3640,6 +3643,14 @@ digits	Malayalam	馬來亞拉姆數字
 	Relink	重新連結
 	Relink Linked Files to the Document	將連結檔案重新連結至文件
 	Relink to Folder…	重新連結至資料夾…
+	Each Link Separately	逐一連結
+	Selected Instances	所選實例
+	All Instances	所有實例
+	Missing Links from This Folder	此資料夾中遺失的連結
+@msg	scope {v} is not each|selected|all|missingInFolder	scope {v} 不是 each|selected|all|missingInFolder 其中之一
+@msg	scope each and paths go together: paths lists entries of ids and path, in place of ids, path and folder	scope each 與 paths 須一起使用：paths 列出含 ids 與 path 的項目，用來取代 ids、path 與 folder
+@msg	paths entry {i} needs path and ids (object ids no other entry has)	paths 項目 {i} 需要 path 與 ids（其他項目沒有的物件 ID）
+@msg	scope missingInFolder takes path: the folder of that file is searched for the other missing links	scope missingInFolder 需要 path：會在該檔案所在的資料夾中尋找其他遺失的連結
 	Relink…	重新連結…
 	Find Linked Files	尋找連結檔案
 	Find Linked Files in Folder…	在資料夾中尋找連結檔案…
@@ -4205,6 +4216,7 @@ digits	Malayalam	馬來亞拉姆數字
 	Spaces	空格
 	Spacing Guides	間距參考線
 	Invoke Distance Guides	叫用距離參考線
+	Snap to Last Location	靠齊上一個位置
 	Spacing:	間距：
 	Spanish	西班牙文
 	Specified Distance	指定距離
@@ -4917,6 +4929,9 @@ axis	Both	兩者
 	Put back in the toolbar	放回工具列
 	Float Panel	浮動面板
 	Dock Panel	停駐面板
+	Dock to Top	停駐到頂部
+	Dock to Bottom	停駐到底部
+	Dock Control Bar	停駐控制列
 	Drag to float the toolbar	拖曳以浮動工具列
 	Drag to the window's left edge to dock	拖曳到視窗左側邊緣以停駐
 	Float Tool Group	浮動工具組
@@ -5242,6 +5257,11 @@ lighting	Light	光源
 @msg	unknown parameter `{key}`; the command takes: {keys}	未知的參數 `{key}`；此指令接受：{keys}
 	Load EPS into Clipboard	將 EPS 載入剪貼簿
 @msg	an image of {w} × {h} pixels is too large to draw	{w} × {h} 像素的影像過大，無法繪製
+@msg	{path}: not a PNG, JPEG, WebP, TIFF or BMP image	{path}：不是 PNG、JPEG、WebP、TIFF 或 BMP 影像
+@msg	the image is {iw} × {ih} pixels and the artboard at that width is {rw} × {rh} pixels: their proportions differ	影像為 {iw} × {ih} 像素，而工作區域在該寬度下為 {rw} × {rh} 像素：兩者的比例不同
+@msg	`threshold` must be a number from 0 to 1	`threshold` 必須是 0 到 1 之間的數字
+@msg	background {v}: a color such as "#808080"	background {v}：顏色，例如 "#808080"
+@msg	comparing with an image file isn't available in the browser	瀏覽器中無法與影像檔案進行比較
 @msg	an image of {w} × {h} pixels is shown at reduced size	{w} × {h} 像素的影像以縮小的尺寸顯示
 	Basic	基本
 	Fill and Stroke Controls	填色和筆畫控制項
@@ -6124,6 +6144,7 @@ breakText	Glyphs	字符
 	Create Swatch Legend	建立色票圖例
 	Create Swatch Legend…	建立色票圖例…
 	HEX	HEX
+	Help Bar	說明列
 # Type Tools add-on (Object › Plug-ins › Type Tools).
 	Type Tools	文字工具
 	Text Tweaker…	文字微調…
@@ -6189,28 +6210,8 @@ breakText	Glyphs	字符
 # 3D Box add-on
 	3D Box	3D 盒子
 	3D Box Tool	3D 盒子工具
-	Claude	Claude
-@msg	the HEIC or HEIF file can't be read	無法讀取 HEIC 或 HEIF 檔案
-@msg	the HEIC or HEIF file holds a kind of image that can't be read	HEIC 或 HEIF 檔案包含無法讀取的影像類型
-@msg	HEIC and HEIF images can't be opened in this build	此版本無法開啟 HEIC 和 HEIF 影像
-	Each Link Separately	逐一連結
-	Selected Instances	所選實例
-	All Instances	所有實例
-	Missing Links from This Folder	此資料夾中遺失的連結
-@msg	scope {v} is not each|selected|all|missingInFolder	scope {v} 不是 each|selected|all|missingInFolder 其中之一
-@msg	scope each and paths go together: paths lists entries of ids and path, in place of ids, path and folder	scope each 與 paths 須一起使用：paths 列出含 ids 與 path 的項目，用來取代 ids、path 與 folder
-@msg	paths entry {i} needs path and ids (object ids no other entry has)	paths 項目 {i} 需要 path 與 ids（其他項目沒有的物件 ID）
-@msg	scope missingInFolder takes path: the folder of that file is searched for the other missing links	scope missingInFolder 需要 path：會在該檔案所在的資料夾中尋找其他遺失的連結
-	Snap to Last Location	靠齊上一個位置
-	Dock to Top	停駐到頂部
-	Dock to Bottom	停駐到底部
-	Dock Control Bar	停駐控制列
-@msg	{path}: not a PNG, JPEG, WebP, TIFF or BMP image	{path}：不是 PNG、JPEG、WebP、TIFF 或 BMP 影像
-@msg	the image is {iw} × {ih} pixels and the artboard at that width is {rw} × {rh} pixels: their proportions differ	影像為 {iw} × {ih} 像素，而工作區域在該寬度下為 {rw} × {rh} 像素：兩者的比例不同
-@msg	`threshold` must be a number from 0 to 1	`threshold` 必須是 0 到 1 之間的數字
-@msg	background {v}: a color such as "#808080"	background {v}：顏色，例如 "#808080"
-@msg	comparing with an image file isn't available in the browser	瀏覽器中無法與影像檔案進行比較
-	Help Bar	說明列
+
+# Safe Mode
 	Safe Mode…	安全模式…
 	Safe Mode	安全模式
 	Help › Safe Mode…	說明 › 安全模式…
@@ -6227,5 +6228,8 @@ breakText	Glyphs	字符
 @msg	that plug-in isn't disabled (see plugin.safeMode)	該增效模組未停用 (請參閱 plugin.safeMode)
 @msg	Couldn't save the disabled plug-ins for the next launch	無法為下次啟動儲存已停用的增效模組
 @msg	Expand Appearance: a plug-in effect in the selection can't be expanded in Safe Mode	展開外觀：在安全模式下無法展開選取範圍中的增效模組效果
+
+# Align to Pixel Grid
 	Align to Pixel Grid	對齊像素格點
 @msg	only paths and compound paths can be aligned to the pixel grid	只有路徑和複合路徑可以對齊像素格點
+	Claude	Claude

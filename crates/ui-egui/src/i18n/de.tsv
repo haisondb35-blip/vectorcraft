@@ -2687,6 +2687,14 @@ digits	Malayalam	Malayalam
 	Relink	Neu verknüpfen
 	Relink Linked Files to the Document	Verknüpfte Dateien neu mit dem Dokument verknüpfen
 	Relink to Folder…	Mit Ordner neu verknüpfen…
+	Each Link Separately	Jede Verknüpfung einzeln
+	Selected Instances	Ausgewählte Instanzen
+	All Instances	Alle Instanzen
+	Missing Links from This Folder	Fehlende Verknüpfungen aus diesem Ordner
+@msg	scope {v} is not each|selected|all|missingInFolder	scope {v} ist nicht each|selected|all|missingInFolder
+@msg	scope each and paths go together: paths lists entries of ids and path, in place of ids, path and folder	scope each und paths gehören zusammen: paths listet Einträge mit ids und path anstelle von ids, path und folder
+@msg	paths entry {i} needs path and ids (object ids no other entry has)	paths-Eintrag {i} braucht path und ids (Objekt-IDs, die kein anderer Eintrag hat)
+@msg	scope missingInFolder takes path: the folder of that file is searched for the other missing links	scope missingInFolder nimmt path: Im Ordner dieser Datei wird nach den anderen fehlenden Verknüpfungen gesucht
 	Relink…	Neu verknüpfen…
 	Find Linked Files	Verknüpfte Dateien suchen
 	Find Linked Files in Folder…	Verknüpfte Dateien in Ordner suchen…
@@ -3255,6 +3263,7 @@ effect	Points	Punkte
 	Spaces	Leerzeichen
 	Spacing Guides	Abstandshilfslinien
 	Invoke Distance Guides	Distanzhilfslinien aufrufen
+	Snap to Last Location	An letzter Position ausrichten
 	Spacing:	Abstand:
 	Spanish	Spanisch
 	Specified Distance	Festgelegter Abstand
@@ -3902,6 +3911,9 @@ theme	Appearance	Erscheinungsbild
 	Put back in the toolbar	Zurück in die Werkzeugleiste setzen
 	Float Panel	Bedienfeld ablösen
 	Dock Panel	Bedienfeld andocken
+	Dock to Top	Oben andocken
+	Dock to Bottom	Unten andocken
+	Dock Control Bar	Steuerungsleiste andocken
 	Drag to float the toolbar	Ziehen, um die Werkzeugleiste abzulösen
 	Drag to the window's left edge to dock	Zum Andocken an den linken Fensterrand ziehen
 	Float Tool Group	Werkzeuggruppe ablösen
@@ -3912,7 +3924,7 @@ theme	Appearance	Erscheinungsbild
 # names and values in backticks or code (`colorModel rgb`, `document.export`) stay as they are.
 @msg	no library `{id}`	keine Bibliothek `{id}`
 @msg	select some type first	wählen Sie zuerst Text aus
-@msg	kerning must be a number, "auto", or "optical"	Kerning muss eine Zahl, „auto“ oder „optical“ sein
+@msg	kerning must be a number, "auto", or "optical"	kerning muss eine Zahl, „auto“ oder „optical“ sein
 @msg	the selection has no gradient fill	die Auswahl hat keinen Flächenverlauf
 @msg	the selection has no gradient stroke	die Auswahl hat keinen Konturverlauf
 @msg	the selection has no pattern fill	die Auswahl hat kein Flächenmuster
@@ -4858,6 +4870,9 @@ theme	Appearance	Erscheinungsbild
 @msg	the Pixar file's image data is damaged	die Bilddaten der Pixar-Datei sind beschädigt
 @msg	the JPEG 2000 file can't be read	die JPEG-2000-Datei kann nicht gelesen werden
 @msg	the JPEG 2000 file has an unsupported color space or JPX content	die JPEG-2000-Datei enthält einen nicht unterstützten Farbraum oder JPX-Inhalt
+@msg	the HEIC or HEIF file can't be read	die HEIC- oder HEIF-Datei kann nicht gelesen werden
+@msg	the HEIC or HEIF file holds a kind of image that can't be read	die HEIC- oder HEIF-Datei enthält eine Bildart, die nicht gelesen werden kann
+@msg	HEIC and HEIF images can't be opened in this build	HEIC- und HEIF-Bilder können in diesem Build nicht geöffnet werden
 @msg	the PSD image is too large to read ({_1} × {_2} pixels)	das PSD-Bild ist zu groß zum Lesen ({_1} × {_2} Pixel)
 @msg	zipped 32-bit PSD image data with prediction can't be read	ZIP-komprimierte 32-Bit-PSD-Bilddaten mit Vorhersage können nicht gelesen werden
 @msg	{depth}-bit PSD files in this colour mode can't be read	{depth}-Bit-PSD-Dateien in diesem Farbmodus können nicht gelesen werden
@@ -4943,7 +4958,7 @@ theme	Appearance	Erscheinungsbild
 @msg	before must name a panel	before muss ein Bedienfeld benennen
 @msg	docking action contains an unknown panel or an excessive split path	Die Docking-Aktion enthält ein unbekanntes Bedienfeld oder einen zu langen Teilungspfad
 @msg	group must be true or false	group muss true oder false sein
-@msg	panel is not in a dock group	Bedienfeld ist in keiner Dock-Gruppe
+@msg	panel is not in a dock group	panel ist in keiner Dock-Gruppe
 @msg	only a dock group above or below others collapses, not one beside another	nur eine Dock-Gruppe über oder unter anderen lässt sich minimieren, nicht eine daneben
 @msg	icon must be true or false	icon muss true oder false sein
 @msg	icon only docks a panel in the icon column, with no anchor	icon dockt ein Bedienfeld nur in der Symbolspalte an, ohne anchor
@@ -5113,6 +5128,11 @@ lighting	Light	Licht
 @msg	unknown parameter `{key}`; the command takes: {keys}	unbekannter Parameter `{key}`; der Befehl akzeptiert: {keys}
 	Load EPS into Clipboard	EPS in die Zwischenablage laden
 @msg	an image of {w} × {h} pixels is too large to draw	ein Bild mit {w} × {h} Pixeln ist zu groß, um gezeichnet zu werden
+@msg	{path}: not a PNG, JPEG, WebP, TIFF or BMP image	{path}: kein PNG-, JPEG-, WebP-, TIFF- oder BMP-Bild
+@msg	the image is {iw} × {ih} pixels and the artboard at that width is {rw} × {rh} pixels: their proportions differ	das Bild hat {iw} × {ih} Pixel und die Zeichenfläche in dieser Breite {rw} × {rh} Pixel: ihre Proportionen unterscheiden sich
+@msg	`threshold` must be a number from 0 to 1	`threshold` muss eine Zahl von 0 bis 1 sein
+@msg	background {v}: a color such as "#808080"	background {v}: eine Farbe wie "#808080"
+@msg	comparing with an image file isn't available in the browser	der Vergleich mit einer Bilddatei ist im Browser nicht verfügbar
 @msg	an image of {w} × {h} pixels is shown at reduced size	ein Bild mit {w} × {h} Pixeln wird verkleinert angezeigt
 @msg	the image can't be read as a texture	das Bild kann nicht als Struktur gelesen werden
 	Basic	Basis
@@ -6072,6 +6092,7 @@ breakText	Glyphs	Glyphen
 	Create Swatch Legend	Farbfeldlegende erstellen
 	Create Swatch Legend…	Farbfeldlegende erstellen…
 	HEX	HEX
+	Help Bar	Hilfeleiste
 # Type Tools add-on (Object › Plug-ins › Type Tools).
 	Type Tools	Textwerkzeuge
 	Text Tweaker…	Text-Tweaker…
@@ -6137,34 +6158,8 @@ breakText	Glyphs	Glyphen
 # 3D Box add-on
 	3D Box	3D-Quader
 	3D Box Tool	3D-Quader-Werkzeug
-	Claude	Claude
-@msg	couldn't open a control channel for Claude	Steuerkanal für Claude konnte nicht geöffnet werden
-@msg	install it from {_1}	installieren Sie es von {_1}
-@msg	no control channel	kein Steuerkanal
-@msg	run `{_1} {_2}` in a terminal to sign in	führen Sie `{_1} {_2}` in einem Terminal aus, um sich anzumelden
-@msg	the Claude pane needs the VectorCraft desktop app	der Claude-Bereich benötigt die VectorCraft-Desktop-App
-@msg	vectorcraft-cli wasn't found next to VectorCraft; reinstall VectorCraft	vectorcraft-cli wurde neben VectorCraft nicht gefunden; installieren Sie VectorCraft neu
-	Each Link Separately	Jede Verknüpfung einzeln
-	Selected Instances	Ausgewählte Instanzen
-	All Instances	Alle Instanzen
-	Missing Links from This Folder	Fehlende Verknüpfungen aus diesem Ordner
-@msg	scope {v} is not each|selected|all|missingInFolder	scope {v} ist nicht each|selected|all|missingInFolder
-@msg	scope each and paths go together: paths lists entries of ids and path, in place of ids, path and folder	scope each und paths gehören zusammen: paths listet Einträge mit ids und path anstelle von ids, path und folder
-@msg	paths entry {i} needs path and ids (object ids no other entry has)	paths-Eintrag {i} braucht path und ids (Objekt-IDs, die kein anderer Eintrag hat)
-@msg	scope missingInFolder takes path: the folder of that file is searched for the other missing links	scope missingInFolder nimmt path: Im Ordner dieser Datei wird nach den anderen fehlenden Verknüpfungen gesucht
-	Snap to Last Location	An letzter Position ausrichten
-	Dock to Top	Oben andocken
-	Dock to Bottom	Unten andocken
-	Dock Control Bar	Steuerungsleiste andocken
-@msg	the HEIC or HEIF file can't be read	die HEIC- oder HEIF-Datei kann nicht gelesen werden
-@msg	the HEIC or HEIF file holds a kind of image that can't be read	die HEIC- oder HEIF-Datei enthält eine Bildart, die nicht gelesen werden kann
-@msg	HEIC and HEIF images can't be opened in this build	HEIC- und HEIF-Bilder können in diesem Build nicht geöffnet werden
-@msg	{path}: not a PNG, JPEG, WebP, TIFF or BMP image	{path}: kein PNG-, JPEG-, WebP-, TIFF- oder BMP-Bild
-@msg	the image is {iw} × {ih} pixels and the artboard at that width is {rw} × {rh} pixels: their proportions differ	das Bild hat {iw} × {ih} Pixel und die Zeichenfläche in dieser Breite {rw} × {rh} Pixel: ihre Proportionen unterscheiden sich
-@msg	`threshold` must be a number from 0 to 1	`threshold` muss eine Zahl von 0 bis 1 sein
-@msg	background {v}: a color such as "#808080"	background {v}: eine Farbe wie "#808080"
-@msg	comparing with an image file isn't available in the browser	der Vergleich mit einer Bilddatei ist im Browser nicht verfügbar
-	Help Bar	Hilfeleiste
+
+# Safe Mode
 	Safe Mode…	Abgesicherter Modus…
 	Safe Mode	Abgesicherter Modus
 	Help › Safe Mode…	Hilfe › Abgesicherter Modus…
@@ -6181,5 +6176,14 @@ breakText	Glyphs	Glyphen
 @msg	that plug-in isn't disabled (see plugin.safeMode)	dieses Plug-in ist nicht deaktiviert (siehe plugin.safeMode)
 @msg	Couldn't save the disabled plug-ins for the next launch	Die deaktivierten Plug-ins konnten nicht für den nächsten Start gespeichert werden
 @msg	Expand Appearance: a plug-in effect in the selection can't be expanded in Safe Mode	Aussehen umwandeln: Ein Plug-in-Effekt in der Auswahl kann im abgesicherten Modus nicht umgewandelt werden
+
+# Align to Pixel Grid
 	Align to Pixel Grid	Am Pixelraster ausrichten
 @msg	only paths and compound paths can be aligned to the pixel grid	nur Pfade und zusammengesetzte Pfade können am Pixelraster ausgerichtet werden
+	Claude	Claude
+@msg	couldn't open a control channel for Claude	Steuerkanal für Claude konnte nicht geöffnet werden
+@msg	install it from {_1}	installieren Sie es von {_1}
+@msg	no control channel	kein Steuerkanal
+@msg	run `{_1} {_2}` in a terminal to sign in	führen Sie `{_1} {_2}` in einem Terminal aus, um sich anzumelden
+@msg	the Claude pane needs the VectorCraft desktop app	der Claude-Bereich benötigt die VectorCraft-Desktop-App
+@msg	vectorcraft-cli wasn't found next to VectorCraft; reinstall VectorCraft	vectorcraft-cli wurde neben VectorCraft nicht gefunden; installieren Sie VectorCraft neu
