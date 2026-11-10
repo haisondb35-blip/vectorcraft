@@ -1597,6 +1597,28 @@ fn messages_translate_by_template_and_their_parts() {
     assert_eq!(message(Lang::EN, nested), nested);
 }
 
+/// The note `recolor.apply` and the Edit Colors commands give when they leave out locked or hidden
+/// objects is translated whole, its counts included, in every complete-message language.
+#[test]
+fn recolor_notes_on_objects_left_unchanged_translate_with_their_counts() {
+    let notes = [
+        ("Recolor completed; 2 locked objects and 1 hidden object were left unchanged", ["2", "1"]),
+        ("Recolor completed; 1 locked object and 3 hidden objects were left unchanged", ["1", "3"]),
+        ("Recolor completed; 1 locked object was left unchanged", ["1", "1"]),
+        ("Recolor completed; 5 hidden objects were left unchanged", ["5", "5"]),
+    ];
+    for code in COMPLETE_MESSAGES {
+        let lang = Lang::from_code(code).expect("registered");
+        for (note, counts) in notes {
+            let shown = message(lang, note);
+            // Whole words, so that a translation such as Catalan's "objecte" is not read as English.
+            let english = ["completed", "locked", "hidden", "object", "objects", "unchanged"];
+            assert!(shown.split(|c: char| !c.is_alphabetic()).all(|w| !english.contains(&w)), "{code}: {shown}");
+            assert!(counts.iter().all(|n| shown.contains(n)), "{code}: {shown}");
+        }
+    }
+}
+
 #[test]
 fn package_status_message_templates_parse() {
     let c = Catalog::parse(concat!(
@@ -2018,6 +2040,28 @@ fn saved_tracing_preset_errors_are_translated() {
             let shown = message(lang, e);
             assert!(!shown.contains(want), "{code}: {shown}");
         }
+    }
+}
+
+/// The notes on names in a `.ai`'s editing data that aren't UTF-8 are translated in every language
+/// that translates every message, keeping the name, the encoding and the param.
+#[test]
+fn legacy_name_notes_are_translated() {
+    let notes = [
+        "the name `·¹ÀÌ¾î 1` isn't UTF-8 and was read as windows-1252: if it looks wrong, open the file with another legacyNameEncoding",
+        "the name `레\u{fffd} 1` isn't UTF-8, and parts of it aren't valid windows-949 either: open the file with another legacyNameEncoding",
+        "more names that aren't UTF-8 were read as macintosh (7)",
+    ];
+    for code in COMPLETE_MESSAGES {
+        let lang = Lang::from_code(code).expect("registered");
+        for note in notes {
+            let shown = message(lang, note);
+            assert_ne!(shown, note, "{code}");
+            assert!(shown.contains("UTF-8"), "{code}: {shown}");
+        }
+        let shown = message(lang, notes[0]);
+        assert!(shown.contains("`·¹ÀÌ¾î 1`") && shown.contains("windows-1252") && shown.contains("legacyNameEncoding"), "{code}: {shown}");
+        assert!(message(lang, notes[2]).contains("macintosh") && message(lang, notes[2]).contains('7'), "{code}");
     }
 }
 
