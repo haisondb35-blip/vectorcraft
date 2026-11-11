@@ -6377,7 +6377,7 @@ dependencies = [
 
 [[package]]
 name = "vectorcraft-apischema"
-version = "0.21.0"
+version = "0.21.2"
 dependencies = [
  "serde_json",
 ]
