@@ -107,12 +107,13 @@ fn path_kind(d: &mut Document, path: PathData, rule: FillRule) -> NodeKind {
 /// `n` with its geometry effects evaluated (`None` = unchanged).
 fn bake_node(d: &mut Document, n: &Node) -> Option<Node> {
     // A cancelled export leaves the rest of the document as it is: the caller drops the result.
-    if !needs_bake(n) || vectorcraft_doc::cancel::is_cancelled() {
+    // A ruler guide draws nothing and stays as it is, last in its layer.
+    if n.is_ruler_guide() || !needs_bake(n) || vectorcraft_doc::cancel::is_cancelled() {
         return None;
     }
     // Colour adjustments: the object recoloured (inside it too), then baked as it is.
     if has_adjustment(n)
-        && let Some(m) = adjust_in_document(d, n)
+        && let Some(m) = adjust_in_document(d, n, None)
     {
         return Some(bake_node(d, &m).unwrap_or(m));
     }
@@ -395,7 +396,7 @@ fn container_keeping_type(d: &Document, n: &Node) -> Option<Node> {
     if !kept {
         return None;
     }
-    reshape_leaves(&mut m, &fx, Some(d));
+    reshape_leaves(&mut m, &fx, &n.appearance.effects, Some(d));
     m.appearance.effects.retain(|e| !is_pathfinder(&e.id) && !is_geometry(&e.id));
     m.appearance.items.clear();
     m.appearance.contents_index = None;
