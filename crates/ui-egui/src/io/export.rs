@@ -28,7 +28,8 @@ pub fn hide_exports(app: &mut VectorcraftApp) -> Value {
 /// `document.export` options in `params` (artboard, range, useArtboards, selectedOnly, ppi, SVG
 /// options…): every file it writes (one per artboard, linked images) goes next to `path`. The
 /// document keeps its path. → `{path, warnings, files?}` (`files`: every file when there are
-/// several).
+/// several). When automation asked for the export, `warnings` also name each option the written
+/// format doesn't read, as `document.export`'s do.
 pub fn export(app: &mut VectorcraftApp, format: Option<&str>, path: Option<String>, params: &Value) -> Result<Value, String> {
     // Options given as anything but an object are none: the path and format still reach the
     // encoder (an exporter plug-in is told the file it writes).
@@ -44,6 +45,9 @@ pub fn export(app: &mut VectorcraftApp, format: Option<&str>, path: Option<Strin
         std::borrow::Cow::Borrowed(_) => st.doc.clone(),
         std::borrow::Cow::Owned(d) => std::sync::Arc::new(d),
     };
+    // A PDF shows its title in the viewer's title bar only when it is the document's own, not the
+    // file name it was titled after, as `document.export` writes it.
+    let own_title = fileio::has_own_title(&doc);
     let doc = fileio::titled_for_export(&doc, st.path.as_deref(), f.id).map_or(doc, std::sync::Arc::new);
     let uid = st.uid;
     let path = export_path(app, path, f)?;
@@ -59,12 +63,23 @@ pub fn export(app: &mut VectorcraftApp, format: Option<&str>, path: Option<Strin
         Some(z) if f.id == "svg" && z.id == "svgz" => z,
         _ => f,
     };
+    // An export that automation asked for, also through a save panel it opened, names the options
+    // the file doesn't read, as `document.export` does. A person's export gets no such notes.
+    let unused = if app.automation_asked() { fileio::unused_option_notes("document.export", f, params) } else { Vec::new() };
+    let noted = unused.clone();
     // Background Export: encoded and written from this snapshot while editing goes on. The
     // encoder is told the file it writes (an exporter plug-in gets its name and extension).
     let label = format!("Exporting {}", fileio::file_name(&path));
+    // A PDF's View PDF after saving: the first file written opens in the system viewer, unless
+    // automation asked for the export, also through a save panel it opened (checked now: a
+    // background export ends after the request).
+    let view = params.get("viewAfterSaving").and_then(Value::as_bool).unwrap_or(false) && !app.automation_asked();
     let (mut params, target) = (params.clone(), path.clone());
     if let Some(o) = params.as_object_mut() {
         o.insert("path".into(), json!(path));
+        if f.id == "pdf" {
+            o.insert("_displayDocTitle".into(), json!(own_title));
+        }
     }
     // The progress dialog's counts and Cancel: a cancelled export stops drawing and never starts
     // writing.
@@ -83,7 +98,13 @@ pub fn export(app: &mut VectorcraftApp, format: Option<&str>, path: Option<Strin
                 return Ok(json!({ "replaces": replaced }));
             }
             let files = write_encoded(write, &doc, &path, &enc)?;
-            let mut out = json!({ "path": files.first().unwrap_or(&path), "warnings": enc.notes() });
+            let mut warnings = enc.notes();
+            for note in noted {
+                if !warnings.contains(&note) {
+                    warnings.push(note);
+                }
+            }
+            let mut out = json!({ "path": files.first().unwrap_or(&path), "warnings": warnings });
             if files.len() > 1 {
                 out["files"] = json!(files);
             }
@@ -113,11 +134,19 @@ pub fn export(app: &mut VectorcraftApp, format: Option<&str>, path: Option<Strin
             Some(first) => exported_with_notes(&what, warnings.len(), first),
             None => format!("Exported {what}"),
         };
+        if view && let Some(path) = r["path"].as_str() {
+            view_file(app, path);
+        }
         show_with_notes(app, status, warnings);
         Ok(r)
     })?;
     if r.get("path").is_none() {
         r["path"] = json!(target);
+    }
+    // A Background Export returns before the file is written: its reply names the unused options
+    // at once, as a background save's does.
+    if r["background"] == true && !unused.is_empty() {
+        r["warnings"] = json!(unused);
     }
     Ok(r)
 }
@@ -192,10 +221,30 @@ pub(crate) fn run_to_file(app: &mut VectorcraftApp, id: &str, ext: &str, mut par
 /// File → Save as PDF: `document.exportPdf` with `params` (the Save PDF dialog's options), written
 /// to `path` (else a picked or suggested name) → `{path, bytes, warnings}`. With
 /// `viewAfterSaving`, the written file opens in the system viewer (not on the web, which
-/// downloads it).
-pub fn export_pdf(app: &mut VectorcraftApp, params: Value) -> Result<Value, String> {
+/// downloads it). Writing over the file the document was opened from, when opening it left things
+/// out, asks first, for a given path and for one the save panel picked, and runs
+/// `file.export.pdf` again on OK.
+pub fn export_pdf(app: &mut VectorcraftApp, mut params: Value) -> Result<Value, String> {
+    if let Some(path) = params.get("path").and_then(Value::as_str)
+        && let Some(r) = ask_before_losing(app, path, "file.export.pdf", &params)
+    {
+        return Ok(r);
+    }
     let view = params.get("viewAfterSaving").and_then(Value::as_bool).unwrap_or(false);
-    let (path, mut v) = run_to_file(app, "document.exportPdf", "pdf", params)?;
+    let given = params.as_object_mut().and_then(|o| o.remove("path")).and_then(|p| p.as_str().map(str::to_string));
+    let mut v = app.session.execute("document.exportPdf", &params).map_err(|e| e.to_string())?;
+    let bytes = take_output(&mut v)?;
+    let path = match given {
+        Some(p) => p,
+        None => {
+            let picked = target_path(app, None, "pdf")?;
+            if let Some(r) = ask_before_losing(app, &picked, "file.export.pdf", &params) {
+                return Ok(r);
+            }
+            picked
+        }
+    };
+    write_reporting(app, &path, &bytes)?;
     if view {
         view_file(app, &path);
     }

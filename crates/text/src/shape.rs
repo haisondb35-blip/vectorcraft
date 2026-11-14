@@ -13,7 +13,7 @@ use kurbo::Shape;
 use skrifa::MetadataProvider;
 use skrifa::charmap::Charmap;
 use skrifa::instance::Size;
-use vectorcraft_doc::text::INLINE_CHAR;
+use vectorcraft_doc::text::{INLINE_CHAR, MAX_AKI};
 use vectorcraft_doc::{CharStyle, Digits, InlineArt};
 
 use crate::features::{OtFeatures, ligatures_suppressed_by};
@@ -41,8 +41,14 @@ pub(crate) struct SGlyph {
     /// outside its Character Rotation; with whole-point advances, the difference the kerning makes
     /// to the cluster's rounded advance. Left to right and in vertical type: the space before a
     /// line's first character ([`CharStyle::kerning_before`]), which moves it along the line the
-    /// same way. 0 otherwise.
+    /// same way. Insert Aki ([`aki`]) adds the space before the cluster in reading order: left to
+    /// right and in vertical type the Aki Left, right to left the Aki Right. 0 otherwise.
     pub kern_shift: f64,
+    /// The Insert Aki `kern_shift` holds, in points, on every glyph of its cluster.
+    pub aki_shift: f64,
+    /// The Insert Aki Left and Right `adv` holds, in points: on the last glyph of its cluster, 0
+    /// on the others. Justification does not stretch or narrow it.
+    pub aki: f64,
     /// Outline scale (font units -> points).
     pub sx: f64,
     pub sy: f64,
@@ -60,6 +66,8 @@ pub(crate) struct SGlyph {
     pub ch: char,
     /// Vertical type: part of a tate-chu-yoko block (set across the column, upright).
     pub tcy: Option<Tcy>,
+    /// Part of a warichu block (stacked on several lines inside its line, see [`crate::layout`]).
+    pub wari: Option<Wari>,
     /// Japanese composition: the space taken off before the glyph (an opening bracket after
     /// another, see [`crate::layout`]); the glyph is drawn that much earlier on the line.
     pub lead: f64,
@@ -155,9 +163,32 @@ pub(crate) struct Tcy {
     pub right: f64,
 }
 
+/// A glyph's place in a warichu block: the block takes the length of its longest line along its
+/// line, and its glyphs are set on its lines inside that length. The block's first glyph
+/// advances by the whole length and the others by none, as a tate-chu-yoko block's do.
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub(crate) struct Wari {
+    /// The byte of the block's first glyph, which names the block.
+    pub start: usize,
+    /// Laid-out distance from the block's start to this glyph's pen position (0 for the block's
+    /// first glyph, the block's length for the others).
+    pub pen: f64,
+    /// Where the glyph is drawn, from the block's start along the line.
+    pub along: f64,
+    /// Where the glyph is drawn across the line, from the line's baseline (y down): the
+    /// baseline of the block's line the glyph is on.
+    pub across: f64,
+    /// The glyph's own advance on its block line, in points.
+    pub advance: f64,
+    /// The em of the line the block sits in: the glyph's em without its Warichu Settings Scale.
+    pub em: f64,
+}
+
 impl SGlyph {
+    /// A space between words. Not a space inside a warichu block, which is set with its block and
+    /// takes no part in justifying or breaking its line.
     pub fn is_space(&self) -> bool {
-        self.inline.is_none() && matches!(self.ch, ' ' | '\t' | '\u{3000}' | '\u{2002}'..='\u{200B}')
+        self.inline.is_none() && self.wari.is_none() && matches!(self.ch, ' ' | '\t' | '\u{3000}' | '\u{2002}'..='\u{200B}')
     }
     /// A line may break after this glyph.
     pub fn break_after(&self) -> bool {
@@ -178,6 +209,12 @@ impl SGlyph {
     pub fn continues_tcy(&self) -> bool {
         self.tcy.is_some_and(|t| t.pen > 0.0)
     }
+    /// A tate-chu-yoko glyph after its block's first ([`Self::continues_tcy`]), or a warichu
+    /// glyph after its block's first: justification and Japanese composition add or take no
+    /// space before it, since its block is set as one piece.
+    pub fn continues_block(&self) -> bool {
+        self.continues_tcy() || self.wari.is_some_and(|w| w.pen > 0.0)
+    }
 }
 
 pub(crate) const SOFT_HYPHEN: char = '\u{00AD}';
@@ -193,6 +230,8 @@ pub(crate) fn hyphen_glyph(g: &SGlyph) -> SGlyph {
     h.dx = 0.0;
     h.dy = 0.0;
     h.kern_shift = 0.0;
+    h.aki_shift = 0.0;
+    h.aki = 0.0;
     h.byte = g.byte + g.len;
     h.len = 0;
     h.ch = '-';
@@ -606,6 +645,22 @@ pub fn line_start_space(text: &str, byte: usize, st: &CharStyle, vertical: bool)
     space_before(text, byte, st, glyph_size(st, small) * spacing_scale(st, vertical))
 }
 
+/// Insert Aki Left and Right ([`CharStyle::aki_left`], [`CharStyle::aki_right`]) of characters in
+/// style `st`, in points of `spacing_em`: the space before and after each cluster in reading order,
+/// each from 0 to [`MAX_AKI`] thousandths of it. Its cluster takes both in its advance.
+fn aki(st: &CharStyle, spacing_em: f64) -> (f64, f64) {
+    let side = |v: f64| Some(v.clamp(0.0, MAX_AKI) / 1000.0 * spacing_em).filter(|s| s.is_finite()).unwrap_or(0.0);
+    (side(st.aki_left), side(st.aki_right))
+}
+
+/// The Insert Aki before and after the character at `byte` of `text` in style `st`, in points, as
+/// the layout sets it ([`CharStyle::aki_left`]): its thousandths of the em the character is set in.
+/// For writers that place characters themselves.
+pub fn aki_space(text: &str, byte: usize, st: &CharStyle, vertical: bool) -> (f64, f64) {
+    let small = st.small_caps.is_some() && !st.all_caps && text.get(byte..).and_then(|s| s.chars().next()).is_some_and(char::is_lowercase);
+    aki(st, glyph_size(st, small) * spacing_scale(st, vertical))
+}
+
 /// The size characters in style `st` are shaped at: Superscript, Subscript and synthesized Small
 /// Caps (`small`: a lowercase letter in them) shrink the glyphs; line metrics keep the full size.
 fn glyph_size(st: &CharStyle, small: bool) -> f64 {
@@ -783,7 +838,8 @@ fn optical_pairs(db: &FontDb, text: &str, glyphs: &mut [SGlyph], runs: &[(Range<
     let mut cache = HashMap::new();
     let mut corrections: HashMap<[u64; 15], Option<f64>> = HashMap::new();
     let mut references: HashMap<u32, Option<f64>> = HashMap::new();
-    let shaped_advances: Vec<f64> = glyphs.iter().map(|g| g.adv).collect();
+    // The Insert Aki a cluster's last glyph holds does not make a mark its base.
+    let shaped_advances: Vec<f64> = glyphs.iter().map(|g| g.adv - g.aki).collect();
     for i in 0..glyphs.len().saturating_sub(1) {
         let Some((a, b)) = glyphs.get(i).zip(glyphs.get(i + 1)) else { continue };
         if a.level != b.level {
@@ -841,8 +897,10 @@ fn optical_pairs(db: &FontDb, text: &str, glyphs: &mut [SGlyph], runs: &[(Range<
             continue;
         }
         // Neither glyph is rotated, so a right-to-left manual kerning shift adds to the offset.
-        let left_x = left.dx + left.kern_shift;
-        let right_x = right.dx + right.kern_shift;
+        // Insert Aki is measured as no space: the pair is spaced as it would be without it, and
+        // the Aki stays on top of that.
+        let left_x = left.dx + left.kern_shift - left.aki_shift;
+        let right_x = right.dx + right.kern_shift - right.aki_shift;
         let left_y = left.dy - left.bshift;
         let right_y = right.dy - right.bshift;
         let Some(left_style) = runs.get(left.run).map(|(_, s)| *s) else { continue };
@@ -851,7 +909,7 @@ fn optical_pairs(db: &FontDb, text: &str, glyphs: &mut [SGlyph], runs: &[(Range<
         let tracking = left_style.tracking / 1000.0 * em * spacing_scale(left_style, false);
         // A manual kerning value on the left glyph is part of its advance and, right to left, of
         // its offset too (it spaces the left glyph from its left neighbor): it is not taken off.
-        let advance = glyphs[cluster_start..=cluster_end].iter().map(|g| g.adv).sum::<f64>() - tracking;
+        let advance = glyphs[cluster_start..=cluster_end].iter().map(|g| g.adv - g.aki).sum::<f64>() - tracking;
         let key = [
             u64::from(left.face.id()),
             u64::from(left.gid),
@@ -911,8 +969,9 @@ fn source_run_at(runs: &[(Range<usize>, &CharStyle)], span: &Range<usize>, byte:
 /// Can one glyph draw characters in styles `a` and `b`? OpenType features already apply to their
 /// own character ranges during shaping, so feature-only differences do not split a cluster.
 /// Horizontal type does not read Standard Vertical Roman Alignment or the tate-chu-yoko offsets.
-/// The space before a line's first character ([`space_before`]) comes from the cluster's first
-/// character, so it does not split a ligature either.
+/// The space before a line's first character ([`space_before`]) and Insert Aki ([`aki`]) come
+/// from the cluster's first character, so they do not split a ligature or a letter from its marks
+/// either. Warichu Settings count only on characters marked Warichu ([`warichu_alike`]).
 fn drawn_alike(a: &CharStyle, b: &CharStyle, vertical: bool) -> bool {
     // Exhaustive, like `shapes_alike`: compare borrowed fields without copying feature lists.
     let CharStyle {
@@ -925,6 +984,8 @@ fn drawn_alike(a: &CharStyle, b: &CharStyle, vertical: bool) -> bool {
         tracking,
         kerning,
         kerning_before,
+        aki_left,
+        aki_right,
         optical_kerning,
         baseline_shift,
         h_scale,
@@ -955,6 +1016,12 @@ fn drawn_alike(a: &CharStyle, b: &CharStyle, vertical: bool) -> bool {
         tcy_up_down,
         tcy_left_right,
         standard_vertical_roman,
+        // Compared by `warichu_alike`.
+        warichu: _,
+        warichu_lines: _,
+        warichu_gap: _,
+        warichu_scale: _,
+        warichu_align: _,
         digits,
         font_height_reference,
         no_break,
@@ -965,6 +1032,8 @@ fn drawn_alike(a: &CharStyle, b: &CharStyle, vertical: bool) -> bool {
     let offsets = (standard_vertical_roman, tcy_up_down, tcy_left_right);
     let other_offsets = if vertical { (&b.standard_vertical_roman, &b.tcy_up_down, &b.tcy_left_right) } else { offsets };
     kerning_before == &a.kerning_before
+        && aki_left == &a.aki_left
+        && aki_right == &a.aki_right
         && offsets == other_offsets
         && font_family == &b.font_family
         && font_style == &b.font_style
@@ -1000,6 +1069,7 @@ fn drawn_alike(a: &CharStyle, b: &CharStyle, vertical: bool) -> bool {
         && kashidas == &b.kashidas
         && proportional_metrics == &b.proportional_metrics
         && tate_chu_yoko == &b.tate_chu_yoko
+        && warichu_alike(a, b)
         && digits == &b.digits
         && font_height_reference == &b.font_height_reference
         && no_break == &b.no_break
@@ -1007,14 +1077,26 @@ fn drawn_alike(a: &CharStyle, b: &CharStyle, vertical: bool) -> bool {
         && glyph_alternate == &b.glyph_alternate
 }
 
+/// Do characters in styles `a` and `b` set warichu alike: neither marked Warichu, whatever their
+/// Warichu Settings (which then take no part in setting them), or both marked with the same
+/// Warichu Settings?
+pub(crate) fn warichu_alike(a: &CharStyle, b: &CharStyle) -> bool {
+    a.warichu == b.warichu
+        && (!a.warichu
+            || (a.warichu_lines == b.warichu_lines
+                && a.warichu_gap == b.warichu_gap
+                && a.warichu_scale == b.warichu_scale
+                && a.warichu_align == b.warichu_align))
+}
+
 /// Do text runs in styles `a` and `b` shape alike, so that they are shaped as one piece of text?
 /// They do when they differ only in paint and stroke, underline and strikethrough, overprint, the
 /// character style's name, leading, baseline shift, rotation, Character Alignment, Character
 /// Direction (text is shaped apart where its bidi level changes), Kashidas, the kerning (each glyph takes its
 /// run's, see [`shape_segment`]), the space before a line's first character ([`space_before`]),
-/// the OpenType features (each run's apply to its own characters, as features over a range of the
-/// one buffer) and the tracking, as long as the tracking keeps or drops standard ligatures alike
-/// ([`crate::features::ligatures_suppressed_by`]).
+/// Insert Aki ([`aki`]), the OpenType features (each run's apply to its own characters, as features
+/// over a range of the one buffer) and the tracking, as long as the tracking keeps or drops
+/// standard ligatures alike ([`crate::features::ligatures_suppressed_by`]).
 fn shapes_alike(a: &CharStyle, b: &CharStyle) -> bool {
     // Every field is named, so that a new attribute has to be sorted into one group or the other.
     let CharStyle {
@@ -1027,6 +1109,8 @@ fn shapes_alike(a: &CharStyle, b: &CharStyle) -> bool {
         tracking,
         kerning: _,
         kerning_before: _,
+        aki_left: _,
+        aki_right: _,
         optical_kerning: _,
         baseline_shift: _,
         h_scale,
@@ -1059,6 +1143,14 @@ fn shapes_alike(a: &CharStyle, b: &CharStyle) -> bool {
         tcy_up_down: _,
         tcy_left_right: _,
         standard_vertical_roman: _,
+        // A warichu block is shaped apart from the text around it and from a block with other
+        // settings: its characters are set at their own size and stacked by its settings
+        // ([`warichu_alike`]).
+        warichu: _,
+        warichu_lines: _,
+        warichu_gap: _,
+        warichu_scale: _,
+        warichu_align: _,
         digits,
         font_height_reference,
         no_break,
@@ -1066,6 +1158,7 @@ fn shapes_alike(a: &CharStyle, b: &CharStyle) -> bool {
         glyph_alternate,
     } = a;
     *font_family == b.font_family
+        && warichu_alike(a, b)
         && *font_style == b.font_style
         && *font_version == b.font_version
         && *font_axes == b.font_axes
@@ -1128,9 +1221,9 @@ fn shaping_script(c: char) -> Script {
 /// The art is scaled uniformly to `scale` x the font size tall, its left edge on the pen and its
 /// vertical centre on the middle of the cap height raised by the inline's shift (see
 /// [`InlineArt`]). Its advance is the scaled art width plus tracking, its character's manual
-/// kerning and the space before it at a line's start ([`space_before`]). Right to left in
-/// horizontal type the manual kerning also moves the art right by the value, as it
-/// moves a letter's glyph. The art doesn't take the run's Horizontal Scale; the tracking and the
+/// kerning, the space before it at a line's start ([`space_before`]) and its Insert Aki ([`aki`]).
+/// Right to left in horizontal type the manual kerning also moves the art right by the value, as it
+/// moves a letter's glyph, and Insert Aki moves it as it moves a letter's glyph. The art doesn't take the run's Horizontal Scale; the tracking and the
 /// kerning do, as after a letter ([`spacing_scale`]). The glyph's ascent and descent grow to the
 /// art's extent so a tall graphic opens up its line. A missing symbol takes a square of the same
 /// height and draws nothing.
@@ -1164,7 +1257,9 @@ fn inline_glyph(
     let tracking = Some(st.tracking / 1000.0 * spacing_em).filter(|t| t.is_finite()).unwrap_or(0.0);
     let manual_kern = st.kerning.map(|v| v / 1000.0 * spacing_em).filter(|k| k.is_finite()).unwrap_or(0.0);
     let before = space_before(text, range.start, st, spacing_em);
-    let adv = width + tracking + manual_kern + before;
+    let (aki_left, aki_right) = aki(st, spacing_em);
+    let adv = width + tracking + manual_kern + before + aki_left + aki_right;
+    let aki_shift = if level.is_rtl() && !vertical { aki_right } else { aki_left };
     SGlyph {
         face: face.clone(),
         gid: 0,
@@ -1175,7 +1270,9 @@ fn inline_glyph(
         tracking: if adv.is_finite() { tracking } else { 0.0 },
         dx: 0.0,
         dy: 0.0,
-        kern_shift: if level.is_rtl() && !vertical { manual_kern } else { before },
+        kern_shift: if level.is_rtl() && !vertical { manual_kern } else { before } + aki_shift,
+        aki_shift,
+        aki: if adv.is_finite() { aki_left + aki_right } else { 0.0 },
         // Not used to draw (the art has its own transform), but they make the glyph's em box
         // its run's em: Character Alignment and Top-to-Top leading treat an inline graphic as a
         // character of its run's size, whatever its scale (see `layout::glyph_em`).
@@ -1190,6 +1287,7 @@ fn inline_glyph(
         xh,
         ch: text.get(range.clone()).and_then(|s| s.chars().next()).unwrap_or(INLINE_CHAR),
         tcy: None,
+        wari: None,
         lead: 0.0,
         proportional: false,
         vpal: None,
@@ -1624,23 +1722,29 @@ fn shape_segment(text: &str, context: &Range<usize>, seg: &Segment, feats: &OtFe
         };
         let mut kern_shift = 0.0;
         let mut tracked = 0.0;
+        let (mut aki_shift, mut aki_in_adv) = (0.0, 0.0);
         if ch == SOFT_HYPHEN || ch == '\u{2028}' {
             adv = 0.0;
         } else {
             let manual_kern = gst.kerning.map(|v| v / 1000.0 * spacing_em).unwrap_or(0.0);
             let before = space_before(text, cl, gst, spacing_em);
+            let (aki_left, aki_right) = aki(gst, spacing_em);
             // Manual kerning spaces a character from the next one in reading order. Right to left,
             // that one is drawn to its left: the cluster's glyphs move right along the baseline by
             // the value, so that the space its last glyph's advance gains is at the cluster's left.
-            // The space before a line's first character moves them the other way.
+            // The space before a line's first character moves them the other way. Insert Aki moves
+            // them past the space before them in reading order: Aki Left, or right to left Aki Right.
             if level.is_rtl() && !feats.vertical {
-                kern_shift = manual_kern;
+                aki_shift = aki_right;
+                kern_shift = manual_kern + aki_shift;
             } else {
-                kern_shift = before;
+                aki_shift = aki_left;
+                kern_shift = before + aki_shift;
             }
             if last_in_cluster {
                 tracked = gst.tracking / 1000.0 * spacing_em;
-                adv += tracked + manual_kern + before;
+                aki_in_adv = aki_left + aki_right;
+                adv += tracked + manual_kern + before + aki_in_adv;
             }
         }
         out.push(SGlyph {
@@ -1654,6 +1758,8 @@ fn shape_segment(text: &str, context: &Range<usize>, seg: &Segment, feats: &OtFe
             dx: xo as f64 * k * hs,
             dy: -(yo as f64) * k * vs,
             kern_shift,
+            aki_shift,
+            aki: aki_in_adv,
             sx: k * hs,
             sy: k * vs,
             bshift: gst.baseline_shift + pos_shift,
@@ -1665,6 +1771,7 @@ fn shape_segment(text: &str, context: &Range<usize>, seg: &Segment, feats: &OtFe
             xh,
             ch,
             tcy: None,
+            wari: None,
             lead: 0.0,
             proportional: proportional.get(gi).copied().unwrap_or(false),
             vpal: vpal.get(gi).copied().flatten(),
