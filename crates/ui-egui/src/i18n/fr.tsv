@@ -7840,12 +7840,12 @@ breakText	Glyphs	Glyphes
 	Not Aligned to Pixel Grid	Non aligné sur la grille de pixels
 @msg	only paths and compound paths can be aligned to the pixel grid	seuls les tracés et les tracés transparents peuvent être alignés sur la grille de pixels
 	Claude	Claude
-@msg	couldn't open a control channel for Claude	impossible d'ouvrir un canal de contrôle pour Claude
+@msg	couldn't open a control channel for Claude	impossible d’ouvrir un canal de contrôle pour Claude
 @msg	install it from {_1}	installez-le depuis {_1}
 @msg	no control channel	aucun canal de contrôle
 @msg	run `{_1} {_2}` in a terminal to sign in	exécutez `{_1} {_2}` dans un terminal pour vous connecter
-@msg	the Claude pane needs the VectorCraft desktop app	le panneau Claude nécessite l'application de bureau VectorCraft
-@msg	vectorcraft-cli wasn't found next to VectorCraft; reinstall VectorCraft	vectorcraft-cli est introuvable à côté de VectorCraft ; réinstallez VectorCraft
+@msg	the Claude pane needs the VectorCraft desktop app	le panneau Claude nécessite l’application de bureau VectorCraft
+@msg	vectorcraft-cli wasn't found next to VectorCraft; reinstall VectorCraft	vectorcraft-cli est introuvable à côté de VectorCraft ; réinstallez VectorCraft
 @msg	side is left or right, not `{s}`	side vaut left ou right, pas `{s}`
 	Ignore All	Tout ignorer
 	Add to Dictionary	Ajouter au dictionnaire
