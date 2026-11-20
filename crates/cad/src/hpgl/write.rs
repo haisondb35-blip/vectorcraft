@@ -43,13 +43,16 @@ use clip::Region;
 
 /// Plotter units per point.
 const PLU_PER_PT: f64 = 1016.0 / 72.0;
-pub use craft_plotter::hpgl::write::{MAX_COORD, MAX_PENS};
+/// The largest coordinate written, plotter units.
+pub const MAX_COORD: i64 = (1 << 23) - 1;
 /// The coordinates an HP-GL plot keeps to without a warning: 16-bit numbers, plotter units.
 const CLASSIC_RANGE: std::ops::RangeInclusive<i64> = -32_768..=32_767;
 /// The curve tolerance a path is flattened to by default, points.
 pub const DEFAULT_TOLERANCE: f64 = 0.1;
 /// The smallest and largest curve tolerance, points.
 pub const TOLERANCE_RANGE: std::ops::RangeInclusive<f64> = 0.01..=10.0;
+/// The most pens: a pen table's length, and the colors that get a pen of their own.
+pub const MAX_PENS: usize = 255;
 /// The most points the plots of one export hold.
 const MAX_POINTS: usize = if cfg!(test) { 100_000 } else { 10_000_000 };
 /// The most work sorting paths and finding which lie inside others may take, over the whole plot:
@@ -195,14 +198,24 @@ pub fn export(doc: &Document, opts: &HpglOptions) -> Result<HpglOutput, String> 
     Ok(export_regions(doc, opts, &[opts.region])?.pop().unwrap_or_default())
 }
 
+/// An error unless a plot can cover `region`: its corners are finite and it has a width and a
+/// height (either corner may come first).
+pub fn check_region(region: Rect) -> Result<(), String> {
+    let r = region.abs();
+    if ![r.x0, r.y0, r.x1, r.y1].iter().all(|v| v.is_finite()) || r.width() <= 0.0 || r.height() <= 0.0 {
+        return Err("the export region is empty".into());
+    }
+    Ok(())
+}
+
 /// Write the visible art of `doc` over each of `regions` as an HP-GL plot, one per region, as
 /// [`export`] does with `opts.region`. The plots share one pen numbering, so a color is the same
 /// pen in each, and one point budget.
 pub fn export_regions(doc: &Document, opts: &HpglOptions, regions: &[Rect]) -> Result<Vec<HpglOutput>, String> {
-    let regions: Vec<Rect> = regions.iter().map(|r| r.abs()).collect();
-    if regions.iter().any(|r| ![r.x0, r.y0, r.x1, r.y1].iter().all(|v| v.is_finite()) || r.width() <= 0.0 || r.height() <= 0.0) {
-        return Err("the export region is empty".into());
+    for r in regions {
+        check_region(*r)?;
     }
+    let regions: Vec<Rect> = regions.iter().map(|r| r.abs()).collect();
     if !TOLERANCE_RANGE.contains(&opts.tolerance) {
         return Err("the curve tolerance must be from 0.01 to 10 points".into());
     }
@@ -292,14 +305,7 @@ pub fn export_regions(doc: &Document, opts: &HpglOptions, regions: &[Rect]) -> R
         }
         let bytes = match opts.version {
             Version::Hpgl => plain(&by_pen),
-            Version::Hpgl2 => {
-                let pen_table: Vec<craft_plotter::hpgl::write::Pen> = pens
-                    .iter()
-                    .enumerate()
-                    .map(|(i, &rgb)| craft_plotter::hpgl::write::Pen { number: i + 1, rgb })
-                    .collect();
-                craft_plotter::hpgl::write::write_hpgl2(&pen_table, &by_pen).into_bytes()
-            }
+            Version::Hpgl2 => encoded(&by_pen, &pens),
         };
         out.push(HpglOutput { bytes, pens: pens.clone(), warnings, setting_notes });
     }
@@ -527,7 +533,22 @@ fn plain(by_pen: &[Vec<Vec<(i64, i64)>>]) -> Vec<u8> {
 }
 
 /// HP-GL/2: `IN;`, the palette, each pen's paths as one `PE`, `PU;SP0;`.
+fn encoded(by_pen: &[Vec<Vec<(i64, i64)>>], pens: &[[u8; 3]]) -> Vec<u8> {
+    let pens: Vec<_> = pens.iter().enumerate().map(|(index, &rgb)| craft_plotter::hpgl::write::Pen { number: index + 1, rgb }).collect();
+    craft_plotter::hpgl::write::write_hpgl2(&pens, by_pen)
+}
 
+/// `v` as a base-64 PE number: the sign in the low bit, the low digits from 63 up and the last
+/// digit from 191 up.
+#[cfg(test)]
+fn pe_number(out: &mut Vec<u8>, v: i64) {
+    let mut n = (v.unsigned_abs() << 1) | u64::from(v < 0);
+    while n >= 64 {
+        out.push(63 + (n % 64) as u8);
+        n /= 64;
+    }
+    out.push(191 + n as u8);
+}
 
 /// One line the pen draws, in document space, and its color.
 struct Run {
@@ -918,10 +939,8 @@ impl<'a> Walk<'a> {
                     end(&mut cur, &mut out, false);
                     cur.push(p);
                 }
-                PathEl::LineTo(p) => {
-                    if cur.last() != Some(&p) {
-                        cur.push(p);
-                    }
+                PathEl::LineTo(p) if cur.last() != Some(&p) => {
+                    cur.push(p);
                 }
                 PathEl::ClosePath => {
                     let s = cur.first().copied();

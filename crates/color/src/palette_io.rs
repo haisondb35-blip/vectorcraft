@@ -7,7 +7,7 @@
 use std::collections::{HashMap, HashSet};
 
 pub use craft_cms::palette::css_property;
-use craft_cms::palette::{self as cms_palette, Palette, PaletteColor, PaletteGroup, PaletteSwatch};
+use craft_cms::palette::{self as cms_palette, Palette, PaletteColor, PaletteError, PaletteGroup, PaletteSwatch};
 use serde::{Deserialize, Serialize};
 
 use crate::{Color, GradientKind, Paint, Swatch, SwatchGroup, SwatchLibrary};
@@ -85,6 +85,12 @@ struct NativeFile {
 
 const NATIVE_FORMAT: &str = "vcswatches";
 const GPL_HEADER: &str = "GIMP Palette";
+const ASE_SIGNATURE: &[u8] = b"ASEF";
+const ACB_SIGNATURE: &[u8] = b"8BCB";
+#[cfg(test)]
+const ASE_GROUP_START: u16 = 0xC001;
+#[cfg(test)]
+const ASE_MAX_ENTRIES: usize = 100_000;
 
 fn color_to_cms(c: Color) -> PaletteColor {
     match c {
@@ -104,9 +110,22 @@ fn color_from_cms(c: PaletteColor) -> Color {
     }
 }
 
-fn swatches_to_cms(list: &[Swatch]) -> Vec<PaletteSwatch> {
+// GPL must retain the app-managed display conversion; ASE preserves authoring models.
+fn swatches_to_cms(list: &[Swatch], rgb_only: bool) -> Vec<PaletteSwatch> {
     list.iter()
-        .filter_map(|w| w.paint.color().map(|c| PaletteSwatch { name: w.name.clone(), color: color_to_cms(c), global: w.global, spot: w.spot }))
+        .filter_map(|w| {
+            w.paint.color().map(|c| PaletteSwatch {
+                name: w.name.clone(),
+                color: if rgb_only {
+                    let [r, g, b, _] = c.to_rgba8(1.0);
+                    PaletteColor::rgb8(r, g, b)
+                } else {
+                    color_to_cms(c)
+                },
+                global: w.global,
+                spot: w.spot,
+            })
+        })
         .collect()
 }
 
@@ -114,11 +133,11 @@ fn swatches_from_cms(list: Vec<PaletteSwatch>) -> Vec<Swatch> {
     list.into_iter().map(|w| Swatch { name: w.name, paint: Paint::solid(color_from_cms(w.color)), global: w.global, spot: w.spot }).collect()
 }
 
-fn to_cms_palette(lib: &SwatchLibrary) -> Palette {
+fn to_cms_palette(lib: &SwatchLibrary, rgb_only: bool) -> Palette {
     Palette {
         name: lib.name.clone(),
-        swatches: swatches_to_cms(&lib.swatches),
-        groups: lib.groups.iter().map(|g| PaletteGroup { name: g.name.clone(), swatches: swatches_to_cms(&g.swatches) }).collect(),
+        swatches: swatches_to_cms(&lib.swatches, rgb_only),
+        groups: lib.groups.iter().map(|g| PaletteGroup { name: g.name.clone(), swatches: swatches_to_cms(&g.swatches, rgb_only) }).collect(),
     }
 }
 
@@ -127,6 +146,30 @@ fn from_cms_palette(p: Palette) -> SwatchLibrary {
         name: p.name,
         swatches: swatches_from_cms(p.swatches),
         groups: p.groups.into_iter().map(|g| SwatchGroup { name: g.name, swatches: swatches_from_cms(g.swatches) }).collect(),
+    }
+}
+
+/// Maps structured shared palette errors to VectorCraft's translatable messages.
+fn palette_error(err: PaletteError) -> String {
+    match err {
+        PaletteError::UnsupportedFormat => "not a supported palette (.gpl, .ase, or .acb)".into(),
+        PaletteError::TruncatedAse => "the swatch exchange file is cut short".into(),
+        PaletteError::TruncatedAcb => "the color book is cut short".into(),
+        PaletteError::AseWriteEntryLimit { limit, entries } => format!(
+            "VectorCraft reads at most {ASE_MAX_ENTRIES} colors and groups from a swatch exchange file, and this library has {entries}",
+            ASE_MAX_ENTRIES = limit
+        ),
+        PaletteError::AseReadEntryLimit { limit } => {
+            format!("the swatch exchange file holds more than {ASE_MAX_ENTRIES} colors and groups", ASE_MAX_ENTRIES = limit)
+        }
+        PaletteError::AseBlockCount => "too many swatch exchange blocks".into(),
+        PaletteError::AseBlockLength => "a swatch exchange block is too long".into(),
+        PaletteError::AseNameLength => "a swatch exchange name is too long".into(),
+        PaletteError::AseVersion { major, minor } => format!("swatch exchange version {major}.{minor} isn't supported (only 1.x)"),
+        PaletteError::AcbVersion { version } => format!("color book version {version} isn't supported (only 1)"),
+        PaletteError::AcbEntryLimit { limit } => format!("the color book holds more than {ASE_MAX_ENTRIES} colors", ASE_MAX_ENTRIES = limit),
+        PaletteError::AcbColorSpace { space: other } => format!("color books in color space {other} aren't supported (only RGB, CMYK and Lab)"),
+        PaletteError::AcbNameBytes { limit } => format!("the color book's names take more than {} MB", limit >> 20),
     }
 }
 
@@ -147,8 +190,12 @@ pub fn write(lib: &SwatchLibrary, format: PaletteFormat) -> Result<Vec<u8>, Stri
             let file = NativeFile { format: NATIVE_FORMAT.into(), version: 1, library };
             serde_json::to_string_pretty(&file).unwrap_or_default()
         }
-        PaletteFormat::Gpl => return cms_palette::write_palette(&to_cms_palette(lib), cms_palette::PaletteFormat::Gpl),
-        PaletteFormat::Ase => return cms_palette::write_palette(&to_cms_palette(lib), cms_palette::PaletteFormat::Ase),
+        PaletteFormat::Gpl => {
+            return cms_palette::write_palette_typed(&to_cms_palette(lib, true), cms_palette::PaletteFormat::Gpl).map_err(palette_error);
+        }
+        PaletteFormat::Ase => {
+            return cms_palette::write_palette_typed(&to_cms_palette(lib, false), cms_palette::PaletteFormat::Ase).map_err(palette_error);
+        }
         PaletteFormat::Css => write_css(lib, keep),
     };
     Ok(text.into_bytes())
@@ -256,21 +303,12 @@ fn write_css(lib: &SwatchLibrary, keep: impl Fn(&&Swatch) -> bool) -> String {
     out
 }
 
-/// `.ase`, as [`read_ase`] reads it: version 1.0, the ungrouped colors, then each color group as a
-/// group start (its name), its colors and a group end, also for a group without colors. A color is
-/// written in its own model: RGB, CMYK and gray components from 0 to 1 (gray as a level, 1 is
-/// white), Lab lightness as a fraction of 100 and a and b from −128 to 127. Components are clamped
-/// to those ranges, and a component that isn't a finite number is written as 0. The color type is
-/// 1 for a spot color, 0 for another global color and 2 for a process color.
-///
-/// A swatch exchange file holds solid colors only: gradients, patterns and None are left out, and
-/// a tint swatch is written as the color it shows, a process color without its link to its base.
-/// The file has no library name ([`read_ase`] names a library after its file). More than
-/// [`ASE_MAX_ENTRIES`] colors and groups is an error.
+/// Read a `.vcswatches` or `.gpl` library (detected from its content). `name` names it when the
+/// file doesn't.
 pub fn read(text: &str, name: &str) -> Result<SwatchLibrary, String> {
     let text = text.trim_start_matches('\u{feff}').trim_start();
     if text.starts_with(GPL_HEADER) {
-        return cms_palette::read_palette(text.as_bytes(), name).map(from_cms_palette);
+        return cms_palette::read_palette_typed(text.as_bytes(), name).map(from_cms_palette).map_err(palette_error);
     }
     if text.starts_with('{') {
         let f: NativeFile = serde_json::from_str(text).map_err(|e| format!("not a swatch library: {e}"))?;
@@ -295,8 +333,8 @@ pub fn sniff(text: &str) -> bool {
 /// Read the bytes of a library file: a swatch exchange `.ase` file, else a `.vcswatches` or
 /// `.gpl` library ([`read`]). `name` names it when the file doesn't.
 pub fn read_bytes(bytes: &[u8], name: &str) -> Result<SwatchLibrary, String> {
-    if cms_palette::sniff_palette(bytes) {
-        return cms_palette::read_palette(bytes, name).map(from_cms_palette);
+    if bytes.starts_with(ASE_SIGNATURE) || bytes.starts_with(ACB_SIGNATURE) {
+        return cms_palette::read_palette_typed(bytes, name).map(from_cms_palette).map_err(palette_error);
     }
     read(&String::from_utf8_lossy(bytes), name)
 }
@@ -304,7 +342,8 @@ pub fn read_bytes(bytes: &[u8], name: &str) -> Result<SwatchLibrary, String> {
 /// Are `bytes` a library [`read_bytes`] understands? Text that isn't valid UTF-8 is checked as
 /// [`read_bytes`] reads it, with the invalid bytes replaced (its first KiB is enough).
 pub fn sniff_bytes(bytes: &[u8]) -> bool {
-    cms_palette::sniff_palette(bytes)
+    bytes.starts_with(ASE_SIGNATURE)
+        || bytes.starts_with(ACB_SIGNATURE)
         || std::str::from_utf8(bytes).is_ok_and(sniff)
         || sniff(&String::from_utf8_lossy(bytes.get(..1024).unwrap_or(bytes)))
 }
