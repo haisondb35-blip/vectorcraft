@@ -187,6 +187,14 @@ pub fn app_bar(app: &mut VectorcraftApp, ui: &mut Ui) {
                 ui.add_space(10.0);
                 crate::community::discord_button(app, ui, false);
             }
+            // With native menus the title is centered in the bar: the Claude button (also under
+            // Window › Claude) gives way rather than push the group into it.
+            let claude = claude
+                && (app.services.native_menu.is_none() || {
+                    let title_w = ui.painter().layout_no_wrap("VectorCraft".into(), egui::FontId::proportional(13.5), t.text).size().x;
+                    let button_w = 6.0 + gap + crate::assistant::bar_button_width(ui);
+                    full.center().x + title_w / 2.0 <= ui.min_rect().left() - button_w - 8.0
+                });
             if claude {
                 ui.add_space(6.0);
                 crate::assistant::bar_button(app, ui);
