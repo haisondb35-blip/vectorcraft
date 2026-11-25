@@ -1358,28 +1358,22 @@ fn api_settings(a: &mut Assistant, ui: &mut egui::Ui) {
 /// The colours the pane draws with, read from the visuals the craft theme installs (VectorCraft's own
 /// `theme::Tokens` went with the move onto the craft UI framework).
 struct Tokens {
-    accent: egui::Color32,
-    button: egui::Color32,
     divider: egui::Color32,
     hover: egui::Color32,
     panel: egui::Color32,
     text: egui::Color32,
     text_dim: egui::Color32,
-    text_strong: egui::Color32,
 }
 
 impl Tokens {
     fn get(ctx: &egui::Context) -> Self {
         let v = ctx.global_style().visuals.clone();
         Self {
-            accent: v.selection.bg_fill,
-            button: v.widgets.inactive.weak_bg_fill,
             divider: v.widgets.noninteractive.bg_stroke.color,
             hover: v.widgets.hovered.weak_bg_fill,
             panel: v.panel_fill,
             text: v.text_color(),
             text_dim: v.weak_text_color(),
-            text_strong: v.strong_text_color(),
         }
     }
 }
@@ -1437,11 +1431,13 @@ pub fn pane(app: &mut crate::VectorcraftApp, ui: &mut egui::Ui) {
     }
     ui.horizontal(|ui| {
         let mut chosen = a.provider;
-        egui::ComboBox::from_id_salt("assistant_provider").selected_text(chosen.label()).show_ui(ui, |ui| {
-            for p in Provider::ALL {
-                ui.selectable_value(&mut chosen, p, p.label());
-            }
-        });
+        use craft::ui::contract::Show as _;
+        let entries: Vec<craft::ui::contract::Entry<String>> =
+            Provider::ALL.iter().map(|p| craft::ui::contract::Entry::new(p.key().to_string(), p.label())).collect();
+        let picked = craft::ui::pickers::Select::new("Assistant", craft::ui::contract::Bind::given(chosen.key().to_string()), &entries).show(ui);
+        if let Some(p) = picked.value().and_then(|key| Provider::from_key(key)) {
+            chosen = p;
+        }
         if chosen != a.provider {
             a.set_provider(chosen);
             if let Some(store) = &a.memory {
