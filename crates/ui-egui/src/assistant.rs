@@ -24,7 +24,7 @@ pub mod embed;
 mod memory;
 pub use memory::{Memory, Store};
 
-use crate::control::ControlRequest;
+use craft::automation::ControlRequest;
 
 /// Starts a control channel for the pane: given the token requests must carry, the port it
 /// listens on (127.0.0.1) and the requests it receives. The desktop app provides it.
@@ -1136,7 +1136,7 @@ pub fn blocks(text: &str) -> Vec<Block> {
 
 /// Draw inline Markdown wrapped to the pane.
 fn rich(ui: &mut egui::Ui, text: &str, size: f32, color: egui::Color32, all_bold: bool) {
-    let t = crate::theme::Tokens::get(ui.ctx());
+    let t = Tokens::get(ui.ctx());
     let mut job = egui::text::LayoutJob::default();
     job.wrap.max_width = ui.available_width();
     for sp in spans(text) {
@@ -1161,7 +1161,7 @@ fn rich(ui: &mut egui::Ui, text: &str, size: f32, color: egui::Color32, all_bold
 
 /// Draw a reply's Markdown: headings, lists, quotes, code, bold and italic.
 pub fn markdown(ui: &mut egui::Ui, text: &str) {
-    let t = crate::theme::Tokens::get(ui.ctx());
+    let t = Tokens::get(ui.ctx());
     let size = 13.5;
     for b in blocks(text) {
         match b {
@@ -1355,55 +1355,38 @@ fn api_settings(a: &mut Assistant, ui: &mut egui::Ui) {
     }
 }
 
-/// The pane's contents (inside the task pane frame).
-/// The AI Assistant button in the app bar: its label and size, as the Discord button's.
-fn bar_layout(ui: &egui::Ui) -> (std::sync::Arc<egui::Galley>, f32, f32) {
-    let h = 24.0;
-    let galley = ui.painter().layout_no_wrap("AI Assistant".to_string(), egui::FontId::proportional(12.0), egui::Color32::PLACEHOLDER);
-    let w = galley.size().x + h * 0.55 + h * 0.9;
-    (galley, h, w)
+/// The colours the pane draws with, read from the visuals the craft theme installs (VectorCraft's own
+/// `theme::Tokens` went with the move onto the craft UI framework).
+struct Tokens {
+    accent: egui::Color32,
+    button: egui::Color32,
+    divider: egui::Color32,
+    hover: egui::Color32,
+    panel: egui::Color32,
+    text: egui::Color32,
+    text_dim: egui::Color32,
+    text_strong: egui::Color32,
 }
 
-/// The AI Assistant button's width (the app bar drops it, before Discord, when space runs out).
-pub fn bar_button_width(ui: &egui::Ui) -> f32 {
-    bar_layout(ui).2
-}
-
-/// The AI Assistant button in the app bar, next to Discord: opens and closes the assistant pane.
-pub fn bar_button(app: &mut crate::VectorcraftApp, ui: &mut egui::Ui) -> egui::Response {
-    let t = crate::theme::Tokens::get(ui.ctx());
-    let (galley, h, w) = bar_layout(ui);
-    let (r, resp) = ui.allocate_exact_size(egui::vec2(w, h), egui::Sense::click());
-    let on = app.assistant_open;
-    let fill = if on {
-        t.accent
-    } else if resp.hovered() {
-        t.hover
-    } else {
-        t.button
-    };
-    ui.painter().rect_filled(r, egui::CornerRadius::same(6), fill);
-    let icon = h * 0.55;
-    let ir = egui::Rect::from_center_size(r.left_center() + egui::vec2(h * 0.35 + icon / 2.0, 0.0), egui::vec2(icon, icon));
-    let ink = if on {
-        egui::Color32::WHITE
-    } else if resp.hovered() {
-        t.text_strong
-    } else {
-        t.text
-    };
-    crate::icons::paint(ui, "wand-sparkles", ir, if on { egui::Color32::WHITE } else { t.accent });
-    ui.painter().galley(egui::pos2(ir.right() + h * 0.2, r.center().y - galley.size().y / 2.0), galley, ink);
-    let resp = resp.on_hover_text("Claude or ChatGPT on the open artwork (Window > Claude)");
-    if resp.clicked() {
-        app.assistant_open = !app.assistant_open;
+impl Tokens {
+    fn get(ctx: &egui::Context) -> Self {
+        let v = ctx.global_style().visuals.clone();
+        Self {
+            accent: v.selection.bg_fill,
+            button: v.widgets.inactive.weak_bg_fill,
+            divider: v.widgets.noninteractive.bg_stroke.color,
+            hover: v.widgets.hovered.weak_bg_fill,
+            panel: v.panel_fill,
+            text: v.text_color(),
+            text_dim: v.weak_text_color(),
+            text_strong: v.strong_text_color(),
+        }
     }
-    resp
 }
 
 /// Window > Claude: the pane at the right of the window, beside the dock.
 pub fn side_pane(app: &mut crate::VectorcraftApp, ui: &mut egui::Ui) {
-    let t = crate::theme::Tokens::get(ui.ctx());
+    let t = Tokens::get(ui.ctx());
     egui::Panel::right("assistant_pane")
         .resizable(true)
         .default_size(340.0)
@@ -1423,8 +1406,9 @@ pub fn side_pane(app: &mut crate::VectorcraftApp, ui: &mut egui::Ui) {
         });
 }
 
+/// The pane's contents (inside the task pane frame).
 pub fn pane(app: &mut crate::VectorcraftApp, ui: &mut egui::Ui) {
-    let t = crate::theme::Tokens::get(ui.ctx());
+    let t = Tokens::get(ui.ctx());
     // The conversation follows the document on screen (each file keeps its own).
     let doc = app.session.active().map(|d| (d.uid, d.path.clone()));
     let a = &mut app.assistant;
@@ -1453,7 +1437,7 @@ pub fn pane(app: &mut crate::VectorcraftApp, ui: &mut egui::Ui) {
     }
     ui.horizontal(|ui| {
         let mut chosen = a.provider;
-        craft_ui::ComboBox::from_id_salt("assistant_provider").selected_text(chosen.label()).show_ui(ui, |ui| {
+        egui::ComboBox::from_id_salt("assistant_provider").selected_text(chosen.label()).show_ui(ui, |ui| {
             for p in Provider::ALL {
                 ui.selectable_value(&mut chosen, p, p.label());
             }

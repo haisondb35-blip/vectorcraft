@@ -1,176 +1,167 @@
-use super::{
-    MAX_PENDING_SCREENSHOTS, MAX_SCREENSHOT_BYTES, MAX_SCREENSHOT_TOTAL_BYTES, PendingScreenshot, QueuedScreenshot, SCREENSHOT_TIMEOUT_MS,
-    VectorcraftApp, canvas, file_access, json, now_ms,
-};
+use craft::automation::ControlChannel;
+use craft::automation::screenshot::{DocumentId, Finished, settle_ms};
+use craft::ui::runtime::motion;
+use craft::ui::runtime::windows::WindowHost;
+use serde_json::json;
+use vectorcraft_engine::file_access::AutomationRoots;
+
+use super::{VectorcraftApp, file_access};
 use crate::control;
+use crate::services::WriteFn;
+
+/// Writes a capture's PNG where the app's file authority allows: through the host's writer, inside
+/// the automation roots. An error shows the `path` sent as its file name only when it lies outside
+/// the read root, as every reply does (`hiding`).
+fn write_automation_file(
+    roots: Option<&std::sync::Arc<AutomationRoots>>,
+    write: &mut Option<WriteFn>,
+    hiding: &control::Hiding,
+    path: &str,
+    png: &[u8],
+) -> Result<(), String> {
+    file_access::confine(roots, || {
+        let written = match write {
+            Some(write) => write(path, png),
+            None => Err("no writer configured".to_owned()),
+        };
+        written.map_err(|error| hiding.hide_error(&error, &json!({"path": path})))
+    })
+}
 
 impl VectorcraftApp {
-    pub(crate) fn drain_control(&mut self, ctx: &egui::Context) {
-        if let Some(rx) = self.control_rx.take() {
-            self.drain_from(ctx, &rx);
-            self.control_rx = Some(rx);
-        }
+    /// Once per host iteration: opens the Claude pane's channel (from the assistant it started),
+    /// then, on the control server's channel and the pane's in turn, answers the finished captures
+    /// and runs the requests the transport queued, each inside the automation roots. The requests
+    /// that wait for injected input are answered by [`Self::poll_input`].
+    pub(crate) fn run_control(&mut self, ctx: &egui::Context) {
         // Open from the start and listed for the other Craft apps (once).
         self.assistant.share(ctx);
         // The assistant pane's own channel: requests from the assistant it started.
         if let Some(rx) = self.assistant.control_rx.take() {
-            self.drain_from(ctx, &rx);
-            self.assistant.control_rx = Some(rx);
+            self.assistant_channel = Some(ControlChannel::new(rx));
+        }
+        self.each_channel(|app, pane, channel| app.run_channel(ctx, pane, channel));
+        self.answer_pointer_waits(ctx);
+    }
+
+    /// The control server's channel (`pane` false) or the Claude pane's (`pane` true).
+    fn channel_slot(&mut self, pane: bool) -> &mut Option<ControlChannel> {
+        if pane { &mut self.assistant_channel } else { &mut self.channel }
+    }
+
+    /// The request of that channel held back until the synthetic input before it is applied.
+    fn deferred_slot(&mut self, pane: bool) -> &mut Option<craft::automation::ControlRequest> {
+        if pane { &mut self.assistant_deferred } else { &mut self.deferred_control }
+    }
+
+    /// Runs `f` on each open channel (the control server's, then the Claude pane's), with the
+    /// channel taken out of the app while `f` runs; `f` is told which one it has.
+    fn each_channel(&mut self, mut f: impl FnMut(&mut Self, bool, &mut ControlChannel)) {
+        for pane in [false, true] {
+            let Some(mut channel) = self.channel_slot(pane).take() else { continue };
+            f(self, pane, &mut channel);
+            *self.channel_slot(pane) = Some(channel);
         }
     }
 
-    fn drain_from(&mut self, ctx: &egui::Context, rx: &std::sync::mpsc::Receiver<crate::ControlRequest>) {
-        let mut handled = 0;
-        while handled < control::MAX_CONTROL_REQUESTS_PER_FRAME {
-            let Some(req) = self.deferred_control.take().or_else(|| rx.try_recv().ok()) else { break };
-            // Synthetic input sent before this tool action was dropped (see
-            // `discard_stale_injected_batch`): it would reach the tool without that input.
-            let tool_action = matches!(req.method.as_str(), "ui.pointer" | "ui.tool.select");
-            if tool_action && req.made_before(self.synthetic_dropped_before) {
-                // One its caller gave up is skipped without counting toward this frame's limit.
-                if req.claim() {
-                    handled += 1;
-                    let _ = req.reply.send(json!({
-                        "ok": false,
-                        "error": "input sent before this tool action was dropped because the document, dialog or focus changed"
-                    }));
-                }
+    /// [`Self::run_control`] for one channel.
+    fn run_channel(&mut self, ctx: &egui::Context, pane: bool, channel: &mut ControlChannel) {
+        let host = WindowHost::of(ctx);
+        let document = self.document_identity();
+        channel.captures.note_windows(&host, document);
+        let finished = channel.captures.drain(motion::now(), document);
+        self.finish_captures(channel, finished);
+        let settle = settle_ms(ctx.global_style().animation_time);
+        while let Some(req) = self.deferred_slot(pane).take().or_else(|| channel.next_request()) {
+            // A request held past its deadline is answered as one still queued then.
+            if req.deadline.is_some_and(|deadline| motion::now() >= deadline) {
+                let _ = req.reply.send(json!({"ok": false, "error": craft::automation::control::expired_error()}));
                 continue;
             }
-            // `ui.pointer` and `ui.tool.select` act at once, while `ui.key` and other synthetic
-            // input reach the tool in a later UI pass. Wait for that earlier input, so a key
-            // pressed during a drag reaches its tool before a pointer event or tool switch.
-            // One its caller gave up meanwhile is dropped below instead of holding back the rest.
-            if tool_action && !req.given_up() && (!self.synthetic.is_empty() || self.synthetic_injected) {
-                self.deferred_control = Some(req);
+            // `ui.pointer` and `ui.tool.select` act at once, while `ui.key` and other synthetic input reach the tool
+            // in a later pass: they wait for that earlier input, so a key pressed during a drag reaches its tool first.
+            if matches!(req.method.as_str(), "ui.pointer" | "ui.tool.select") && !host.injected_idle() {
+                *self.deferred_slot(pane) = Some(req);
                 ctx.request_repaint();
                 break;
             }
-            // Its caller stopped waiting (the app was busy or its window not drawn for too long)
-            // and was told it won't run: an edit applied now would come from nowhere (#1725).
-            if !req.claim() {
-                continue;
-            }
-            handled += 1;
-            let reply = req.reply.clone();
-            // Guarded per request: a panic must not drop the channel (taken out of `self` above).
             let roots = self.automation_roots.clone();
             self.ui.answering_control = true;
+            // Guarded per request: a panic must not stop the requests behind it.
             let answer = file_access::confine(roots.as_ref(), || vectorcraft_engine::guard::catch_panic(|| control::handle(self, ctx, &req)));
             self.ui.answering_control = false;
-            let outcome = match answer {
-                Ok(outcome) => outcome,
+            let reply = match answer {
+                Ok(reply) => reply,
                 Err(msg) => {
-                    self.picks.recover();
                     self.session.set_replaying(false);
                     control::err(format!("internal error: {msg} (please report this bug)"))
                 }
             };
-            match outcome {
-                control::Outcome::Done(v) => {
-                    let _ = reply.send(v);
-                }
-                control::Outcome::Screenshot { path, data } => {
-                    // Admit with the shared ceilings (4 requests, 128 MiB each, 256 MiB together)
-                    // before issue, reserving the checked bytes this viewport would need.
-                    match self.screenshot_pixels(ctx) {
-                        Ok((width, height, bytes)) if bytes > MAX_SCREENSHOT_BYTES => {
-                            let _ = reply.send(json!({"ok": false, "error": format!(
-                                "screenshot would use {bytes} bytes ({width}×{height}), over the {MAX_SCREENSHOT_BYTES}-byte limit"
-                            )}));
-                        }
-                        Ok((width, height, bytes)) if data && path.is_none() && bytes > control::MAX_SCREENSHOT_PNG_REPLY_BYTES => {
-                            let _ = reply.send(json!({"ok": false, "error": format!(
-                                "a PNG reply of this {width}×{height} screenshot ({bytes} bytes of pixels) would exceed the {}-byte reply-encoding limit; write it to a path instead",
-                                control::MAX_SCREENSHOT_PNG_REPLY_BYTES
-                            )}));
-                        }
-                        Ok((_, _, _)) if self.pending_screenshots.len() >= MAX_PENDING_SCREENSHOTS => {
-                            let _ = reply.send(json!({"ok": false, "error": format!(
-                                "already {MAX_PENDING_SCREENSHOTS} screenshots are waiting; wait for one to finish"
-                            )}));
-                        }
-                        Ok((width, height, bytes)) if self.screenshot_reserved.saturating_add(bytes) > MAX_SCREENSHOT_TOTAL_BYTES => {
-                            let _ = reply.send(json!({
-                                "ok": false,
-                                "error": format!(
-                                    "screenshots already reserved {} bytes; {bytes} more ({width}×{height}) would pass the {MAX_SCREENSHOT_TOTAL_BYTES}-byte limit",
-                                    self.screenshot_reserved
-                                )
-                            }));
-                        }
-                        Ok((_, _, bytes)) => {
-                            self.screenshot_token += 1;
-                            let id = self.screenshot_token;
-                            let settle = ctx.global_style().animation_time as f64 * 2000.0 + 80.0;
-                            let due_ms = now_ms() + settle;
-                            self.screenshot_reserved = self.screenshot_reserved.saturating_add(bytes);
-                            self.queued_screenshots.push(QueuedScreenshot { id, due_ms, frames: 0 });
-                            let document = self.document_identity();
-                            self.pending_screenshots.push(PendingScreenshot {
-                                id,
-                                path,
-                                data,
-                                reply,
-                                deadline_ms: due_ms + SCREENSHOT_TIMEOUT_MS,
-                                reserved_bytes: bytes,
-                                document,
-                                slot: None,
-                                issued: None,
-                                attempts: 0,
-                            });
-                        }
-                        Err(e) => {
-                            let _ = reply.send(json!({"ok": false, "error": e}));
-                        }
-                    }
-                }
-                control::Outcome::AfterToolEdit { from, to, document } => {
-                    self.pointer_replies.push(control::PendingPointerReply { from, to, document, reply });
-                }
-            }
+            let document = self.document_identity();
+            channel.settle(req, reply, document, settle);
         }
-        if handled == control::MAX_CONTROL_REQUESTS_PER_FRAME {
-            // Leave later requests on the channel and schedule another frame to serve them.
+        // A capture is issued only after passes settle it, and an idle window runs none; a hidden
+        // one runs only this logic unless asked to paint.
+        if channel.captures.any_unissued() {
+            if self.viewport_hidden(ctx) {
+                host.paint_while_hidden();
+            }
             ctx.request_repaint();
         }
     }
 
-    /// Sends the `ui.pointer` replies that wait for the tool's edit once their events have been
-    /// made and the edit is applied. The canvas checks on the tool each frame it is drawn; this
-    /// checks too, for frames without it.
-    pub(crate) fn answer_pointer_replies(&mut self, ctx: &egui::Context) {
+    /// The UI phase of a pass egui keeps: counts it for settling and issues the captures that are
+    /// due, answering those that expired or lost their window meanwhile.
+    pub(crate) fn issue_captures(&mut self, ctx: &egui::Context) {
+        let document = self.document_identity();
+        self.each_channel(|app, _, channel| {
+            channel.captures.note_pass();
+            let finished = channel.captures.issue(&WindowHost::of(ctx), motion::now(), document);
+            app.finish_captures(channel, finished);
+        });
+    }
+
+    /// Answers the requests that waited for injected input once the window host has run it, or
+    /// fails them when it withdrew the input. Called at the end of a pass, after its UI, or between
+    /// passes: called earlier in a pass, it would count the step the pass carries as run, and the
+    /// rest of the pass would no longer read as injected (`WindowHost::injected_pass`).
+    pub(crate) fn poll_input(&mut self, ctx: &egui::Context) {
+        self.each_channel(|_, _, channel| channel.poll_input(&WindowHost::of(ctx)));
+    }
+
+    /// Answers the `ui.pointer` replies held on the tool's edit ([`control::PointerWait`]). The canvas
+    /// checks on the tool each pass it is drawn; this checks too, for passes without it.
+    fn answer_pointer_waits(&mut self, ctx: &egui::Context) {
         // Those whose events the canvas's check made go first, before this check makes the input
         // held after them.
-        self.send_pointer_replies();
-        if self.pointer_replies.is_empty() {
+        control::answer_pointer_waits(self);
+        if self.pointer_waits.is_empty() {
             return;
         }
         if self.session.tool_editing() {
             let r = self.session.tool_poll(self.view_info(), false);
-            canvas::apply_requests(self, r);
+            crate::canvas::apply_requests(self, r);
         }
-        self.send_pointer_replies();
-        if !self.pointer_replies.is_empty() {
+        control::answer_pointer_waits(self);
+        if !self.pointer_waits.is_empty() {
             ctx.request_repaint_after(std::time::Duration::from_millis(16));
         }
     }
 
-    /// Sends the waiting `ui.pointer` replies whose events have been made.
-    fn send_pointer_replies(&mut self) {
-        for pending in std::mem::take(&mut self.pointer_replies) {
-            let control::PendingPointerReply { from, to, document, reply } = pending;
-            if self.session.input_applied(from, to) {
-                let _ = reply.send(control::pointer_reply_for(self, document));
-            } else {
-                self.pointer_replies.push(control::PendingPointerReply { from, to, document, reply });
-            }
+    /// Replies to finished captures on `channel`; a capture with a path is written by [`write_automation_file`].
+    fn finish_captures(&mut self, channel: &mut ControlChannel, finished: Vec<Finished>) {
+        if finished.is_empty() {
+            return;
         }
+        let hiding = control::deferred_hiding(self);
+        let roots = self.automation_roots.clone();
+        let write = &mut self.services.write;
+        channel.finish_captures(finished, &mut |path, png| write_automation_file(roots.as_ref(), write, &hiding, path, png));
     }
 
     /// The active document's identity: its process-unique uid and revision. A capture records it
     /// at admission and issuance and refuses to answer with a different document or undo state.
-    pub(super) fn document_identity(&self) -> Option<(u64, u64)> {
-        self.session.active().map(|document| (document.uid, document.revision))
+    pub(super) fn document_identity(&self) -> Option<DocumentId> {
+        self.session.active().map(|document| DocumentId::new(document.uid, document.revision))
     }
 }
