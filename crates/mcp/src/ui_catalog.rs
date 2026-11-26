@@ -557,6 +557,7 @@ pub const UI_COMMANDS: &[(&str, &str, &str, &str)] = &[
         "",
         "{edge: \"top\"|\"bottom\"|\"float\"} dock the Control bar to the top of the window, under the menu bar, or to its bottom, as the bar's panel menu (Dock to Top, Dock to Bottom) and a drag of its gripper do, or float it over the window at the position it last floated at (first: its top-left corner at 60, 80 in window points), as a gripper drag released away from both edges does; kept with the workspace; another edge is an error and changes nothing; returns {edge}",
     ),
+    ("window.claude", "Claude", "", "{} open or close the assistant pane: Claude, or ChatGPT through Codex, working on the open artwork"),
     (
         "window.control.options",
         "Control Bar Options",
