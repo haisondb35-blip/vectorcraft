@@ -85,6 +85,15 @@ impl VectorcraftApp {
                 ctx.request_repaint();
                 break;
             }
+            // An automation request sees every plug-in the launch loads: what it reads or writes
+            // (rendered artwork, file formats, effect lists) would otherwise depend on timing. It
+            // waits in the queue while the frames install them, so the window keeps drawing; one
+            // held past its deadline meanwhile is answered above as expired. The frame's poll of
+            // the loads asks for the next frame.
+            if self.session.plugins_loading() {
+                self.deferred_control = Some(req);
+                break;
+            }
             let roots = self.automation_roots.clone();
             self.ui.answering_control = true;
             // Guarded per request: a panic must not stop the requests behind it.
@@ -101,8 +110,9 @@ impl VectorcraftApp {
             channel.settle(req, reply, document, settle);
         }
         // A capture is issued only after passes settle it, and an idle window runs none; a hidden
-        // one runs only this logic unless asked to paint.
-        if channel.captures.any_unissued() {
+        // one runs only this logic unless asked to paint. Its readback finishes only in a later frame,
+        // so frames keep coming until it is answered, as production's did.
+        if channel.captures.any_pending() {
             if self.viewport_hidden(ctx) {
                 host.paint_while_hidden();
             }
