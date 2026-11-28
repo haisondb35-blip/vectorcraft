@@ -287,10 +287,10 @@ fn a_link_inside_a_symbol_is_listed_and_picked_in_the_panel() {
     let row = list["links"].as_array().unwrap().iter().find(|r| r["name"] == "inside.png").unwrap_or_else(|| panic!("{list}")).clone();
     assert_eq!(row["owner"]["kind"], "symbol", "{list}");
     let mut h = Panel::new(app, super::links::show);
-    assert!(h.shows("20 × 20 px"), "Link Info of the selected image in the layers");
+    assert!(h.label_has_value("Dimensions", "20 × 20 px"), "Link Info of the selected image in the layers");
     h.click_with("inside.png", egui::Modifiers::NONE);
     assert!(selected(&h.app()).is_empty(), "the canvas can't select it");
-    assert!(h.shows("30 × 20 px"), "Link Info of the symbol's image");
+    assert!(h.label_has_value("Dimensions", "30 × 20 px"), "Link Info of the symbol's image");
     // Copy Info without ids copies the row picked in the panel.
     assert!(crate::menus::enabled(&h.app(), "links.copyInfo"));
     assert_eq!(h.app().run("links.copyInfo", json!({})).unwrap()["text"], "inside.png");
@@ -302,13 +302,13 @@ fn a_link_inside_a_symbol_is_listed_and_picked_in_the_panel() {
     h.advance(1.0);
     h.click_with("layer.png", egui::Modifiers::COMMAND);
     assert!(selected(&h.app()).is_empty());
-    assert!(h.shows("30 × 20 px"), "the symbol's image is still picked");
+    assert!(h.label_has_value("Dimensions", "30 × 20 px"), "the symbol's image is still picked");
     h.app().run("select.set", json!({"ids": [layer]})).unwrap();
     h.frame();
-    assert!(h.shows("20 × 20 px"));
+    assert!(h.label_has_value("Dimensions", "20 × 20 px"));
     h.app().run("select.set", json!({"ids": []})).unwrap();
     h.frame();
-    assert!(!h.shows("30 × 20 px") && !h.shows("20 × 20 px"), "nothing is picked");
+    assert!(!h.label_has_value("Dimensions", "30 × 20 px") && !h.label_has_value("Dimensions", "20 × 20 px"), "nothing is picked");
     // Go To clears the selection and says the link has no place on the canvas.
     h.app().run("select.set", json!({"ids": [layer]})).unwrap();
     super::links::go_to(&mut h.app(), row["id"].as_u64().unwrap());
@@ -418,6 +418,30 @@ fn edit_original_and_show_in_folder_hand_the_file_to_the_system() {
     (app.services.open_file, app.services.reveal) = (None, None);
     assert!(app.run("links.reveal", json!({"id": linked})).is_err());
     assert!(app.run("links.editOriginal", json!({"id": linked})).is_err());
+}
+
+#[test]
+fn a_long_link_location_fits_the_minimum_width_float() {
+    use crate::panel_docking::PANEL_MIN_WIDTH;
+    use crate::tests::panel_harness::{Place, floated};
+
+    let folder = Folder::new("location-width");
+    let subfolder = folder.0.join("Überlagerung".repeat(5));
+    std::fs::create_dir_all(&subfolder).unwrap();
+    let path = subfolder.join("Éléments.png");
+    std::fs::write(&path, png(30, 20)).unwrap();
+    for locale in ["en", "fr", "de"] {
+        let mut app = VectorcraftApp::new(Session::new(), Default::default());
+        app.run("file.new", json!({"width": 400, "height": 300})).unwrap();
+        let placed = app.run("file.place", json!({"path": path, "at": [100, 100]})).unwrap();
+        let info = app.run("links.info", json!({"id": placed["ids"][0]})).unwrap();
+        let location = info["location"].as_str().unwrap();
+        let names = ["Location", location, "Show in Folder"];
+        app.services.reveal = Some(Box::new(|_| Ok(())));
+        let panel = floated(app, "links", locale, Place::Floating(PANEL_MIN_WIDTH), &names);
+        let past = panel.past_named(&names);
+        assert!(past.is_empty(), "{locale} location row outside {:?}: {past:?}", panel.body);
+    }
 }
 
 /// The Location row of Link Info has a Show in Folder button that shows the file of the image Link
@@ -627,6 +651,61 @@ fn properties_shows_the_selected_image_and_its_link_actions() {
     app.run("select.set", json!({"ids": [linked]})).unwrap();
     let text = painted_text(&mut app, super::properties::show);
     assert!(text.contains("Linked File") && text.contains("Edit Original") && text.contains("Embed"), "{text}");
+}
+
+#[test]
+fn replace_image_uses_browser_picker_bytes_and_fits_them_in_one_undo_step() {
+    use crate::tests::picks::{poll, scripted};
+    use vectorcraft_doc::{NodeId, NodeKind};
+    use vectorcraft_geom::Rect;
+
+    let dir = Folder::new("replace-browser-bytes");
+    let (mut app, linked, _) = app(&dir);
+    let before = app.session.doc().unwrap().doc.clone();
+    let undo = app.session.doc().unwrap().history.undo.len();
+    let journal = app.session.journal.len();
+    let picker = scripted(&mut app);
+    let ctx = app.ui_ctx.clone().unwrap();
+    let bytes = png(10, 20);
+
+    super::links::replace(&mut app, vec![linked]);
+    assert_eq!(picker.requests().len(), 1);
+    picker.answer_contents(&[("replacement.png", &bytes)]);
+    poll(&mut app, &ctx);
+
+    let state = app.session.doc().unwrap();
+    let NodeKind::Image(image) = &state.doc.node(NodeId(linked)).unwrap().kind else { panic!("replacement must keep the image's id") };
+    assert_eq!((image.width, image.height), (10, 20));
+    assert!(image.link.is_none(), "browser file contents are embedded");
+    assert_eq!(state.doc.images[&image.key].bytes.as_slice(), bytes);
+    let bounds = image.xf.transform_rect_bbox(Rect::new(0.0, 0.0, 10.0, 20.0));
+    assert_eq!((bounds.width(), bounds.height()), (100.0, 200.0), "fit in the old 300 by 200 bounds");
+    assert_eq!(state.history.undo.len(), undo + 1);
+    assert_eq!(app.session.journal.get(journal).map(|(command, _)| command.as_str()), Some("links.replaceEmbedded"));
+
+    app.run("edit.undo", json!({})).unwrap();
+    assert_eq!(app.session.doc().unwrap().doc, before);
+}
+
+#[test]
+fn replace_image_with_a_desktop_path_remains_linked() {
+    use crate::tests::picks::{poll, scripted};
+    use vectorcraft_doc::{NodeId, NodeKind};
+
+    let dir = Folder::new("replace-desktop-path");
+    let (mut app, _, embedded) = app(&dir);
+    let path = dir.file("replacement.png", &png(10, 20));
+    let picker = scripted(&mut app);
+    let ctx = app.ui_ctx.clone().unwrap();
+
+    super::links::replace(&mut app, vec![embedded]);
+    picker.answer(&[&path]);
+    poll(&mut app, &ctx);
+
+    let state = app.session.doc().unwrap();
+    let NodeKind::Image(image) = &state.doc.node(NodeId(embedded)).unwrap().kind else { panic!("replacement must keep the image's id") };
+    assert_eq!((image.width, image.height), (10, 20));
+    assert_eq!(image.link.as_ref().unwrap().path, path);
 }
 
 /// Unembed… acts on several selected embedded images: it asks for one folder, writes a file for
