@@ -8362,7 +8362,7 @@ dependencies = [
 
 [[package]]
 name = "vectorcraft"
-version = "0.24.16"
+version = "0.24.17"
 dependencies = [
  "arboard",
  "block2 0.6.2",
@@ -8406,7 +8406,7 @@ dependencies = [
 
 [[package]]
 name = "vectorcraft-affinity"
-version = "0.24.16"
+version = "0.24.17"
 dependencies = [
  "craft-affinity",
  "craft-image-codecs",
@@ -8417,26 +8417,26 @@ dependencies = [
 
 [[package]]
 name = "vectorcraft-apischema"
-version = "0.24.16"
+version = "0.24.17"
 dependencies = [
  "serde_json",
 ]
 
 [[package]]
 name = "vectorcraft-brush"
-version = "0.24.16"
+version = "0.24.17"
 dependencies = [
  "kurbo 0.13.1",
  "serde",
  "serde_json",
  "vectorcraft-color",
  "vectorcraft-doc",
- "vectorcraft-geom 0.24.16",
+ "vectorcraft-geom 0.24.17",
 ]
 
 [[package]]
 name = "vectorcraft-cad"
-version = "0.24.16"
+version = "0.24.17"
 dependencies = [
  "craft-dxf",
  "craft-image-codecs",
@@ -8448,14 +8448,14 @@ dependencies = [
  "vectorcraft-color",
  "vectorcraft-doc",
  "vectorcraft-effects",
- "vectorcraft-geom 0.24.16",
- "vectorcraft-pathops 0.24.16",
+ "vectorcraft-geom 0.24.17",
+ "vectorcraft-pathops 0.24.17",
  "vectorcraft-text",
 ]
 
 [[package]]
 name = "vectorcraft-cli"
-version = "0.24.16"
+version = "0.24.17"
 dependencies = [
  "log",
  "objc2-core-foundation",
@@ -8466,7 +8466,7 @@ dependencies = [
  "vectorcraft-doc",
  "vectorcraft-engine",
  "vectorcraft-format",
- "vectorcraft-geom 0.24.16",
+ "vectorcraft-geom 0.24.17",
  "vectorcraft-mcp",
  "vectorcraft-render",
  "vectorcraft-svg",
@@ -8478,7 +8478,7 @@ dependencies = [
 
 [[package]]
 name = "vectorcraft-color"
-version = "0.24.16"
+version = "0.24.17"
 dependencies = [
  "craft-cms",
  "craft-color-ui",
@@ -8494,7 +8494,7 @@ dependencies = [
 
 [[package]]
 name = "vectorcraft-doc"
-version = "0.24.16"
+version = "0.24.17"
 dependencies = [
  "chrono",
  "craft-image-codecs",
@@ -8509,13 +8509,13 @@ dependencies = [
  "thiserror 2.0.21",
  "tiff",
  "vectorcraft-color",
- "vectorcraft-geom 0.24.16",
+ "vectorcraft-geom 0.24.17",
  "zune-jpeg",
 ]
 
 [[package]]
 name = "vectorcraft-effects"
-version = "0.24.16"
+version = "0.24.17"
 dependencies = [
  "craft-image-codecs",
  "craft-svg",
@@ -8525,8 +8525,8 @@ dependencies = [
  "svgtypes 0.16.1",
  "vectorcraft-color",
  "vectorcraft-doc",
- "vectorcraft-geom 0.24.16",
- "vectorcraft-pathops 0.24.16",
+ "vectorcraft-geom 0.24.17",
+ "vectorcraft-pathops 0.24.17",
  "vectorcraft-plugins",
  "vectorcraft-text",
  "vectorcraft-three-d",
@@ -8536,7 +8536,7 @@ dependencies = [
 
 [[package]]
 name = "vectorcraft-engine"
-version = "0.24.16"
+version = "0.24.17"
 dependencies = [
  "apple-native-keyring-store",
  "cfb",
@@ -8582,10 +8582,10 @@ dependencies = [
  "vectorcraft-doc",
  "vectorcraft-eps",
  "vectorcraft-format",
- "vectorcraft-geom 0.24.16",
+ "vectorcraft-geom 0.24.17",
  "vectorcraft-js",
  "vectorcraft-metafile",
- "vectorcraft-pathops 0.24.16",
+ "vectorcraft-pathops 0.24.17",
  "vectorcraft-pdf",
  "vectorcraft-plugins",
  "vectorcraft-render",
@@ -8605,7 +8605,7 @@ dependencies = [
 
 [[package]]
 name = "vectorcraft-eps"
-version = "0.24.16"
+version = "0.24.17"
 dependencies = [
  "craft-eps",
  "craft-image-codecs",
@@ -8625,9 +8625,9 @@ dependencies = [
  "vectorcraft-color",
  "vectorcraft-doc",
  "vectorcraft-effects",
- "vectorcraft-geom 0.24.16",
+ "vectorcraft-geom 0.24.17",
  "vectorcraft-metafile",
- "vectorcraft-pathops 0.24.16",
+ "vectorcraft-pathops 0.24.17",
  "vectorcraft-pdf",
  "vectorcraft-render",
  "vectorcraft-testkit",
@@ -8636,7 +8636,7 @@ dependencies = [
 
 [[package]]
 name = "vectorcraft-format"
-version = "0.24.16"
+version = "0.24.17"
 dependencies = [
  "craft-gzip",
  "craft-vectorcraft-format",
@@ -8648,7 +8648,7 @@ dependencies = [
  "thiserror 2.0.21",
  "vectorcraft-brush",
  "vectorcraft-doc",
- "vectorcraft-geom 0.24.16",
+ "vectorcraft-geom 0.24.17",
  "vectorcraft-testkit",
 ]
 
@@ -8664,7 +8664,7 @@ dependencies = [
 
 [[package]]
 name = "vectorcraft-geom"
-version = "0.24.16"
+version = "0.24.17"
 dependencies = [
  "kurbo 0.13.1",
  "proptest",
@@ -8675,7 +8675,7 @@ dependencies = [
 
 [[package]]
 name = "vectorcraft-js"
-version = "0.24.16"
+version = "0.24.17"
 dependencies = [
  "chrono",
  "craft-xml",
@@ -8686,7 +8686,7 @@ dependencies = [
 
 [[package]]
 name = "vectorcraft-mcp"
-version = "0.24.16"
+version = "0.24.17"
 dependencies = [
  "craft",
  "craft-image-codecs",
@@ -8698,7 +8698,7 @@ dependencies = [
  "vectorcraft-doc",
  "vectorcraft-engine",
  "vectorcraft-format",
- "vectorcraft-geom 0.24.16",
+ "vectorcraft-geom 0.24.17",
  "vectorcraft-render",
  "vectorcraft-svg",
  "vectorcraft-testkit",
@@ -8707,7 +8707,7 @@ dependencies = [
 
 [[package]]
 name = "vectorcraft-metafile"
-version = "0.24.16"
+version = "0.24.17"
 dependencies = [
  "craft-image-codecs",
  "craft-metafile",
@@ -8717,7 +8717,7 @@ dependencies = [
  "vectorcraft-color",
  "vectorcraft-doc",
  "vectorcraft-effects",
- "vectorcraft-geom 0.24.16",
+ "vectorcraft-geom 0.24.17",
  "vectorcraft-text",
 ]
 
@@ -8734,19 +8734,19 @@ dependencies = [
 
 [[package]]
 name = "vectorcraft-pathops"
-version = "0.24.16"
+version = "0.24.17"
 dependencies = [
  "kurbo 0.13.1",
  "linesweeper",
  "proptest",
  "thiserror 2.0.21",
- "vectorcraft-geom 0.24.16",
+ "vectorcraft-geom 0.24.17",
  "vectorcraft-testkit",
 ]
 
 [[package]]
 name = "vectorcraft-pdf"
-version = "0.24.16"
+version = "0.24.17"
 dependencies = [
  "aes 0.8.4",
  "chrono",
@@ -8775,7 +8775,7 @@ dependencies = [
  "vectorcraft-color",
  "vectorcraft-doc",
  "vectorcraft-effects",
- "vectorcraft-geom 0.24.16",
+ "vectorcraft-geom 0.24.17",
  "vectorcraft-pdf",
  "vectorcraft-testkit",
  "vectorcraft-text",
@@ -8783,7 +8783,7 @@ dependencies = [
 
 [[package]]
 name = "vectorcraft-plugins"
-version = "0.24.16"
+version = "0.24.17"
 dependencies = [
  "craft-image-codecs",
  "craft-vectorcraft-format",
@@ -8795,7 +8795,7 @@ dependencies = [
  "thiserror 2.0.21",
  "vectorcraft-color",
  "vectorcraft-doc",
- "vectorcraft-geom 0.24.16",
+ "vectorcraft-geom 0.24.17",
  "vectorcraft-js",
  "wasmi",
  "wasmparser 0.228.0",
@@ -8805,7 +8805,7 @@ dependencies = [
 
 [[package]]
 name = "vectorcraft-render"
-version = "0.24.16"
+version = "0.24.17"
 dependencies = [
  "craft-gif",
  "craft-image-codecs",
@@ -8823,7 +8823,7 @@ dependencies = [
  "vectorcraft-color",
  "vectorcraft-doc",
  "vectorcraft-effects",
- "vectorcraft-geom 0.24.16",
+ "vectorcraft-geom 0.24.17",
  "vectorcraft-plugins",
  "vectorcraft-testkit",
  "vectorcraft-text",
@@ -8836,7 +8836,7 @@ dependencies = [
 
 [[package]]
 name = "vectorcraft-scriptcheck"
-version = "0.24.16"
+version = "0.24.17"
 dependencies = [
  "proptest",
  "unicode-properties",
@@ -8844,7 +8844,7 @@ dependencies = [
 
 [[package]]
 name = "vectorcraft-svg"
-version = "0.24.16"
+version = "0.24.17"
 dependencies = [
  "craft-docpath",
  "craft-image-codecs",
@@ -8868,15 +8868,15 @@ dependencies = [
  "vectorcraft-color",
  "vectorcraft-doc",
  "vectorcraft-effects",
- "vectorcraft-geom 0.24.16",
- "vectorcraft-pathops 0.24.16",
+ "vectorcraft-geom 0.24.17",
+ "vectorcraft-pathops 0.24.17",
  "vectorcraft-testkit",
  "vectorcraft-text",
 ]
 
 [[package]]
 name = "vectorcraft-testkit"
-version = "0.24.16"
+version = "0.24.17"
 dependencies = [
  "craft-image-codecs",
  "fax",
@@ -8887,14 +8887,14 @@ dependencies = [
  "vectorcraft-doc",
  "vectorcraft-engine",
  "vectorcraft-format",
- "vectorcraft-geom 0.24.16",
+ "vectorcraft-geom 0.24.17",
  "vectorcraft-render",
  "vectorcraft-svg",
 ]
 
 [[package]]
 name = "vectorcraft-text"
-version = "0.24.16"
+version = "0.24.17"
 dependencies = [
  "craft",
  "craft-fonts-build",
@@ -8912,23 +8912,23 @@ dependencies = [
  "unicode-script",
  "unicode-segmentation",
  "vectorcraft-doc",
- "vectorcraft-geom 0.24.16",
+ "vectorcraft-geom 0.24.17",
  "vello_cpu",
  "write-fonts",
 ]
 
 [[package]]
 name = "vectorcraft-three-d"
-version = "0.24.16"
+version = "0.24.17"
 dependencies = [
  "proptest",
- "vectorcraft-geom 0.24.16",
- "vectorcraft-pathops 0.24.16",
+ "vectorcraft-geom 0.24.17",
+ "vectorcraft-pathops 0.24.17",
 ]
 
 [[package]]
 name = "vectorcraft-tools"
-version = "0.24.16"
+version = "0.24.17"
 dependencies = [
  "craft-image-codecs",
  "kurbo 0.13.1",
@@ -8938,15 +8938,15 @@ dependencies = [
  "vectorcraft-color",
  "vectorcraft-doc",
  "vectorcraft-effects",
- "vectorcraft-geom 0.24.16",
- "vectorcraft-pathops 0.24.16",
+ "vectorcraft-geom 0.24.17",
+ "vectorcraft-pathops 0.24.17",
  "vectorcraft-text",
  "vectorcraft-tools",
 ]
 
 [[package]]
 name = "vectorcraft-trace"
-version = "0.24.16"
+version = "0.24.17"
 dependencies = [
  "craft-image-codecs",
  "image",
@@ -8954,12 +8954,12 @@ dependencies = [
  "serde",
  "serde_json",
  "thiserror 2.0.21",
- "vectorcraft-geom 0.24.16",
+ "vectorcraft-geom 0.24.17",
 ]
 
 [[package]]
 name = "vectorcraft-ui-egui"
-version = "0.24.16"
+version = "0.24.17"
 dependencies = [
  "bytemuck",
  "chrono",
@@ -8985,7 +8985,7 @@ dependencies = [
  "vectorcraft-engine",
  "vectorcraft-eps",
  "vectorcraft-format",
- "vectorcraft-geom 0.24.16",
+ "vectorcraft-geom 0.24.17",
  "vectorcraft-pdf",
  "vectorcraft-plugins",
  "vectorcraft-render",
@@ -9000,7 +9000,7 @@ dependencies = [
 
 [[package]]
 name = "vectorcraft-web"
-version = "0.24.16"
+version = "0.24.17"
 dependencies = [
  "craft",
  "craft-web-api",
@@ -10229,7 +10229,7 @@ checksum = "9440ea3e5aeabb0ac63af70daf835274065238cdd0cec83418f417eae38bacee"
 
 [[package]]
 name = "xtask"
-version = "0.24.16"
+version = "0.24.17"
 dependencies = [
  "serde_json",
 ]
